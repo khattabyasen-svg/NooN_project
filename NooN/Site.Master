@@ -31,7 +31,7 @@
 <body>
     <form id="form1" runat="server" defaultbutton="btnSearch">
 
-        <%-- ✅ ScriptManager بدون أي إعدادات إضافية --%>
+        <%-- ✅ ScriptManager without any extra settings --%>
         <asp:ScriptManager ID="ScriptManager1" runat="server" />
 
         <nav class="navbar">
@@ -41,7 +41,7 @@
                 Noon<span>.</span>
             </asp:HyperLink>
 
-            <%-- ══ البحث — UpdatePanel Conditional ══ --%>
+            <%-- ══ Search — UpdatePanel Conditional ══ --%>
             <asp:UpdatePanel ID="upSearch" runat="server"
                 UpdateMode="Conditional" ChildrenAsTriggers="false">
                 <ContentTemplate>
@@ -59,13 +59,13 @@
                     </div>
                 </ContentTemplate>
                 <Triggers>
-                    <%-- ✅ البحث فقط يحدّث هذا الـ Panel --%>
+                    <%-- ✅ Only the search updates this Panel --%>
                     <asp:AsyncPostBackTrigger ControlID="btnSearch"
                         EventName="Click" />
                 </Triggers>
             </asp:UpdatePanel>
 
-            <%-- ✅ الكاتيغوري بـ JavaScript فقط — بدون أي PostBack --%>
+            <%-- ✅ Categories via JavaScript only — without any PostBack --%>
             <asp:DropDownList ID="ddlCategories" runat="server"
                 CssClass="nav-category-ddl"
                 onchange="navigateToCategory(this)" />
@@ -82,7 +82,7 @@
                     👤 <span class="label">حسابي</span>
                 </asp:HyperLink>
 
-                <%-- ✅ السلة — UpdatePanel Conditional فقط --%>
+                <%-- ✅ Cart — UpdatePanel Conditional only --%>
                 <asp:UpdatePanel ID="upCart" runat="server"
                     UpdateMode="Conditional" ChildrenAsTriggers="false">
                     <ContentTemplate>

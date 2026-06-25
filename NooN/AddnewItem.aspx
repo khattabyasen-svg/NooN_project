@@ -120,10 +120,10 @@
                             </div>
                             <p class="text-[10px] text-gray-400 mt-2">* You can select more than one size per product</p>
                         </div>
-
+                        
                     </div>
 
-                    <%-- Continue with the rest of the code (images section) --%>
+                    <%-- Continue withh the rest of the code (images section) --%>
 
                     <div class="mb-8 border-2 border-dashed border-gray-200 p-6 rounded-lg text-center">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Product Images</label>
