@@ -1,0 +1,153 @@
+/* ============================================================
+   NOON — shared.css
+   Design tokens + styles used across ALL pages
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Tajawal:wght@300;400;500;700;900&display=swap');
+
+/* ── Tokens ── */
+:root {
+  --white:        #FFFFFF;
+  --off-white:    #F9F8F6;
+  --cream:        #F4F1EC;
+  --border:       #E2DDD5;
+  --muted-border: #EAE7E1;
+  --text-primary:   #1A1714;
+  --text-secondary: #5C574F;
+  --text-muted:     #9B9590;
+  --accent:       #C8A96E;
+  --accent-dark:  #A8893A;
+  --accent-light: #F5EDD8;
+  --success:      #3D7A5A;
+  --error:        #C0392B;
+  --shadow-sm: 0 1px 3px  rgba(26,23,20,0.06);
+  --shadow-md: 0 4px 20px rgba(26,23,20,0.08);
+  --shadow-lg: 0 12px 48px rgba(26,23,20,0.10);
+  --radius:    4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html  { scroll-behavior: smooth; font-size: 16px; }
+body  { font-family: 'Tajawal', sans-serif; background: var(--white); color: var(--text-primary); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+/* ── Shared buttons ── */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px;
+  background: var(--text-primary); color: var(--white);
+  border: 2px solid var(--text-primary); border-radius: var(--radius);
+  font-family: 'Tajawal', sans-serif; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: var(--transition); text-decoration: none;
+}
+.btn-primary:hover { background: transparent; color: var(--text-primary); }
+
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px;
+  background: transparent; color: var(--text-primary);
+  border: 2px solid var(--border); border-radius: var(--radius);
+  font-family: 'Tajawal', sans-serif; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: var(--transition); text-decoration: none;
+}
+.btn-secondary:hover { border-color: var(--text-primary); }
+
+/* ── Section helpers ── */
+.section        { padding: 60px 40px; }
+.section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 32px; }
+.section-title  { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--text-primary); }
+.section-link   { font-size: 14px; color: var(--accent-dark); text-decoration: none; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: var(--transition); }
+.section-link:hover { gap: 8px; }
+.divider        { height: 1px; background: var(--border); margin: 0 40px; }
+
+/* ── Product card (used on home + products pages) ── */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.product-card {
+  background: var(--white); border: 1.5px solid var(--muted-border);
+  border-radius: var(--radius-md); overflow: hidden;
+  cursor: pointer; transition: var(--transition); position: relative;
+}
+.product-card:hover { border-color: var(--border); box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+
+.product-image-wrap {
+  position: relative; background: var(--off-white);
+  height: 220px; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; font-size: 5rem;
+}
+.product-badge { position: absolute; top: 12px; right: 12px; background: var(--error); color: white; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 3px; letter-spacing: 0.5px; }
+.product-badge.new { background: var(--success); }
+.product-badge.hot { background: var(--accent); }
+
+.product-fav {
+  position: absolute; top: 12px; left: 12px;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: white; border: none; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 14px; transition: var(--transition);
+  box-shadow: var(--shadow-sm); opacity: 0;
+}
+.product-card:hover .product-fav { opacity: 1; }
+.product-fav:hover  { transform: scale(1.1); }
+.product-fav.active { opacity: 1; }
+
+.product-info      { padding: 16px; }
+.product-cat       { font-size: 11px; color: var(--text-muted); font-weight: 500; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+.product-name      { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; line-height: 1.4; }
+.product-rating    { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
+.stars             { color: var(--accent); font-size: 13px; letter-spacing: 1px; }
+.rating-count      { font-size: 12px; color: var(--text-muted); }
+.product-price-row { display: flex; align-items: center; justify-content: space-between; }
+.product-price     { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--text-primary); }
+.product-old-price { font-size: 13px; color: var(--text-muted); text-decoration: line-through; margin-right: 6px; }
+
+.product-add-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--text-primary); color: white; border: none;
+  cursor: pointer; font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition); flex-shrink: 0;
+}
+.product-add-btn:hover { background: var(--accent); transform: scale(1.05); }
+
+.product-quick-add {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: var(--text-primary); color: white;
+  text-align: center; padding: 12px; font-size: 14px; font-weight: 600;
+  cursor: pointer; transform: translateY(100%); transition: var(--transition);
+}
+.product-card:hover .product-quick-add { transform: translateY(0); }
+
+/* ── Summary rows (cart + checkout) ── */
+.summary-title     { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.summary-row       { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; font-size: 14px; }
+.summary-row-label { color: var(--text-secondary); }
+.summary-row-value { font-weight: 600; color: var(--text-primary); }
+.summary-row-value.free { color: var(--success); }
+.summary-divider   { height: 1px; background: var(--border); margin: 8px 0; }
+.summary-total     { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; font-size: 16px; font-weight: 700; color: var(--text-primary); }
+.summary-total-value { font-family: 'Playfair Display', serif; font-size: 1.5rem; }
+
+/* ── Footer ── */
+.footer       { background: var(--text-primary); color: rgba(255,255,255,0.7); padding: 60px 40px 32px; margin-top: 80px; }
+.footer-grid  { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+.footer-brand-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: white; font-weight: 700; margin-bottom: 12px; }
+.footer-brand-name span { color: var(--accent); }
+.footer-desc  { font-size: 14px; line-height: 1.8; font-weight: 300; max-width: 260px; margin-bottom: 20px; }
+.footer-social { display: flex; gap: 10px; }
+.social-btn   { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: rgba(255,255,255,0.7); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: var(--transition); }
+.social-btn:hover { border-color: var(--accent); color: var(--accent); }
+.footer-heading { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: white; margin-bottom: 16px; }
+.footer-links  { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links li a { font-size: 14px; color: rgba(255,255,255,0.6); text-decoration: none; cursor: pointer; transition: var(--transition); }
+.footer-links li a:hover { color: var(--accent); }
+.footer-bottom { padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) { .products-grid { grid-template-columns: repeat(3,1fr); } .footer-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 768px)  { .section { padding: 40px 20px; } .products-grid { grid-template-columns: repeat(2,1fr); } .footer-grid { grid-template-columns: 1fr; gap: 28px; } }

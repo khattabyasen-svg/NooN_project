@@ -1,0 +1,96 @@
+/* ============================================================
+   NOON — cart.css
+   Styles specific to pages/cart.html
+   ============================================================ */
+
+/* ── Layout ── */
+.cart-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 32px;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Heading ── */
+.cart-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ── Items ── */
+.cart-items { display: flex; flex-direction: column; gap: 16px; }
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 96px 1fr auto;
+  gap: 20px;
+  align-items: center;
+  padding: 20px;
+  background: var(--white);
+  border: 1.5px solid var(--muted-border);
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+}
+.cart-item:hover { border-color: var(--border); box-shadow: var(--shadow-sm); }
+
+.cart-item-img {
+  width: 96px; height: 96px;
+  background: var(--off-white); border-radius: var(--radius);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem; flex-shrink: 0;
+}
+.cart-item-name    { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+.cart-item-variant { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+
+.cart-item-qty { display: flex; align-items: center; gap: 8px; }
+.cart-qty-btn  {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1.5px solid var(--border); background: white;
+  cursor: pointer; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition); color: var(--text-primary);
+}
+.cart-qty-btn:hover { border-color: var(--text-primary); background: var(--off-white); }
+.cart-qty-num { font-weight: 700; font-size: 15px; min-width: 24px; text-align: center; }
+
+.cart-item-price  { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--text-primary); text-align: left; }
+.cart-item-remove { font-size: 14px; color: var(--text-muted); cursor: pointer; transition: var(--transition); margin-top: 8px; text-align: left; display: block; }
+.cart-item-remove:hover { color: var(--error); }
+
+/* ── Summary box ── */
+.cart-summary {
+  position: sticky;
+  top: 20px;
+  align-self: start;
+  background: var(--off-white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+
+/* ── Coupon ── */
+.coupon-input-wrap { display: flex; gap: 8px; margin: 16px 0; }
+.coupon-input { flex: 1; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: var(--radius); font-family: 'Tajawal', sans-serif; font-size: 14px; outline: none; background: white; }
+.coupon-input:focus { border-color: var(--accent); }
+.coupon-btn   { padding: 10px 16px; border: 1.5px solid var(--text-primary); border-radius: var(--radius); background: white; font-family: 'Tajawal', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: var(--transition); white-space: nowrap; }
+.coupon-btn:hover { background: var(--text-primary); color: white; }
+
+/* ── Checkout button ── */
+.checkout-btn { width: 100%; padding: 16px; background: var(--text-primary); color: white; border: none; border-radius: var(--radius); font-family: 'Tajawal', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; transition: var(--transition); margin-top: 16px; }
+.checkout-btn:hover { background: var(--accent-dark); }
+
+/* ── Security badges ── */
+.secure-badges { display: flex; justify-content: center; gap: 16px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+.secure-badge  { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) { .cart-layout { grid-template-columns: 1fr; } }
+@media (max-width: 768px)  { .cart-layout { padding: 24px 20px; } .cart-item { grid-template-columns: 72px 1fr auto; gap: 12px; padding: 16px; } }

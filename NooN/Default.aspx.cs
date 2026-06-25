@@ -1,0 +1,266 @@
+﻿using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Web.UI;
+
+namespace NooN
+{
+    public partial class _Default : Page
+    {
+        // ──────────────────────────────────────────
+        // Connection string من Web.config
+        // ──────────────────────────────────────────
+        private readonly string _connStr =
+            ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString;
+
+        // ──────────────────────────────────────────
+        // خريطة الأيقونات حسب اسم الفئة بالإنجليزي
+        // يمكنك تعديلها أو إضافة عمود icon للجدول
+        // ──────────────────────────────────────────
+        private static readonly System.Collections.Generic.Dictionary<string, string> CategoryIcons =
+            new System.Collections.Generic.Dictionary<string, string>(System.StringComparer.OrdinalIgnoreCase)
+            {
+                { "electronics",    "📱" },
+                { "tech",           "💻" },
+                { "fashion",        "👗" },
+                { "clothing",       "👕" },
+                { "home",           "🏠" },
+                { "furniture",      "🛋️" },
+                { "sports",         "⚽" },
+                { "beauty",         "💄" },
+                { "books",          "📚" },
+                { "toys",           "🧸" },
+                { "food",           "🍔" },
+                { "jewelry",        "💎" },
+            };
+
+        // ══════════════════════════════════════════
+        //  Page_Load
+        // ══════════════════════════════════════════
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                LoadCategories();
+                LoadWishlistProducts();
+            }
+        }
+
+        // ══════════════════════════════════════════
+        //  جلب الفئات النشطة (بحد أقصى 8)
+        // ══════════════════════════════════════════
+        private void LoadCategories()
+        {
+            const string sql = @"
+                SELECT TOP 8
+                    category_id,
+                    name_ar,
+                    name_en
+                FROM product_categories
+                WHERE is_active = 1
+                ORDER BY created_at DESC";
+
+            try
+            {
+                using (var con = new SqlConnection(_connStr))
+                using (var cmd = new SqlCommand(sql, con))
+                {
+                    con.Open();
+                    var dt = new DataTable();
+                    dt.Load(cmd.ExecuteReader());
+
+                    // أضف عمود icon محسوب من name_en
+                    dt.Columns.Add("icon", typeof(string));
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        string nameEn = row["name_en"]?.ToString() ?? "";
+                        row["icon"] = ResolveIcon(nameEn);
+                    }
+
+                    if (dt.Rows.Count == 0)
+                        pnlNoCats.Visible = true;
+
+                    rptCategories.DataSource = dt;
+                    rptCategories.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                // سجّل الخطأ وأظهر رسالة فارغة بدل كسر الصفحة
+                System.Diagnostics.Debug.WriteLine("LoadCategories Error: " + ex.Message);
+                pnlNoCats.Visible = true;
+            }
+        }
+
+        // ══════════════════════════════════════════
+        //  جلب المنتجات المميزة (بحد أقصى 8)
+        // ══════════════════════════════════════════
+        private void LoadWishlistProducts()
+        {
+            // لازم يكون المستخدم مسجل دخول
+            if (Session["user_id"] == null)
+            {
+                pnlNoProducts.Visible = true;
+                rptProducts.DataSource = null;
+                rptProducts.DataBind();
+                return;
+            }
+
+            int userId = Convert.ToInt32(Session["user_id"]);
+
+            const string sql = @"
+        SELECT 
+            p.product_id,
+            p.name,
+            p.price,
+            p.old_price,
+            p.discount_pct,
+            p.rating_avg,
+            p.rating_count,
+            p.images,
+            c.name_ar AS category_name
+        FROM wishlist_items w
+        INNER JOIN products p ON w.product_id = p.product_id
+        INNER JOIN product_categories c ON p.category_id = c.category_id
+        WHERE w.user_id = @user_id
+          AND p.status = 'active'
+          AND c.is_active = 1
+        ORDER BY w.added_at DESC";
+
+            try
+            {
+                using (var con = new SqlConnection(_connStr))
+                using (var cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("@user_id", userId);
+
+                    con.Open();
+                    var dt = new DataTable();
+                    dt.Load(cmd.ExecuteReader());
+
+                    pnlNoProducts.Visible = dt.Rows.Count == 0;
+
+                    rptProducts.DataSource = dt;
+                    rptProducts.DataBind();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("LoadWishlistProducts Error: " + ex.Message);
+                pnlNoProducts.Visible = true;
+            }
+        }
+        // ══════════════════════════════════════════
+        //  Helper Methods (تُستدعى من الـ ASPX)
+        // ══════════════════════════════════════════
+
+        /// <summary>
+        /// يرجع أيقونة الفئة بناءً على name_en
+        /// إذا ما وُجدت مطابقة يرجع أيقونة افتراضية
+        /// </summary>
+        private static string ResolveIcon(string nameEn)
+        {
+            if (string.IsNullOrWhiteSpace(nameEn))
+                return "🛍️";
+
+            // بحث جزئي: يكفي أن يحتوي الاسم على الكلمة المفتاحية
+            foreach (var kvp in CategoryIcons)
+                if (nameEn.IndexOf(kvp.Key, StringComparison.OrdinalIgnoreCase) >= 0)
+                    return kvp.Value;
+
+            return "🛍️";
+        }
+
+        /// <summary>
+        /// يرجع img tag إذا وُجدت صورة، وإلا span بإيموجي
+        /// حقل images يُخزَّن كـ JSON مصفوفة: ["img1.jpg","img2.jpg"]
+        /// أو مسار مباشر: "uploads/img1.jpg"
+        /// </summary>
+        protected string GetProductImage(object imagesObj)
+        {
+            string images = imagesObj?.ToString() ?? "";
+
+            if (!string.IsNullOrWhiteSpace(images))
+            {
+                // استخرج أول صورة من JSON بسيط بدون مكتبة خارجية
+                string first = images.Trim();
+                if (first.StartsWith("["))
+                {
+                    // أزل [ ] والمسافات والـ quotes
+                    first = first.TrimStart('[').TrimEnd(']');
+                    int comma = first.IndexOf(',');
+                    if (comma > 0) first = first.Substring(0, comma);
+                    first = first.Trim().Trim('"').Trim('\'');
+                }
+
+                if (!string.IsNullOrWhiteSpace(first))
+                    return $"<img src='{ResolveUrl("~/" + first)}' alt='منتج' class='product-img' loading='lazy' />";
+            }
+
+            return "<span class='product-emoji'>🛍️</span>";
+        }
+
+        /// <summary>
+        /// يرجع شارة الخصم إذا كانت القيمة أكبر من صفر
+        /// </summary>
+        protected string GetDiscountBadge(object discountObj)
+        {
+            if (discountObj == null || discountObj == DBNull.Value)
+                return "";
+
+            decimal disc = Convert.ToDecimal(discountObj);
+            if (disc <= 0) return "";
+
+            return $"<span class='product-badge'>-{disc:0.#}%</span>";
+        }
+
+        /// <summary>
+        /// يرجع السعر القديم مشطوباً إذا وُجد
+        /// </summary>
+        protected string GetOldPrice(object oldPriceObj)
+        {
+            if (oldPriceObj == null || oldPriceObj == DBNull.Value)
+                return "";
+
+            decimal old = Convert.ToDecimal(oldPriceObj);
+            if (old <= 0) return "";
+
+            return $"<span class='product-old-price'>{old:N2}</span>";
+        }
+
+        /// <summary>
+        /// يرجع نجوم HTML بناءً على متوسط التقييم (0-5)
+        /// </summary>
+        protected string GetStars(object ratingObj)
+        {
+            decimal rating = 0;
+            if (ratingObj != null && ratingObj != DBNull.Value)
+                decimal.TryParse(ratingObj.ToString(), out rating);
+
+            int full = (int)Math.Floor(rating);         // نجوم كاملة
+            bool half = (rating - full) >= 0.5m;          // نصف نجمة
+            int empty = 5 - full - (half ? 1 : 0);        // نجوم فارغة
+
+            string stars = new string('★', full)
+                         + (half ? "½" : "")
+                         + new string('☆', empty);
+
+            return $"<span class='stars' title='{rating:0.0}'>{stars}</span>";
+        }
+
+        // ══════════════════════════════════════════
+        //  أحداث الأزرار
+        // ══════════════════════════════════════════
+        protected void btnShopNow_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Prouduct.aspx");
+        }
+
+        protected void btnTest_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/Report.aspx");
+        }
+    }
+}

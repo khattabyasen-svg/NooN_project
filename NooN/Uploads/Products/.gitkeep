@@ -1,0 +1,5 @@
+# This file keeps the Uploads/Products folder in source control.
+# Product images uploaded from AddnewItem.aspx are saved here.
+# Do not delete this file — without it, an empty folder may be lost
+# on a fresh checkout or deployment, and SaveUploadedImages() relies
+# on this path existing (it is auto-created if missing).

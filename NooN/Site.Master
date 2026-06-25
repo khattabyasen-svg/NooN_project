@@ -1,0 +1,123 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="NooN.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - Noon — متجر الكل</title>
+
+    <link href="Content/shared.css" rel="stylesheet" />
+    <link href="Content/master.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+
+    <style>
+        body { margin: 0; padding-top: 0; background-color: #f7f7f7; }
+        .main-content-area { padding: 20px; min-height: 600px; }
+        .btn-search-hidden {
+            position: absolute; width: 0; height: 0;
+            opacity: 0; overflow: hidden; border: none; padding: 0;
+        }
+        .nav-category-ddl {
+            height: 38px; padding: 0 10px;
+            border: 1px solid #ddd; border-radius: 8px;
+            font-size: 14px; background: #fff;
+            cursor: pointer; min-width: 140px; color: #333;
+        }
+        .nav-category-ddl:focus { outline: none; border-color: #f5a623; }
+    </style>
+</head>
+
+<body>
+    <form id="form1" runat="server" defaultbutton="btnSearch">
+
+        <%-- ✅ ScriptManager بدون أي إعدادات إضافية --%>
+        <asp:ScriptManager ID="ScriptManager1" runat="server" />
+
+        <nav class="navbar">
+
+            <asp:HyperLink ID="lnkHomeLogo" runat="server"
+                NavigateUrl="~/Default.aspx" CssClass="nav-logo">
+                Noon<span>.</span>
+            </asp:HyperLink>
+
+            <%-- ══ البحث — UpdatePanel Conditional ══ --%>
+            <asp:UpdatePanel ID="upSearch" runat="server"
+                UpdateMode="Conditional" ChildrenAsTriggers="false">
+                <ContentTemplate>
+                    <div class="nav-search">
+                        <span class="nav-search-icon"
+                            onclick="document.getElementById('<%= btnSearch.ClientID %>').click();"
+                            style="cursor:pointer;">🔍</span>
+                        <asp:TextBox ID="txtSearch" runat="server"
+                            placeholder="ابحث عن منتجات، ماركات..."
+                            CssClass="search-input" />
+                        <asp:Button ID="btnSearch" runat="server"
+                            CssClass="btn-search-hidden"
+                            OnClick="btnSearch_Click"
+                            Text="بحث" />
+                    </div>
+                </ContentTemplate>
+                <Triggers>
+                    <%-- ✅ البحث فقط يحدّث هذا الـ Panel --%>
+                    <asp:AsyncPostBackTrigger ControlID="btnSearch"
+                        EventName="Click" />
+                </Triggers>
+            </asp:UpdatePanel>
+
+            <%-- ✅ الكاتيغوري بـ JavaScript فقط — بدون أي PostBack --%>
+            <asp:DropDownList ID="ddlCategories" runat="server"
+                CssClass="nav-category-ddl"
+                onchange="navigateToCategory(this)" />
+
+            <div class="nav-actions">
+                <a href="Default.aspx" class="nav-btn">
+                    🏠 <span class="label">الرئيسية</span>
+                </a>
+                <a href="Prouduct.aspx" class="nav-btn">
+                    🛍️ <span class="label">المنتجات</span>
+                </a>
+                <asp:HyperLink ID="btnProfile" runat="server"
+                    NavigateUrl="~/Userprofile.aspx" CssClass="nav-btn">
+                    👤 <span class="label">حسابي</span>
+                </asp:HyperLink>
+
+                <%-- ✅ السلة — UpdatePanel Conditional فقط --%>
+                <asp:UpdatePanel ID="upCart" runat="server"
+                    UpdateMode="Conditional" ChildrenAsTriggers="false">
+                    <ContentTemplate>
+                        <a href="Cart.aspx" class="nav-btn cart-btn">
+                            🛒 <span class="label">السلة</span>
+                            <asp:Label ID="lblCartBadge" runat="server"
+                                CssClass="cart-badge" />
+                        </a>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+
+            </div>
+        </nav>
+
+        <div class="main-content-area">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+
+        <footer style="text-align:center; padding:20px;
+                       background:#fff; border-top:1px solid #ddd;">
+            <p>&copy; <%: DateTime.Now.Year %> - Noon Application</p>
+        </footer>
+
+    </form>
+
+    <script src="Scripts/master.js" defer></script>
+    <script>
+        function navigateToCategory(ddl) {
+            var val = ddl.value;
+            if (val && val !== "0")
+                window.location.href = "Prouduct.aspx?category_id=" + val;
+            else if (val === "0")
+                window.location.href = "Prouduct.aspx";
+        }
+    </script>
+</body>
+</html>

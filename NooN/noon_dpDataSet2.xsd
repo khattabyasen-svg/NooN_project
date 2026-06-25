@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="noon_dpDataSet2" targetNamespace="http://tempuri.org/noon_dpDataSet2.xsd" xmlns:mstns="http://tempuri.org/noon_dpDataSet2.xsd" xmlns="http://tempuri.org/noon_dpDataSet2.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="noon_dpConnectionString2" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="noon_dpConnectionString2 (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.noon_dpConnectionString2.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="view_products_with_categoriesTableAdapter" GeneratorDataComponentClassName="view_products_with_categoriesTableAdapter" Name="view_products_with_categories" UserDataComponentName="view_products_with_categoriesTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="noon_dpConnectionString2 (Web.config)" DbObjectName="noon_dp.dbo.view_products_with_categories" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT product_id, product_category_id, product_name, category_name_ar, category_id, category_name_en FROM dbo.view_products_with_categories</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="product_id" DataSetColumn="product_id" />
+              <Mapping SourceColumn="product_category_id" DataSetColumn="product_category_id" />
+              <Mapping SourceColumn="product_name" DataSetColumn="product_name" />
+              <Mapping SourceColumn="category_name_ar" DataSetColumn="category_name_ar" />
+              <Mapping SourceColumn="category_id" DataSetColumn="category_id" />
+              <Mapping SourceColumn="category_name_en" DataSetColumn="category_name_en" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="noon_dpDataSet2" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_UserDSName="noon_dpDataSet2" msprop:Generator_DataSetName="noon_dpDataSet2">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="view_products_with_categories" msprop:Generator_RowEvHandlerName="view_products_with_categoriesRowChangeEventHandler" msprop:Generator_RowDeletedName="view_products_with_categoriesRowDeleted" msprop:Generator_RowDeletingName="view_products_with_categoriesRowDeleting" msprop:Generator_RowEvArgName="view_products_with_categoriesRowChangeEvent" msprop:Generator_TablePropName="view_products_with_categories" msprop:Generator_RowChangedName="view_products_with_categoriesRowChanged" msprop:Generator_RowChangingName="view_products_with_categoriesRowChanging" msprop:Generator_TableClassName="view_products_with_categoriesDataTable" msprop:Generator_RowClassName="view_products_with_categoriesRow" msprop:Generator_TableVarName="tableview_products_with_categories" msprop:Generator_UserTableName="view_products_with_categories">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="product_id" msprop:Generator_ColumnPropNameInRow="product_id" msprop:Generator_ColumnPropNameInTable="product_idColumn" msprop:Generator_ColumnVarNameInTable="columnproduct_id" msprop:Generator_UserColumnName="product_id" type="xs:int" />
+              <xs:element name="product_category_id" msprop:Generator_ColumnPropNameInRow="product_category_id" msprop:Generator_ColumnPropNameInTable="product_category_idColumn" msprop:Generator_ColumnVarNameInTable="columnproduct_category_id" msprop:Generator_UserColumnName="product_category_id" type="xs:int" />
+              <xs:element name="product_name" msprop:Generator_ColumnPropNameInRow="product_name" msprop:Generator_ColumnPropNameInTable="product_nameColumn" msprop:Generator_ColumnVarNameInTable="columnproduct_name" msprop:Generator_UserColumnName="product_name">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="category_name_ar" msprop:Generator_ColumnPropNameInRow="category_name_ar" msprop:Generator_ColumnPropNameInTable="category_name_arColumn" msprop:Generator_ColumnVarNameInTable="columncategory_name_ar" msprop:Generator_UserColumnName="category_name_ar">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="150" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="category_id" msprop:Generator_ColumnPropNameInRow="category_id" msprop:Generator_ColumnPropNameInTable="category_idColumn" msprop:Generator_ColumnVarNameInTable="columncategory_id" msprop:Generator_UserColumnName="category_id" type="xs:int" />
+              <xs:element name="category_name_en" msprop:Generator_ColumnPropNameInRow="category_name_en" msprop:Generator_ColumnPropNameInTable="category_name_enColumn" msprop:Generator_ColumnVarNameInTable="columncategory_name_en" msprop:Generator_UserColumnName="category_name_en">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="150" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:view_products_with_categories" />
+      <xs:field xpath="mstns:product_id" />
+      <xs:field xpath="mstns:category_id" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

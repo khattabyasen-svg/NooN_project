@@ -1,0 +1,4 @@
+﻿function toggleAll(m) { document.querySelectorAll('.row-cb').forEach(c => c.checked = m.checked); }
+function switchTab(el) { document.querySelectorAll('.stat-tab').forEach(t => t.classList.remove('active')); el.classList.add('active'); }
+document.querySelectorAll('.page-btn:not(.arrow)').forEach(b => { b.addEventListener('click', function () { document.querySelectorAll('.page-btn:not(.arrow)').forEach(x => x.classList.remove('active')); this.classList.add('active'); }); });
+document.querySelectorAll('.action-btn.del').forEach(b => { b.addEventListener('click', function () { if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) { const r = this.closest('tr'); r.style.opacity = '0'; r.style.transition = 'opacity 0.3s'; setTimeout(() => r.remove(), 300); } }); });

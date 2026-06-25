@@ -1,0 +1,196 @@
+/* ============================================================
+   NOON — master.css (المسار الجديد: للـ Master Page)
+   ============================================================ */
+
+:root {
+    --accent: #feee00; /* أصفر نون */
+    --accent-dark: #e5d700;
+    --text-primary: #404553;
+    --text-secondary: #7e859b;
+    --white: #ffffff;
+    --off-white: #f7f7f7;
+    --border: #ebebf0;
+}
+
+/* ✅ تعديل الـ Body للسماح بالتمرير والنزول لأسفل الصفحة */
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%; /* تغيير من height: 100vh */
+    display: block; /* لضمان عمل السكرول الطبيعي */
+    background-color: var(--off-white);
+    font-family: 'Tajawal', sans-serif;
+    overflow-x: hidden; /* منع التمرير العرضي */
+    overflow-y: auto; /* السماح بالتمرير الطولي */
+}
+
+/* ── Announcement bar ── */
+.announcement {
+    background: #404553;
+    color: var(--white);
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+    .announcement strong {
+        color: var(--accent);
+    }
+
+/* ── Navbar ── */
+.navbar {
+    position: sticky; /* جعل الهيدر يلتصق بالأعلى عند النزول */
+    top: 0;
+    z-index: 1000;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 40px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.nav-logo {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+    .nav-logo span {
+        color: var(--accent);
+    }
+
+.nav-search {
+    flex: 1;
+    max-width: 600px;
+    position: relative;
+    top: 0px;
+    right: 0px;
+    height: 49px;
+}
+
+    .nav-search input {
+        width: 100%;
+        height: 40px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0 40px 0 15px;
+        background: var(--off-white);
+        outline: none;
+    }
+
+.nav-search-icon {
+    position: absolute;
+    left: 12px;
+    top: 10px;
+    color: var(--text-secondary);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-btn {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+
+.cart-btn {
+    background: var(--text-primary);
+    color: var(--white) !important;
+    padding: 8px 15px;
+    border-radius: 5px;
+    position: relative;
+}
+
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    background: #e65100;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    line-height: 1;
+}
+
+/* ── Category strip ── */
+.nav-categories {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 40px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    white-space: nowrap;
+}
+.btn-search-hidden {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    border: none;
+    padding: 0;
+}
+.nav-cat-item {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+    .nav-cat-item:hover, .nav-cat-item.active {
+        color: var(--text-primary);
+        border-bottom: 2px solid var(--accent);
+    }
+
+/* ── Content Area (توسيع المحتوى) ── */
+.main-content-area {
+    min-height: 600px; /* ضمان وجود مساحة حتى لو الصفحة فارغة */
+    padding: 20px;
+    max-width: 1300px;
+    margin: 0 auto; /* توسيط المحتوى */
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px 15px;
+    }
+
+    .nav-search {
+        display: none;
+    }
+    /* إخفاء البحث في الموبايل لتبسيط العرض */
+    .nav-btn .label {
+        display: none;
+    }
+}

@@ -1,0 +1,273 @@
+﻿*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    /* نظام ألوان أبيض وأسود جديد */
+    --ink: #000000; /* أسود خالص للنصوص الرئيسية */
+    --paper: #ffffff; /* أبيض خالص للخلفية */
+    --cream: #f0f0f0; /* رمادي فاتح جداً كبديل للكريمي */
+    --accent: #000000; /* أسود للعناصر التفاعلية (الزر) */
+    --accent-dark: #333333; /* رمادي غامق جداً لحالة الحوم (Hover) */
+    --muted: #666666; /* رمادي متوسط للنصوص الثانوية */
+    --border: #e0e0e0; /* رمادي فاتح جداً للحدود */
+    --success: #000000; /* أسود لحالات النجاح في هذا السياق */
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--paper);
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+    /* Decorative background elements - تم تعديلها لتكون تدرجات رمادية ناعمة */
+    body::before {
+        content: '';
+        position: fixed;
+        top: -20%;
+        right: -10%;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        /* تدرج رمادي فاتح جداً */
+        background: radial-gradient(circle, rgba(0,0,0,0.03) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    body::after {
+        content: '';
+        position: fixed;
+        bottom: -15%;
+        left: -5%;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        /* تدرج رمادي فاتح جداً */
+        background: radial-gradient(circle, rgba(0,0,0,0.02) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+.card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3rem 3.5rem;
+    width: 100%;
+    max-width: 440px;
+    position: relative;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02), 0 8px 32px rgba(0,0,0,0.04);
+    animation: riseUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes riseUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Accent line at top - تم تعديله ليكون تدرجاً أسوداً */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    /* تدرج من الشفاف إلى الأسود إلى الشفاف */
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    border-radius: 0 0 2px 2px;
+}
+
+.card-header {
+    margin-bottom: 2.5rem;
+    animation: riseUp 0.6s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.card-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent); /* أسود */
+    margin-bottom: 0.6rem;
+}
+
+.card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    font-weight: 600;
+    color: var(--ink); /* أسود */
+    line-height: 1.2;
+}
+
+.card-subtitle {
+    font-size: 0.85rem;
+    color: var(--muted); /* رمادي متوسط */
+    margin-top: 0.5rem;
+    font-weight: 300;
+    line-height: 1.5;
+}
+
+.field-group {
+    margin-bottom: 1.4rem;
+    animation: riseUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+    .field-group:nth-child(1) {
+        animation-delay: 0.15s;
+    }
+
+    .field-group:nth-child(2) {
+        animation-delay: 0.22s;
+    }
+
+    .field-group:nth-child(3) {
+        animation-delay: 0.29s;
+    }
+
+.field-label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--muted); /* رمادي متوسط */
+    text-transform: uppercase;
+    margin-bottom: 0.45rem;
+}
+
+.field-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--ink); /* أسود */
+    background: #ffffff; /* خلفية الحقل بيضاء */
+    border: 1px solid var(--border); /* حدود رمادية فاتحة */
+    border-radius: 3px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    appearance: none;
+}
+
+    .field-input:focus {
+        border-color: var(--accent); /* حدود سوداء عند التركيز */
+        background: #ffffff;
+        /* ظل أسود خفيف جداً عند التركيز */
+        box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+    }
+
+    .field-input::placeholder {
+        color: #999999; /* رمادي فاتح لمتن النص الهائل */
+    }
+
+.divider {
+    height: 1px;
+    background: var(--border); /* خط فاصل رمادي فاتح */
+    margin: 1.8rem 0;
+}
+
+.btn-save {
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #ffffff; /* نص أبيض على زر أسود */
+    background: var(--accent); /* خلفية سوداء للزر */
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+    animation: riseUp 0.6s 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+    .btn-save:hover {
+        background: var(--accent-dark); /* رمادي غامق عند الحوم */
+        /* ظل أسود خفيف عند الحوم */
+        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        transform: translateY(-1px);
+    }
+
+    .btn-save:active {
+        transform: translateY(0);
+        box-shadow: none;
+    }
+
+    /* Ripple effect - تم تعديله ليكون أبيض ناعم */
+    .btn-save::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .btn-save:hover::after {
+        opacity: 1;
+    }
+
+.card-footer {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--muted); /* رمادي متوسط */
+    animation: riseUp 0.6s 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+    .card-footer a {
+        color: var(--accent); /* أسود للرابط */
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+        .card-footer a:hover {
+            text-decoration: underline;
+        }
+
+/* Lock icon - تم تعديل الألوان لتناسب الأسود والأبيض */
+.icon-wrap {
+    width: 44px;
+    height: 44px;
+    background: var(--cream); /* خلفية رمادية فاتحة جداً */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.2rem;
+}
+
+    .icon-wrap svg {
+        width: 20px;
+        height: 20px;
+        stroke: var(--accent); /* أيقونة سوداء */
+        fill: none;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }

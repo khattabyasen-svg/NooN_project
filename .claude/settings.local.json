@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(& \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\MSBuild.exe\" \"D:\\\\NooN\\\\NooN.sln\" /t:Build /p:Configuration=Debug 2>&1 | Select-Object -Last 50)"
+    ]
+  }
+}

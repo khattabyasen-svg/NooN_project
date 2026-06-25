@@ -1,0 +1,227 @@
+﻿/* التنسيقات الأصلية المحسنة */
+:root {
+    --bg: #ffffff;
+    --surface: #f9f9f9;
+    --surface2: #f1f1f1;
+    --border: #d1d1d1;
+    --accent: #111111;
+    --text: #111111;
+    --text3: #888888;
+    --radius: 14px;
+    --radius-sm: 8px;
+    --font: 'Cairo',sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    min-height: 100vh;
+    font-size: 14px
+}
+
+.toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 24px;
+}
+
+.toolbar-logo {
+    font-size: 22px;
+    font-weight: 900;
+    color: #111;
+    display: flex;
+    align-items: center;
+    gap: 6px
+}
+
+    .toolbar-logo span {
+        width: 10px;
+        height: 10px;
+        background: #111;
+        border-radius: 50%;
+    }
+
+.toolbar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px
+}
+
+.user-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 4px 12px 4px 4px;
+}
+
+.chip-av {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #fff
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: calc(100vh - 56px)
+}
+
+.sidebar {
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    padding: 20px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px
+}
+
+.sb-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    color: #444;
+    font-size: 13px;
+    text-decoration: none
+}
+
+    .sb-item.active {
+        background: #e8e8e8;
+        color: #111;
+        font-weight: 700;
+        border: 1px solid var(--border)
+    }
+
+.content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.panel {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,.05)
+}
+
+.panel-hdr {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+
+.panel-body {
+    padding: 20px 18px
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px
+}
+
+    .field label {
+        font-size: 11px;
+        color: var(--text3);
+        font-weight: 700;
+        text-transform: uppercase
+    }
+
+/* تنسيق الـ TextBox ليطابق التصميم */
+.asp-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 9px 12px;
+    font-size: 13px;
+    font-family: var(--font);
+    color: #111;
+    transition: .2s;
+    outline: none;
+}
+
+    .asp-input:focus {
+        border-color: #111;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(0,0,0,.05)
+    }
+
+    .asp-input[readonly] {
+        background: var(--surface2);
+        cursor: not-allowed;
+        border-color: transparent
+    }
+
+.btn-primary {
+    background: #111;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 700;
+    font-family: var(--font);
+    transition: .2s
+}
+
+.btn-secondary {
+    background: #fff;
+    color: #111;
+    border: 1px solid var(--border);
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: var(--font)
+}
+
+.pass-dots {
+    letter-spacing: 3px;
+    font-weight: bold
+}
+
+.save-status {
+    font-size: 12px;
+    color: #27ae60;
+    font-weight: 600;
+    margin-right: 10px
+}
