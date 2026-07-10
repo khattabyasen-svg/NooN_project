@@ -36,25 +36,28 @@ namespace NooN
                 string query = @"SELECT user_id, first_name, last_name, email, phone
                                  FROM users WHERE user_id = @id";
 
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@id", userId);
-
-                conn.Open();
-                SqlDataReader dr = cmd.ExecuteReader();
-
-                if (dr.Read())
+                using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    txtFirstName.Text = dr["first_name"].ToString();
-                    txtLastName.Text = dr["last_name"].ToString();
-                    txtEmail.Text = dr["email"].ToString();
-                    txtPhone.Text = dr["phone"].ToString();
+                    cmd.Parameters.AddWithValue("@id", userId);
 
-                    litUserID.Text = dr["user_id"].ToString();
-                    litFullName.Text = dr["first_name"] + " " + dr["last_name"];
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            txtFirstName.Text = dr["first_name"].ToString();
+                            txtLastName.Text = dr["last_name"].ToString();
+                            txtEmail.Text = dr["email"].ToString();
+                            txtPhone.Text = dr["phone"].ToString();
 
-                    litAbbr.Text =
-                        dr["first_name"].ToString().Substring(0, 1).ToUpper() +
-                        dr["last_name"].ToString().Substring(0, 1).ToUpper();
+                            litUserID.Text = dr["user_id"].ToString();
+                            litFullName.Text = dr["first_name"] + " " + dr["last_name"];
+
+                            litAbbr.Text =
+                                dr["first_name"].ToString().Substring(0, 1).ToUpper() +
+                                dr["last_name"].ToString().Substring(0, 1).ToUpper();
+                        }
+                    }
                 }
             }
         }
