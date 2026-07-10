@@ -167,11 +167,13 @@ namespace NooN
             {
                 string sql = "DELETE FROM product_categories WHERE category_id = @id";
 
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@id", categoryId);
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", categoryId);
 
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
             }
 
             InvalidateCategoriesCache();
