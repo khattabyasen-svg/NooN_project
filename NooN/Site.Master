@@ -50,7 +50,7 @@
                             onclick="document.getElementById('<%= btnSearch.ClientID %>').click();"
                             style="cursor:pointer;">🔍</span>
                         <asp:TextBox ID="txtSearch" runat="server"
-                            placeholder="ابحث عن منتجات، ماركات..."
+                            placeholder="searh to prouduct....."
                             CssClass="search-input" />
                         <asp:Button ID="btnSearch" runat="server"
                             CssClass="btn-search-hidden"
