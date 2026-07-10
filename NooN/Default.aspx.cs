@@ -55,6 +55,32 @@ namespace NooN
         // ══════════════════════════════════════════
         private void LoadCategories()
         {
+            try
+            {
+                DataTable dt = GetCategories();
+
+                if (dt.Rows.Count == 0)
+                    pnlNoCats.Visible = true;
+
+                rptCategories.DataSource = dt;
+                rptCategories.DataBind();
+            }
+            catch (Exception ex)
+            {
+                // Log the error and show an empty state instead of breaking the page.
+                System.Diagnostics.Debug.WriteLine("LoadCategories Error: " + ex.Message);
+                pnlNoCats.Visible = true;
+            }
+        }
+
+        // Categories rarely change, so cache the computed list (icons included)
+        // for all users to avoid a DB round-trip on every home-page load.
+        private DataTable GetCategories()
+        {
+            DataTable cached = Cache[CategoriesCacheKey] as DataTable;
+            if (cached != null)
+                return cached;
+
             const string sql = @"
                 SELECT TOP 8
                     category_id,
@@ -64,36 +90,28 @@ namespace NooN
                 WHERE is_active = 1
                 ORDER BY created_at DESC";
 
-            try
+            var dt = new DataTable();
+            using (var con = new SqlConnection(_connStr))
+            using (var cmd = new SqlCommand(sql, con))
             {
-                using (var con = new SqlConnection(_connStr))
-                using (var cmd = new SqlCommand(sql, con))
-                {
-                    con.Open();
-                    var dt = new DataTable();
-                    dt.Load(cmd.ExecuteReader());
-
-                    // Add an icon column computed from name_en
-                    dt.Columns.Add("icon", typeof(string));
-                    foreach (DataRow row in dt.Rows)
-                    {
-                        string nameEn = row["name_en"]?.ToString() ?? "";
-                        row["icon"] = ResolveIcon(nameEn);
-                    }
-
-                    if (dt.Rows.Count == 0)
-                        pnlNoCats.Visible = true;
-
-                    rptCategories.DataSource = dt;
-                    rptCategories.DataBind();
-                }
+                con.Open();
+                dt.Load(cmd.ExecuteReader());
             }
-            catch (Exception ex)
+
+            // Add an icon column computed from name_en
+            dt.Columns.Add("icon", typeof(string));
+            foreach (DataRow row in dt.Rows)
             {
-                // Log the error and show an empty state instead of breaking the page.
-                System.Diagnostics.Debug.WriteLine("LoadCategories Error: " + ex.Message);
-                pnlNoCats.Visible = true;
+                string nameEn = row["name_en"]?.ToString() ?? "";
+                row["icon"] = ResolveIcon(nameEn);
             }
+
+            Cache.Insert(
+                CategoriesCacheKey, dt, null,
+                DateTime.Now.AddMinutes(30),
+                System.Web.Caching.Cache.NoSlidingExpiration);
+
+            return dt;
         }
 
         // ══════════════════════════════════════════
