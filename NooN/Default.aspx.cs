@@ -11,8 +11,7 @@ namespace NooN
         // ──────────────────────────────────────────
         // Connection string من Web.config
         // ──────────────────────────────────────────
-        private readonly string _connStr =
-            ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString;
+        private readonly string _connStr = Db.ConnectionString;
 
         // ──────────────────────────────────────────
         // خريطة الأيقونات حسب اسم الفئة بالإنجليزي
