@@ -10,8 +10,7 @@ namespace NooN
 {
     public partial class SiteMaster : MasterPage
     {
-        private static readonly string connStr =
-            ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString;
+        private static readonly string connStr = Db.ConnectionString;
 
         // Cache key for the shared category list. Referenced by admin pages
         // (e.g. Proudct_Categories) to invalidate the cache after changes.
