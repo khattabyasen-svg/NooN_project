@@ -46,7 +46,7 @@
                 <asp:HyperLink ID="lnkAllCategories" runat="server" NavigateUrl="Prouduct.aspx" CssClass="section-link">عرض الكل ←</asp:HyperLink>
             </div>
 
-            <%-- رسالة تظهر إذا لم توجد فئات --%>
+            <%-- Message shown when there are no categories --%>
             <asp:Panel ID="pnlNoCats" runat="server" Visible="false">
                 <div class="empty-msg">لا توجد فئات متاحة حالياً</div>
             </asp:Panel>
