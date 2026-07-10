@@ -8,7 +8,7 @@ namespace NooN
     public partial class LoginAdmin : System.Web.UI.Page
     {
         // جلب نص الاتصال من ملف الـ Web.config
-        string connStr = ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString;
+        string connStr = Db.ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
