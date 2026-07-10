@@ -70,7 +70,7 @@ namespace NooN
                     cmd.Parameters.AddWithValue("@last_name", last_name);
                     cmd.Parameters.AddWithValue("@email", email);
                     cmd.Parameters.AddWithValue("@phone",phone );
-                    cmd.Parameters.AddWithValue("@Password_hash", password_hash);
+                    cmd.Parameters.AddWithValue("@Password_hash", PasswordHasher.Hash(password_hash));
 
                     int rows = cmd.ExecuteNonQuery();
 
