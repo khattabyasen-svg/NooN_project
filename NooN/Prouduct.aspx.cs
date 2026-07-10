@@ -360,31 +360,38 @@ namespace NooN
                     {
                         conn.Open();
 
-                        SqlCommand check = new SqlCommand(@"
+                        int exists;
+                        using (SqlCommand check = new SqlCommand(@"
                             SELECT COUNT(*) FROM wishlist_items
-                            WHERE user_id=@uid AND product_id=@pid", conn);
-                        check.Parameters.AddWithValue("@uid", userId);
-                        check.Parameters.AddWithValue("@pid", productId);
-                        int exists = (int)check.ExecuteScalar();
+                            WHERE user_id=@uid AND product_id=@pid", conn))
+                        {
+                            check.Parameters.AddWithValue("@uid", userId);
+                            check.Parameters.AddWithValue("@pid", productId);
+                            exists = (int)check.ExecuteScalar();
+                        }
 
                         if (exists > 0)
                         {
-                            SqlCommand del = new SqlCommand(@"
+                            using (SqlCommand del = new SqlCommand(@"
                                 DELETE FROM wishlist_items
-                                WHERE user_id=@uid AND product_id=@pid", conn);
-                            del.Parameters.AddWithValue("@uid", userId);
-                            del.Parameters.AddWithValue("@pid", productId);
-                            del.ExecuteNonQuery();
+                                WHERE user_id=@uid AND product_id=@pid", conn))
+                            {
+                                del.Parameters.AddWithValue("@uid", userId);
+                                del.Parameters.AddWithValue("@pid", productId);
+                                del.ExecuteNonQuery();
+                            }
                             ShowMessage("💔 تم الحذف من المفضلة", isError: false);
                         }
                         else
                         {
-                            SqlCommand ins = new SqlCommand(@"
+                            using (SqlCommand ins = new SqlCommand(@"
                                 INSERT INTO wishlist_items (user_id, product_id)
-                                VALUES (@uid, @pid)", conn);
-                            ins.Parameters.AddWithValue("@uid", userId);
-                            ins.Parameters.AddWithValue("@pid", productId);
-                            ins.ExecuteNonQuery();
+                                VALUES (@uid, @pid)", conn))
+                            {
+                                ins.Parameters.AddWithValue("@uid", userId);
+                                ins.Parameters.AddWithValue("@pid", productId);
+                                ins.ExecuteNonQuery();
+                            }
                             ShowMessage("❤️ تمت الإضافة إلى المفضلة", isError: false);
                         }
                     }
