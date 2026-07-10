@@ -68,13 +68,15 @@ namespace NooN
                 string sql = "INSERT INTO product_categories (name_ar, name_en, is_active) " +
                              "VALUES (@nameAr, @nameEn, @isActive)";
 
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@nameAr", nameAr);
-                cmd.Parameters.AddWithValue("@nameEn", nameEn);
-                cmd.Parameters.AddWithValue("@isActive", isActive);
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nameAr", nameAr);
+                    cmd.Parameters.AddWithValue("@nameEn", nameEn);
+                    cmd.Parameters.AddWithValue("@isActive", isActive);
 
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
             }
 
             InvalidateCategoriesCache();
