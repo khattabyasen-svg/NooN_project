@@ -111,7 +111,8 @@ namespace NooN
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 var where = new System.Text.StringBuilder();
-                var cmd = new SqlCommand();
+                using (var cmd = new SqlCommand())
+                {
                 cmd.Connection = conn;
 
                 if (!string.IsNullOrEmpty(searchText))
