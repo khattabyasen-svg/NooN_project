@@ -48,7 +48,7 @@ namespace NooN
             // Adjust this if you store the user ID differently (e.g. FormsAuthentication)
             if (Session["user_id"] == null)
             {
-                Response.Redirect("~/LoginUsers.aspx");
+                Response.Redirect("~/LoginUser.aspx");
                 return;
             }
 
