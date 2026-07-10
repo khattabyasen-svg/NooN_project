@@ -13,6 +13,10 @@ namespace NooN
         // ──────────────────────────────────────────
         private readonly string _connStr = Db.ConnectionString;
 
+        // Cache key for the home-page category list. Referenced by admin pages
+        // (e.g. Proudct_Categories) to invalidate the cache after changes.
+        public const string CategoriesCacheKey = "home_categories";
+
         // ──────────────────────────────────────────
         // Icon map keyed by the English category name.
         // Adjust these or add an icon column to the table.
