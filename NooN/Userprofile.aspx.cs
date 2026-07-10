@@ -75,18 +75,21 @@ namespace NooN
                     FROM orders
                     WHERE user_id = @id";
 
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@id", userId);
-
-                conn.Open();
-                SqlDataReader dr = cmd.ExecuteReader();
-
-                if (dr.Read())
+                using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    lblNewOrders.Text = dr["NewOrders"] != DBNull.Value ? dr["NewOrders"].ToString() : "0";
+                    cmd.Parameters.AddWithValue("@id", userId);
 
-                    // ملاحظة: انت ما عندك Label للملغية، استخدمت Completed كبديل
-                    lblCompletedOrders.Text = dr["CancelledOrders"] != DBNull.Value ? dr["CancelledOrders"].ToString() : "0";
+                    conn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            lblNewOrders.Text = dr["NewOrders"] != DBNull.Value ? dr["NewOrders"].ToString() : "0";
+
+                            // Note: there is no Label for cancelled orders; Completed is used as a substitute.
+                            lblCompletedOrders.Text = dr["CancelledOrders"] != DBNull.Value ? dr["CancelledOrders"].ToString() : "0";
+                        }
+                    }
                 }
             }
         }
