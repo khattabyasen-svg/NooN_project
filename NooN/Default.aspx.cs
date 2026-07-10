@@ -272,6 +272,46 @@ namespace NooN
         }
 
         // ══════════════════════════════════════════
+        //  Favorite toggle (async postback from rptProducts)
+        // ══════════════════════════════════════════
+        protected void rptProducts_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName != "ToggleFav")
+                return;
+
+            if (Session["user_id"] == null)
+            {
+                Response.Redirect("LoginUser.aspx");
+                return;
+            }
+
+            int userId = Convert.ToInt32(Session["user_id"]);
+            int productId = Convert.ToInt32(e.CommandArgument);
+
+            // The home page lists wishlist items, so toggling removes the item.
+            try
+            {
+                using (var con = new SqlConnection(_connStr))
+                using (var cmd = new SqlCommand(
+                    "DELETE FROM wishlist_items WHERE user_id = @uid AND product_id = @pid", con))
+                {
+                    cmd.Parameters.AddWithValue("@uid", userId);
+                    cmd.Parameters.AddWithValue("@pid", productId);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("ToggleFav Error: " + ex.Message);
+            }
+
+            // Rebind and refresh only the products panel.
+            LoadWishlistProducts();
+            upProducts.Update();
+        }
+
+        // ══════════════════════════════════════════
         //  Button events
         // ══════════════════════════════════════════
         protected void btnShopNow_Click(object sender, EventArgs e)
