@@ -70,55 +70,60 @@
                 <asp:HyperLink ID="lnkAllProducts" runat="server" NavigateUrl="Prouduct.aspx" CssClass="section-link">عرض الكل ←</asp:HyperLink>
             </div>
 
-            <%-- Message shown when there are no products --%>
-            <asp:Panel ID="pnlNoProducts" runat="server" Visible="false">
-                <div class="empty-msg">لا توجد منتجات متاحة حالياً</div>
-            </asp:Panel>
+            <%-- Featured products load and update via AJAX (partial postback) --%>
+            <asp:UpdatePanel ID="upProducts" runat="server" UpdateMode="Conditional">
+                <ContentTemplate>
 
-            <div class="products-grid">
-                <asp:Repeater ID="rptProducts" runat="server">
-                    <ItemTemplate>
-                        <div class="product-card"
-                            onclick="location.href='Details.aspx?id=<%# Eval("product_id") %>'">
+                    <%-- Message shown when there are no products --%>
+                    <asp:Panel ID="pnlNoProducts" runat="server" Visible="false">
+                        <div class="empty-msg">لا توجد منتجات متاحة حالياً</div>
+                    </asp:Panel>
 
-                            <div class="product-image-wrap">
-                                <%# GetProductImage(Eval("images")) %>
+                    <div class="products-grid">
+                        <asp:Repeater ID="rptProducts" runat="server" OnItemCommand="rptProducts_ItemCommand">
+                            <ItemTemplate>
+                                <div class="product-card"
+                                    onclick="location.href='Details.aspx?id=<%# Eval("product_id") %>'">
 
-                                <%# GetDiscountBadge(Eval("discount_pct")) %>
+                                    <div class="product-image-wrap">
+                                        <%# GetProductImage(Eval("images")) %>
 
-                                <button type="button" class="product-fav"
-                                    onclick="event.stopPropagation(); toggleFav(event,this)"
-                                    title="أضف للمفضلة">
-                                    🤍</button>
-                            </div>
+                                        <%# GetDiscountBadge(Eval("discount_pct")) %>
 
-                            <div class="product-info">
-                                <div class="product-cat"><%# Eval("category_name") %></div>
-                                <div class="product-name"><%# Eval("name") %></div>
-
-                                <div class="product-rating">
-                                    <%# GetStars(Eval("rating_avg")) %>
-                                    <span class="rating-count">(<%# Eval("rating_count") %>)</span>
-                                </div>
-
-                                <div class="product-price-row">
-                                    <div>
-                                        <%# GetOldPrice(Eval("old_price")) %>
-                                        <span class="product-price">
-                                            <%# string.Format("{0:N2}", Eval("price")) %>د.أ
-                                        </span>
+                                        <%-- Favorite toggle: async postback that removes the item from the wishlist --%>
+                                        <asp:LinkButton runat="server" CssClass="product-fav is-fav"
+                                            CommandName="ToggleFav"
+                                            CommandArgument='<%# Eval("product_id") %>'
+                                            OnClientClick="event.stopPropagation();"
+                                            ToolTip="إزالة من المفضلة"
+                                            Text="❤️" />
                                     </div>
 
-                                    <%--     <button type="button" class="product-add-btn"
-                                        onclick="event.stopPropagation(); addToCart(event,'<%# Eval("name") %>')">
-                                        +
-                                    </button>--%>
+                                    <div class="product-info">
+                                        <div class="product-cat"><%# Eval("category_name") %></div>
+                                        <div class="product-name"><%# Eval("name") %></div>
+
+                                        <div class="product-rating">
+                                            <%# GetStars(Eval("rating_avg")) %>
+                                            <span class="rating-count">(<%# Eval("rating_count") %>)</span>
+                                        </div>
+
+                                        <div class="product-price-row">
+                                            <div>
+                                                <%# GetOldPrice(Eval("old_price")) %>
+                                                <span class="product-price">
+                                                    <%# string.Format("{0:N2}", Eval("price")) %>د.أ
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </ItemTemplate>
-                </asp:Repeater>
-            </div>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </div>
+
+                </ContentTemplate>
+            </asp:UpdatePanel>
         </div>
 
         <%-- ===== PROMO BANNER ===== --%>
@@ -130,8 +135,6 @@
                 <p class="promo-desc">على آلاف المنتجات من أشهر الماركات العالمية</p>
             </div>
             <div class="promo-cta">
-                <div class="promo-count" id="timer">48:00</div>
-                <div class="promo-count-label">⏱ الوقت المتبقي</div>
                 <asp:Button ID="btnPromo" runat="server" Text="تسوق الآن"
                     CssClass="btn-primary"
                     Style="margin-top: 12px; background: var(--accent); border-color: var(--accent);"
