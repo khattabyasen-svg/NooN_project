@@ -202,7 +202,7 @@ namespace NooN
         }
 
         /// <summary>
-        /// يرجع شارة الخصم إذا كانت القيمة أكبر من صفر
+        /// Returns the discount badge when the value is greater than zero.
         /// </summary>
         protected string GetDiscountBadge(object discountObj)
         {
