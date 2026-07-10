@@ -205,8 +205,7 @@ namespace NooN
                         sizeOptions.InnerHtml = sb2.ToString();
                     }
                     else pnlSizes.Visible = false;
-
-                    dr.Close();
+                    }
                 }
             }
 
