@@ -40,8 +40,7 @@ namespace NooN
         // This avoids a DB round-trip on every page load across the whole site.
         private DataTable GetCategories()
         {
-            const string cacheKey = "site_categories";
-            DataTable dt = HttpContext.Current.Cache[cacheKey] as DataTable;
+            DataTable dt = HttpContext.Current.Cache[CategoriesCacheKey] as DataTable;
             if (dt != null)
                 return dt;
 
