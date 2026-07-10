@@ -61,35 +61,31 @@ namespace NooN
                 {
                     conn.Open();
 
-                    // 5a. Check current password
-                    // IMPORTANT: If your passwords are hashed, replace the plain-text
-                    // comparison below with your hashing logic (e.g. BCrypt.Verify).
+                    // 5a. Fetch the stored hash and verify the current password in code.
                     const string checkSql =
-                        "SELECT COUNT(1) FROM users " +
-                        "WHERE user_id = @UserID AND password_hash = @CurrentPassword";
+                        "SELECT password_hash FROM users WHERE user_id = @UserID";
 
+                    string storedHash;
                     using (SqlCommand checkCmd = new SqlCommand(checkSql, conn))
                     {
                         checkCmd.Parameters.AddWithValue("@UserID", userId);
-                        checkCmd.Parameters.AddWithValue("@CurrentPassword", currentPassword);
-
-                        int matches = (int)checkCmd.ExecuteScalar();
-
-                        if (matches == 0)
-                        {
-                            ShowMessage("Current password is incorrect.", MessageType.Error);
-                            return;
-                        }
+                        storedHash = checkCmd.ExecuteScalar() as string;
                     }
 
-                    // 5b. Update to new password
+                    if (!PasswordHasher.Verify(currentPassword, storedHash))
+                    {
+                        ShowMessage("Current password is incorrect.", MessageType.Error);
+                        return;
+                    }
+
+                    // 5b. Store the new password as a hash.
                     const string updateSql =
                         "UPDATE users SET password_hash = @NewPassword " +
                         "WHERE user_id = @UserID";
 
                     using (SqlCommand updateCmd = new SqlCommand(updateSql, conn))
                     {
-                        updateCmd.Parameters.AddWithValue("@NewPassword", newPassword);
+                        updateCmd.Parameters.AddWithValue("@NewPassword", PasswordHasher.Hash(newPassword));
                         updateCmd.Parameters.AddWithValue("@UserID", userId);
                         updateCmd.ExecuteNonQuery();
                     }
