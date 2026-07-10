@@ -36,13 +36,14 @@ namespace NooN
             {
                 string sql = "SELECT category_id, name_ar, name_en, is_active FROM product_categories ORDER BY category_id DESC";
 
-                SqlDataAdapter da = new SqlDataAdapter(sql, conn);
-                DataSet ds = new DataSet();
-                //DataTable dt = new DataTable();
-                da.Fill(ds);
+                using (SqlDataAdapter da = new SqlDataAdapter(sql, conn))
+                {
+                    DataSet ds = new DataSet();
+                    da.Fill(ds);
 
-                gvCategories.DataSource = ds;
-                gvCategories.DataBind();
+                    gvCategories.DataSource = ds;
+                    gvCategories.DataBind();
+                }
             }
         }
 
