@@ -56,8 +56,7 @@ namespace NooN
 
             try
             {
-                string cs = ConfigurationManager
-                                .ConnectionStrings[CONN_NAME].ConnectionString;
+                string cs = Db.ConnectionString;
 
                 string sql = @"
                     SELECT  ci.product_id,
@@ -165,8 +164,7 @@ namespace NooN
         {
             try
             {
-                string cs = ConfigurationManager
-                                .ConnectionStrings[CONN_NAME].ConnectionString;
+                string cs = Db.ConnectionString;
 
                 // بيانات المستخدم
                 string sqlUser = @"
@@ -326,8 +324,7 @@ namespace NooN
         {
             try
             {
-                string cs = ConfigurationManager
-                                .ConnectionStrings[CONN_NAME].ConnectionString;
+                string cs = Db.ConnectionString;
 
                 // ── 1. جيب أو أنشئ المستخدم ──
                 int userId = GetOrCreateUserId(cs, firstName, lastName, email, phone);
