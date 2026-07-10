@@ -13,7 +13,7 @@ namespace NooN
 {
     public partial class AddnewItem : Page
     {
-        string connStr = ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString;
+        string connStr = Db.ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
