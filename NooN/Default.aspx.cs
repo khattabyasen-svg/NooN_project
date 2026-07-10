@@ -69,7 +69,7 @@ namespace NooN
                     var dt = new DataTable();
                     dt.Load(cmd.ExecuteReader());
 
-                    // أضف عمود icon محسوب من name_en
+                    // Add an icon column computed from name_en
                     dt.Columns.Add("icon", typeof(string));
                     foreach (DataRow row in dt.Rows)
                     {
