@@ -24,7 +24,7 @@ namespace NooN
         };
 
         // ===== Connection String =====
-        private string ConnStr => ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString;
+        private string ConnStr => Db.ConnectionString;
 
         // ===== معرف المستخدم من الـ Session (يُستبدل بالـ Auth الحقيقي لاحقاً) =====
         private int CurrentUserId
