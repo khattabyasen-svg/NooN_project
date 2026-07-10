@@ -455,6 +455,7 @@
     <Compile Include="resetpassword.aspx.designer.cs">
       <DependentUpon>resetpassword.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Db.cs" />
     <Compile Include="Helpers\PasswordHasher.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
