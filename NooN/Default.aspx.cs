@@ -86,7 +86,7 @@ namespace NooN
             }
             catch (Exception ex)
             {
-                // سجّل الخطأ وأظهر رسالة فارغة بدل كسر الصفحة
+                // Log the error and show an empty state instead of breaking the page.
                 System.Diagnostics.Debug.WriteLine("LoadCategories Error: " + ex.Message);
                 pnlNoCats.Visible = true;
             }
