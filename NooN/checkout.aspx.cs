@@ -515,7 +515,7 @@ namespace NooN
                      created_at, updated_at)
                 VALUES
                     (@fn, @ln, @em, @ph,
-                     'GUEST', 'customer', 1,
+                     @pw, 'customer', 1,
                      GETDATE(), GETDATE());
                 SELECT SCOPE_IDENTITY();";
 
@@ -526,6 +526,9 @@ namespace NooN
                 cmd.Parameters.AddWithValue("@ln", lastName);
                 cmd.Parameters.AddWithValue("@em", email);
                 cmd.Parameters.AddWithValue("@ph", phone);
+                // Guest checkout account: no chosen password, so store an unusable
+                // random hash. The user can set a real password later via reset.
+                cmd.Parameters.AddWithValue("@pw", PasswordHasher.Hash(Guid.NewGuid().ToString("N")));
                 conn.Open();
                 return Convert.ToInt32(cmd.ExecuteScalar());
             }
