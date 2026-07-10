@@ -10,9 +10,7 @@ namespace NooN
 {
     public partial class Details : Page
     {
-        private string connStr = ConfigurationManager
-                                    .ConnectionStrings["MyConnection"]
-                                    .ConnectionString;
+        private string connStr = Db.ConnectionString;
         private int _productId = 0;
 
         // ═══════════════════════════════════════════
