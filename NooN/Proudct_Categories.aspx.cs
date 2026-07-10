@@ -181,6 +181,16 @@ namespace NooN
         protected void gvCategories_SelectedIndexChanged(object sender, EventArgs e) { }
 
         // ═══════════════════════════════════════════
+        // Clear the cached category list used by the master page
+        // so the navbar dropdown reflects changes immediately.
+        // Must match the cache key in Site.Master.cs (GetCategories).
+        // ═══════════════════════════════════════════
+        private void InvalidateCategoriesCache()
+        {
+            Cache.Remove("site_categories");
+        }
+
+        // ═══════════════════════════════════════════
         // دالة مساعدة: إظهار رسالة تنبيه
         // ═══════════════════════════════════════════
         private void ShowAlert(string message, string cssClass)
