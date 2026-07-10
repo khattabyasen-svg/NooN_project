@@ -69,12 +69,14 @@ namespace NooN
                              "FROM product_categories " +
                              "WHERE is_active = 1 ORDER BY name_ar";
 
-                SqlDataAdapter da = new SqlDataAdapter(sql, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
+                using (SqlDataAdapter da = new SqlDataAdapter(sql, conn))
+                {
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
 
-                rptCategories.DataSource = dt;
-                rptCategories.DataBind();
+                    rptCategories.DataSource = dt;
+                    rptCategories.DataBind();
+                }
             }
         }
 
