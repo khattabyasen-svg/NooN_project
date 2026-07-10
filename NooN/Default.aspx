@@ -149,7 +149,7 @@
                 <div>
                     <div class="footer-heading">المساعدة</div>
                     <ul class="footer-links">
-                        <li><a href="Contact.aspx">اتصل بنا</a></li>
+                        <li><a href="Prouduct.aspx">المنتجات</a></li>
                         <li><a href="Cart.aspx">سلة التسوق</a></li>
                     </ul>
                 </div>
