@@ -41,23 +41,27 @@ namespace NooN
                     query += " AND p.category_id = @CatID";
                 }
 
-                SqlCommand cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@SearchText",
-                    "%" + txtSearch.Text.Trim() + "%");
-
-                if (ddlCategories.SelectedValue != "0" &&
-                    ddlCategories.SelectedValue != "")
+                using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@CatID",
-                        ddlCategories.SelectedValue);
-                }
+                    cmd.Parameters.AddWithValue("@SearchText",
+                        "%" + txtSearch.Text.Trim() + "%");
 
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                con.Open();
-                da.Fill(dt);
-                gvResults.DataSource = dt;
-                gvResults.DataBind();
+                    if (ddlCategories.SelectedValue != "0" &&
+                        ddlCategories.SelectedValue != "")
+                    {
+                        cmd.Parameters.AddWithValue("@CatID",
+                            ddlCategories.SelectedValue);
+                    }
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        con.Open();
+                        da.Fill(dt);
+                        gvResults.DataSource = dt;
+                        gvResults.DataBind();
+                    }
+                }
             }
         }
 
