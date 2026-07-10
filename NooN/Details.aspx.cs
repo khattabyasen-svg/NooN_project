@@ -59,11 +59,10 @@ namespace NooN
                     cmd.Parameters.AddWithValue("@pid", _productId);
                     conn.Open();
 
-                    SqlDataReader dr = cmd.ExecuteReader();
-
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
                     if (!dr.Read())
                     {
-                        dr.Close();
                         ShowNotFound();
                         return;
                     }
