@@ -32,8 +32,8 @@ namespace NooN
             //Step 1: Get Data
             DataTable dt = new DataTable();
 
-            SqlDataAdapter da = new SqlDataAdapter(@"
-                                       SELECT 
+            using (SqlDataAdapter da = new SqlDataAdapter(@"
+                                       SELECT
                         p.product_id,
                         p.category_id AS product_category_id,
                         p.name AS product_name,
@@ -43,12 +43,13 @@ namespace NooN
                     INNER JOIN product_categories c
                         ON p.category_id = c.category_id;
 
-                    ", connStr);
+                    ", connStr))
+            {
+                da.Fill(dt);
+            }
 
             // Step 2: Set Report Path
             ReportViewer1.LocalReport.ReportPath = Server.MapPath("~/reports/Report1.rdlc");
-
-            da.Fill(dt);
 
             // Step 3: Clear old data
             ReportViewer1.LocalReport.DataSources.Clear();
