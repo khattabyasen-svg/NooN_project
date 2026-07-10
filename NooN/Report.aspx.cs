@@ -15,8 +15,7 @@ namespace NooN
     public partial class Report : System.Web.UI.Page
     {
 
-        private static readonly string connStr =
-                         ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString;
+        private static readonly string connStr = Db.ConnectionString;
 
 
         protected void Page_Load(object sender, EventArgs e)
