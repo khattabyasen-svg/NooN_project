@@ -186,13 +186,14 @@ namespace NooN
         protected void gvCategories_SelectedIndexChanged(object sender, EventArgs e) { }
 
         // ═══════════════════════════════════════════
-        // Clear the cached category list used by the master page
-        // so the navbar dropdown reflects changes immediately.
-        // Must match the cache key in Site.Master.cs (GetCategories).
+        // Clear the cached category lists (navbar dropdown and home page)
+        // so both reflect changes immediately. Keys must match the ones used
+        // in Site.Master.cs and Default.aspx.cs.
         // ═══════════════════════════════════════════
         private void InvalidateCategoriesCache()
         {
             Cache.Remove(SiteMaster.CategoriesCacheKey);
+            Cache.Remove(_Default.CategoriesCacheKey);
         }
 
         // ═══════════════════════════════════════════
