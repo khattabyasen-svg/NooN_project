@@ -76,6 +76,8 @@ namespace NooN
                 cmd.ExecuteNonQuery();
             }
 
+            InvalidateCategoriesCache();
+
             // ── تنظيف الحقول بعد الإضافة ──
             txtNameAr.Text = "";
             txtNameEn.Text = "";
