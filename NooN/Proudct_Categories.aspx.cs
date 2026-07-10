@@ -187,7 +187,7 @@ namespace NooN
         // ═══════════════════════════════════════════
         private void InvalidateCategoriesCache()
         {
-            Cache.Remove("site_categories");
+            Cache.Remove(SiteMaster.CategoriesCacheKey);
         }
 
         // ═══════════════════════════════════════════
