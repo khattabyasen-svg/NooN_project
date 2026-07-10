@@ -144,6 +144,7 @@ namespace NooN
                 cmd.ExecuteNonQuery();
             }
 
+            InvalidateCategoriesCache();
 
             gvCategories.EditIndex = -1;
             ShowAlert("✅ تم تحديث الفئة بنجاح.", "alert-success");
