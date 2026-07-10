@@ -10,9 +10,7 @@ namespace NooN
 {
     public partial class Prouduct : Page
     {
-        private string connStr = ConfigurationManager
-                                    .ConnectionStrings["MyConnection"]
-                                    .ConnectionString;
+        private string connStr = Db.ConnectionString;
 
         // ═══════════════════════════════════════════
         // Page Load
