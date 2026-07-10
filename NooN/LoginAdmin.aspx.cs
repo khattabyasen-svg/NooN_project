@@ -30,34 +30,57 @@ namespace NooN
             {
                 using (SqlConnection conn = new SqlConnection(connStr))
                 {
-                    // استعلام للتحقق من البريد، كلمة المرور، والصلاحية (Role)
-                    // ملاحظة: يُفضل دائماً تشفير كلمة المرور (Hashing) وليس مقارنتها كنص عادي
-                    string query = @"SELECT [user_id], [first_name], [role] 
-                                   FROM [users] 
-                                   WHERE [email] = @email 
-                                   AND [password_hash] = @pass 
-                                   AND [role] = 'Admin' 
+                    // Fetch the admin account by email/role, then verify the password
+                    // in code — the stored value is a hash, not comparable in SQL.
+                    string query = @"SELECT [user_id], [first_name], [password_hash]
+                                   FROM [users]
+                                   WHERE [email] = @email
+                                   AND [role] = 'Admin'
                                    AND [is_active] = 1";
 
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@email", email);
-                    cmd.Parameters.AddWithValue("@pass", password); // هنا نضع كلمة المرور
+                    int adminId = 0;
+                    string adminName = null;
+                    string storedHash = null;
+                    bool found = false;
 
                     conn.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    if (reader.Read())
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        // إذا وجدنا المستخدم، نقوم بإنشاء جلسة (Session)
-                        Session["AdminID"] = reader["user_id"].ToString();
-                        Session["AdminName"] = reader["first_name"].ToString();
+                        cmd.Parameters.AddWithValue("@email", email);
 
-                        // الانتقال لصفحة الطلبات
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                found = true;
+                                adminId = Convert.ToInt32(reader["user_id"]);
+                                adminName = reader["first_name"].ToString();
+                                storedHash = reader["password_hash"] as string;
+                            }
+                        }
+                    }
+
+                    if (found && PasswordHasher.Verify(password, storedHash))
+                    {
+                        // Transparently migrate legacy plaintext passwords to a hash.
+                        if (PasswordHasher.NeedsUpgrade(storedHash))
+                        {
+                            using (SqlCommand up = new SqlCommand(
+                                "UPDATE [users] SET password_hash = @hash WHERE user_id = @id", conn))
+                            {
+                                up.Parameters.AddWithValue("@hash", PasswordHasher.Hash(password));
+                                up.Parameters.AddWithValue("@id", adminId);
+                                up.ExecuteNonQuery();
+                            }
+                        }
+
+                        Session["AdminID"] = adminId.ToString();
+                        Session["AdminName"] = adminName;
+
                         Response.Redirect("Admin_order.aspx");
                     }
                     else
                     {
-                        // إذا كانت البيانات خاطئة
                         ShowMessage("Invalid credentials or you do not have admin access.", MessageType.Error);
                     }
                 }
