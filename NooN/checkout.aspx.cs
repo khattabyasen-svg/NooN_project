@@ -266,11 +266,10 @@ namespace NooN
             }
             catch (Exception ex)
             {
-                lblError.Text = "<b>خطأ:</b> " + ex.Message
-                              + "<br/><b>Inner:</b> "
-                              + (ex.InnerException != null
-                                 ? ex.InnerException.Message
-                                 : "none");
+                // Log full detail server-side; show the user a generic message
+                // so internal errors (SQL, schema, etc.) aren't leaked.
+                System.Diagnostics.Debug.WriteLine("PlaceOrder: " + ex);
+                lblError.Text = "تعذّر إتمام الطلب، يرجى المحاولة مجدداً.";
                 lblError.Visible = true;
             }
         }        // ══════════════════════════════════════════════════════════════
