@@ -137,14 +137,16 @@ namespace NooN
                              "SET name_ar = @nameAr, name_en = @nameEn, is_active = @isActive " +
                              "WHERE category_id = @id";
 
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@nameAr", nameAr);
-                cmd.Parameters.AddWithValue("@nameEn", nameEn);
-                cmd.Parameters.AddWithValue("@isActive", isActive);
-                cmd.Parameters.AddWithValue("@id", categoryId);
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nameAr", nameAr);
+                    cmd.Parameters.AddWithValue("@nameEn", nameEn);
+                    cmd.Parameters.AddWithValue("@isActive", isActive);
+                    cmd.Parameters.AddWithValue("@id", categoryId);
 
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
             }
 
             InvalidateCategoriesCache();
