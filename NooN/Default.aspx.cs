@@ -230,7 +230,7 @@ namespace NooN
         }
 
         /// <summary>
-        /// يرجع نجوم HTML بناءً على متوسط التقييم (0-5)
+        /// Returns HTML stars based on the average rating (0-5).
         /// </summary>
         protected string GetStars(object ratingObj)
         {
@@ -238,9 +238,9 @@ namespace NooN
             if (ratingObj != null && ratingObj != DBNull.Value)
                 decimal.TryParse(ratingObj.ToString(), out rating);
 
-            int full = (int)Math.Floor(rating);         // نجوم كاملة
-            bool half = (rating - full) >= 0.5m;          // نصف نجمة
-            int empty = 5 - full - (half ? 1 : 0);        // نجوم فارغة
+            int full = (int)Math.Floor(rating);         // Full stars
+            bool half = (rating - full) >= 0.5m;          // Half star
+            int empty = 5 - full - (half ? 1 : 0);        // Empty stars
 
             string stars = new string('★', full)
                          + (half ? "½" : "")
