@@ -169,6 +169,8 @@ namespace NooN
                 cmd.ExecuteNonQuery();
             }
 
+            InvalidateCategoriesCache();
+
             ShowAlert("🗑️ تم حذف الفئة بنجاح.", "alert-success");
             LoadCategories();
         }
