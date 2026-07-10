@@ -57,7 +57,7 @@ namespace NooN
             }
 
             HttpContext.Current.Cache.Insert(
-                cacheKey, dt, null,
+                CategoriesCacheKey, dt, null,
                 DateTime.Now.AddMinutes(30),
                 System.Web.Caching.Cache.NoSlidingExpiration);
 
