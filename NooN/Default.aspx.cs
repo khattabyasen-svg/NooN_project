@@ -93,11 +93,11 @@ namespace NooN
         }
 
         // ══════════════════════════════════════════
-        //  جلب المنتجات المميزة (بحد أقصى 8)
+        //  Load featured (wishlist) products (up to 8)
         // ══════════════════════════════════════════
         private void LoadWishlistProducts()
         {
-            // لازم يكون المستخدم مسجل دخول
+            // The user must be logged in.
             if (Session["user_id"] == null)
             {
                 pnlNoProducts.Visible = true;
