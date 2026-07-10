@@ -10,7 +10,7 @@ namespace NooN
 {
     public partial class WebForm2 : System.Web.UI.Page
     {
-        string connStr = ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString;
+        string connStr = Db.ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
