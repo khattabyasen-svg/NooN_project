@@ -152,19 +152,19 @@ namespace NooN
             }
         }
         // ══════════════════════════════════════════
-        //  Helper Methods (تُستدعى من الـ ASPX)
+        //  Helper Methods (called from the ASPX)
         // ══════════════════════════════════════════
 
         /// <summary>
-        /// يرجع أيقونة الفئة بناءً على name_en
-        /// إذا ما وُجدت مطابقة يرجع أيقونة افتراضية
+        /// Returns the category icon based on name_en.
+        /// Falls back to a default icon when there is no match.
         /// </summary>
         private static string ResolveIcon(string nameEn)
         {
             if (string.IsNullOrWhiteSpace(nameEn))
                 return "🛍️";
 
-            // بحث جزئي: يكفي أن يحتوي الاسم على الكلمة المفتاحية
+            // Partial match: it's enough for the name to contain the keyword.
             foreach (var kvp in CategoryIcons)
                 if (nameEn.IndexOf(kvp.Key, StringComparison.OrdinalIgnoreCase) >= 0)
                     return kvp.Value;
