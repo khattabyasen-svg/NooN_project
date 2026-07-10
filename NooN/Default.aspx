@@ -70,7 +70,7 @@
                 <asp:HyperLink ID="lnkAllProducts" runat="server" NavigateUrl="Prouduct.aspx" CssClass="section-link">عرض الكل ←</asp:HyperLink>
             </div>
 
-            <%-- رسالة تظهر إذا لم توجد منتجات --%>
+            <%-- Message shown when there are no products --%>
             <asp:Panel ID="pnlNoProducts" runat="server" Visible="false">
                 <div class="empty-msg">لا توجد منتجات متاحة حالياً</div>
             </asp:Panel>
