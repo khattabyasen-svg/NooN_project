@@ -41,7 +41,7 @@ namespace NooN
                 return;
             }
 
-            string connStr = ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString;
+            string connStr = Db.ConnectionString;
 
             using (SqlConnection conn = new SqlConnection(connStr))
             {
