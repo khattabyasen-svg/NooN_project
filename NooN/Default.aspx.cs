@@ -47,7 +47,7 @@ namespace NooN
         }
 
         // ══════════════════════════════════════════
-        //  جلب الفئات النشطة (بحد أقصى 8)
+        //  Load active categories (up to 8)
         // ══════════════════════════════════════════
         private void LoadCategories()
         {
