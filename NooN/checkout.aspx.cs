@@ -216,7 +216,11 @@ namespace NooN
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                // Pre-filling a saved address is best-effort; log but don't block checkout.
+                System.Diagnostics.Debug.WriteLine("LoadSavedAddress: " + ex.Message);
+            }
         }
 
         // ══════════════════════════════════════════════════════════════
