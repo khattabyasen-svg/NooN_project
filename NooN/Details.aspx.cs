@@ -232,11 +232,13 @@ namespace NooN
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
                     cmd.Parameters.AddWithValue("@pid", _productId);
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    rptReviews.DataSource = dt;
-                    rptReviews.DataBind();
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        rptReviews.DataSource = dt;
+                        rptReviews.DataBind();
+                    }
                 }
             }
         }
