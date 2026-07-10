@@ -21,23 +21,44 @@ namespace NooN
             UpdateCartBadge();
         }
 
-        // ══ الفئات ══
+        // ══ Categories ══
         private void BindCategories()
         {
+            ddlCategories.DataSource = GetCategories();
+            ddlCategories.DataTextField = "name_ar";
+            ddlCategories.DataValueField = "category_id";
+            ddlCategories.DataBind();
+
+            ddlCategories.Items.Insert(0, new ListItem("🏷️ كل الفئات", "0"));
+        }
+
+        // Categories rarely change, so cache the list for all users.
+        // This avoids a DB round-trip on every page load across the whole site.
+        private DataTable GetCategories()
+        {
+            const string cacheKey = "site_categories";
+            DataTable dt = HttpContext.Current.Cache[cacheKey] as DataTable;
+            if (dt != null)
+                return dt;
+
+            dt = new DataTable();
             using (SqlConnection con = new SqlConnection(connStr))
-            {
-                SqlCommand cmd = new SqlCommand(@"
+            using (SqlCommand cmd = new SqlCommand(@"
                     SELECT category_id, name_ar
                     FROM   product_categories
                     WHERE  is_active = 1
-                    ORDER BY name_ar", con);
-                con.Open();
-                ddlCategories.DataSource = cmd.ExecuteReader();
-                ddlCategories.DataTextField = "name_ar";
-                ddlCategories.DataValueField = "category_id";
-                ddlCategories.DataBind();
+                    ORDER BY name_ar", con))
+            using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+            {
+                da.Fill(dt);
             }
-            ddlCategories.Items.Insert(0, new ListItem("🏷️ كل الفئات", "0"));
+
+            HttpContext.Current.Cache.Insert(
+                cacheKey, dt, null,
+                DateTime.Now.AddMinutes(30),
+                System.Web.Caching.Cache.NoSlidingExpiration);
+
+            return dt;
         }
 
         protected void ddlCategories_SelectedIndexChanged(object sender, EventArgs e)
