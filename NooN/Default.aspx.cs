@@ -9,13 +9,13 @@ namespace NooN
     public partial class _Default : Page
     {
         // ──────────────────────────────────────────
-        // Connection string من Web.config
+        // Connection string from Web.config
         // ──────────────────────────────────────────
         private readonly string _connStr = Db.ConnectionString;
 
         // ──────────────────────────────────────────
-        // خريطة الأيقونات حسب اسم الفئة بالإنجليزي
-        // يمكنك تعديلها أو إضافة عمود icon للجدول
+        // Icon map keyed by the English category name.
+        // Adjust these or add an icon column to the table.
         // ──────────────────────────────────────────
         private static readonly System.Collections.Generic.Dictionary<string, string> CategoryIcons =
             new System.Collections.Generic.Dictionary<string, string>(System.StringComparer.OrdinalIgnoreCase)
