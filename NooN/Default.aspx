@@ -91,7 +91,7 @@
                                         <%# GetDiscountBadge(Eval("discount_pct")) %>
 
                                         <%-- Favorite toggle: async postback that removes the item from the wishlist --%>
-                                        <asp:LinkButton runat="server" CssClass="product-fav is-fav"
+                                        <asp:LinkButton runat="server" CssClass="product-fav active"
                                             CommandName="ToggleFav"
                                             CommandArgument='<%# Eval("product_id") %>'
                                             OnClientClick="event.stopPropagation();"
