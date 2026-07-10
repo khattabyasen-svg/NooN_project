@@ -12,7 +12,7 @@ namespace NooN
         }
         // ── Connection string ─────────────────────────────────────────────────
         // Change this to match your actual connection string (or pull from Web.config)
-        string connStr = ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString;
+        string connStr = Db.ConnectionString;
 
         // ── Save button ───────────────────────────────────────────────────────
         protected void ButSave_Click(object sender, EventArgs e)
