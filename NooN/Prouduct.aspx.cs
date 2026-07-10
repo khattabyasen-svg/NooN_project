@@ -181,13 +181,16 @@ namespace NooN
                     " + where.ToString() + @"
                     ORDER BY " + orderBy;
 
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
+                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                {
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
 
-                rptProducts.DataSource = dt;
-                rptProducts.DataBind();
-                lblCount.Text = dt.Rows.Count.ToString();
+                    rptProducts.DataSource = dt;
+                    rptProducts.DataBind();
+                    lblCount.Text = dt.Rows.Count.ToString();
+                }
+                }
             }
         }
 
