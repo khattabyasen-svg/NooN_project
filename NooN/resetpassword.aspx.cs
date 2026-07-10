@@ -97,11 +97,12 @@ namespace NooN
             }
             catch (SqlException ex)
             {
-                // Log ex.Message to your logging system as needed
+                System.Diagnostics.Trace.TraceError("ResetPassword (SQL): " + ex.Message);
                 ShowMessage("A database error occurred. Please try again later.", MessageType.Error);
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Trace.TraceError("ResetPassword: " + ex.Message);
                 ShowMessage("An unexpected error occurred. Please try again.", MessageType.Error);
             }
         }
