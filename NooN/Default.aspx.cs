@@ -250,7 +250,7 @@ namespace NooN
         }
 
         // ══════════════════════════════════════════
-        //  أحداث الأزرار
+        //  Button events
         // ══════════════════════════════════════════
         protected void btnShopNow_Click(object sender, EventArgs e)
         {
