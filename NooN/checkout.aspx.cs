@@ -27,8 +27,6 @@ namespace NooN
     {
         // ✅ اسم الـ Session واحد في كل مكان
         private const string SESSION_USER = "user_id";
-        // ✅ اسم الـ ConnectionString واحد في كل مكان
-        private const string CONN_NAME = "MyConnection";
 
         protected void Page_Load(object sender, EventArgs e)
         {
