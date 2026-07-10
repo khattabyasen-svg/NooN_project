@@ -76,16 +76,21 @@ namespace NooN
                                  WHERE is_active = 1
                                  ORDER BY name_ar";
 
-                SqlCommand cmd = new SqlCommand(query, con);
-                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
 
-                ddlCategories.DataSource = cmd.ExecuteReader();
-                ddlCategories.DataTextField = "name_ar";
-                ddlCategories.DataValueField = "category_id";
-                ddlCategories.DataBind();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        ddlCategories.DataSource = reader;
+                        ddlCategories.DataTextField = "name_ar";
+                        ddlCategories.DataValueField = "category_id";
+                        ddlCategories.DataBind();
+                    }
 
-                ddlCategories.Items.Insert(0,
-                    new ListItem("--- كل التصنيفات ---", "0"));
+                    ddlCategories.Items.Insert(0,
+                        new ListItem("--- كل التصنيفات ---", "0"));
+                }
             }
         }
 
