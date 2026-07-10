@@ -173,9 +173,9 @@ namespace NooN
         }
 
         /// <summary>
-        /// يرجع img tag إذا وُجدت صورة، وإلا span بإيموجي
-        /// حقل images يُخزَّن كـ JSON مصفوفة: ["img1.jpg","img2.jpg"]
-        /// أو مسار مباشر: "uploads/img1.jpg"
+        /// Returns an img tag when an image exists, otherwise a span with an emoji.
+        /// The images field is stored as a JSON array: ["img1.jpg","img2.jpg"]
+        /// or as a direct path: "uploads/img1.jpg".
         /// </summary>
         protected string GetProductImage(object imagesObj)
         {
@@ -183,11 +183,11 @@ namespace NooN
 
             if (!string.IsNullOrWhiteSpace(images))
             {
-                // استخرج أول صورة من JSON بسيط بدون مكتبة خارجية
+                // Extract the first image from a simple JSON array without an external library.
                 string first = images.Trim();
                 if (first.StartsWith("["))
                 {
-                    // أزل [ ] والمسافات والـ quotes
+                    // Remove [ ], whitespace and quotes.
                     first = first.TrimStart('[').TrimEnd(']');
                     int comma = first.IndexOf(',');
                     if (comma > 0) first = first.Substring(0, comma);
