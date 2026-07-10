@@ -135,15 +135,17 @@ namespace NooN
                                  phone = @ph
                                  WHERE user_id = @id";
 
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@fn", txtFirstName.Text);
-                cmd.Parameters.AddWithValue("@ln", txtLastName.Text);
-                cmd.Parameters.AddWithValue("@em", txtEmail.Text);
-                cmd.Parameters.AddWithValue("@ph", txtPhone.Text);
-                cmd.Parameters.AddWithValue("@id", userId);
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@fn", txtFirstName.Text);
+                    cmd.Parameters.AddWithValue("@ln", txtLastName.Text);
+                    cmd.Parameters.AddWithValue("@em", txtEmail.Text);
+                    cmd.Parameters.AddWithValue("@ph", txtPhone.Text);
+                    cmd.Parameters.AddWithValue("@id", userId);
 
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
             }
 
             lblStatus.Text = "تم حفظ التعديلات";
