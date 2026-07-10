@@ -127,7 +127,8 @@ namespace NooN
                 {
                     cmd.Parameters.AddWithValue("@userId", userId);
                     con.Open();
-                    new SqlDataAdapter(cmd).Fill(dt);
+                    using (var da = new SqlDataAdapter(cmd))
+                        da.Fill(dt);
                 }
             }
             catch (Exception ex)
