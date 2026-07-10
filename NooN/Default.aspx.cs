@@ -216,7 +216,7 @@ namespace NooN
         }
 
         /// <summary>
-        /// يرجع السعر القديم مشطوباً إذا وُجد
+        /// Returns the old price (struck through) when present.
         /// </summary>
         protected string GetOldPrice(object oldPriceObj)
         {
