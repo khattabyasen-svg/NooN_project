@@ -13,6 +13,10 @@ namespace NooN
         private static readonly string connStr =
             ConfigurationManager.ConnectionStrings["MyConnection"].ConnectionString;
 
+        // Cache key for the shared category list. Referenced by admin pages
+        // (e.g. Proudct_Categories) to invalidate the cache after changes.
+        public const string CategoriesCacheKey = "site_categories";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
