@@ -391,7 +391,11 @@ namespace NooN
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch { /* تجاهل خطأ timestamp */ }
+            catch (Exception ex)
+            {
+                // Timestamp update is non-critical; log but ignore any failure.
+                System.Diagnostics.Trace.TraceError("UpdateCartTimestamp: " + ex.Message);
+            }
         }
 
         private void ShowEmptyCart()
