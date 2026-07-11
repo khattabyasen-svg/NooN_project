@@ -98,7 +98,7 @@ namespace NooN
                     }
                 }
 
-                // سلة فاضية
+                // Empty cart
                 if (items.Count == 0)
                 {
                     pnlEmptyCart.Visible = true;
@@ -106,11 +106,11 @@ namespace NooN
                     return;
                 }
 
-                // ربط الـ Repeater
+                // Bind the repeater
                 rptCartItems.DataSource = items;
                 rptCartItems.DataBind();
 
-                // حساب الإجماليات
+                // Compute the totals
                 decimal subtotal = 0;
                 foreach (var item in items) subtotal += item.LineTotal;
 
@@ -118,14 +118,14 @@ namespace NooN
                 decimal tax = (subtotal - discount) * 0.15m;
                 decimal total = subtotal - discount + tax;
 
-                // حفظ في Session
+                // Store in Session
                 Session["CartItems"] = items;
                 Session["Subtotal"] = subtotal;
                 Session["Discount"] = discount;
                 Session["Tax"] = tax;
                 Session["Total"] = total;
 
-                // تحديث الـ Labels
+                // Update the labels
                 lblSubtotal.Text = subtotal.ToString("N2") + " ر.س";
                 lblDiscount.Text = "- " + discount.ToString("N2") + " ر.س";
                 lblTax.Text = tax.ToString("N2") + " ر.س";
