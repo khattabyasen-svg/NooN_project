@@ -149,19 +149,10 @@ namespace NooN
             }
         }
 
-        // Extract the first image from the field
+        // Extract the first image from the field (shared resolver).
         private string ParseFirstImage(string raw)
         {
-            if (string.IsNullOrEmpty(raw)) return "images/placeholder.png";
-            raw = raw.Trim();
-
-            if (raw.StartsWith("["))
-            {
-                raw = raw.Trim('[', ']');
-                string first = raw.Split(',')[0].Trim().Trim('"');
-                return string.IsNullOrEmpty(first) ? "images/placeholder.png" : first;
-            }
-            return raw.Split(',')[0].Trim();
+            return ProductImage.FirstUrl(raw);
         }
 
         // ══════════════════════════════════════════════════════════════
