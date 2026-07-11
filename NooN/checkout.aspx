@@ -706,7 +706,7 @@
                             ControlToValidate="txtCardHolder"
                             ErrorMessage="اسم حامل البطاقة مطلوب"
                             CssClass="validation-error" Display="Dynamic"
-                            ValidationGroup="CardGroup" />
+                            ValidationGroup="OrderGroup" />
                     </div>
                 </div>
 
