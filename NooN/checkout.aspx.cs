@@ -433,35 +433,31 @@ namespace NooN
                             return 0;
                         }
 
-                        // 6. INSERT order_items
-                        var cartItems = Session["CartItems"] as List<CartItemDisplay>;
-                        if (cartItems != null && cartItems.Count > 0)
-                        {
-                            string sqlItem = @"
-                                INSERT INTO order_items
-                                    (order_id, product_id, quantity,
-                                     unit_price, color, size, subtotal)
-                                VALUES
-                                    (@oid, @pid, @qty,
-                                     @price, @color, @size, @itemSub)";
+                        // 6. INSERT order_items (from the authoritative DB list)
+                        string sqlItem = @"
+                            INSERT INTO order_items
+                                (order_id, product_id, quantity,
+                                 unit_price, color, size, subtotal)
+                            VALUES
+                                (@oid, @pid, @qty,
+                                 @price, @color, @size, @itemSub)";
 
-                            foreach (var item in cartItems)
+                        foreach (var item in orderItems)
+                        {
+                            using (var cmd = new SqlCommand(sqlItem, conn, tx))
                             {
-                                using (var cmd = new SqlCommand(sqlItem, conn, tx))
-                                {
-                                    cmd.Parameters.AddWithValue("@oid", orderId);
-                                    cmd.Parameters.AddWithValue("@pid", item.ProductId);
-                                    cmd.Parameters.AddWithValue("@qty", item.Quantity);
-                                    cmd.Parameters.AddWithValue("@price", item.UnitPrice);
-                                    cmd.Parameters.AddWithValue("@itemSub", item.LineTotal);
-                                    cmd.Parameters.AddWithValue("@color",
-                                        string.IsNullOrEmpty(item.Color)
-                                        ? (object)DBNull.Value : item.Color);
-                                    cmd.Parameters.AddWithValue("@size",
-                                        string.IsNullOrEmpty(item.Size)
-                                        ? (object)DBNull.Value : item.Size);
-                                    cmd.ExecuteNonQuery();
-                                }
+                                cmd.Parameters.AddWithValue("@oid", orderId);
+                                cmd.Parameters.AddWithValue("@pid", item.ProductId);
+                                cmd.Parameters.AddWithValue("@qty", item.Quantity);
+                                cmd.Parameters.AddWithValue("@price", item.UnitPrice);
+                                cmd.Parameters.AddWithValue("@itemSub", item.LineTotal);
+                                cmd.Parameters.AddWithValue("@color",
+                                    string.IsNullOrEmpty(item.Color)
+                                    ? (object)DBNull.Value : item.Color);
+                                cmd.Parameters.AddWithValue("@size",
+                                    string.IsNullOrEmpty(item.Size)
+                                    ? (object)DBNull.Value : item.Size);
+                                cmd.ExecuteNonQuery();
                             }
                         }
 
