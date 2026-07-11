@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="تأكيد الطلب" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Confirm.aspx.cs" Inherits="NooN.Confirm" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <%-- استدعاء ملفات التنسيق في المكان الصحيح --%>
+    <%-- Reference the stylesheets in the correct place --%>
     <link href="Content/shared.css" rel="stylesheet" />
     <link href="Content/confirmation.css" rel="stylesheet" />
 </asp:Content>
