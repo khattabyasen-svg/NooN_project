@@ -15,6 +15,33 @@ namespace NooN
     {
 
         /// <summary>
+        /// litOrderNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litOrderNumber;
+
+        /// <summary>
+        /// litDeliveryDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litDeliveryDate;
+
+        /// <summary>
+        /// litDeliveryTo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litDeliveryTo;
+
+        /// <summary>
         /// btnContinueShopping control.
         /// </summary>
         /// <remarks>
