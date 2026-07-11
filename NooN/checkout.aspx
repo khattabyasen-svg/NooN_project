@@ -818,22 +818,42 @@
 
     <script src='<%= ResolveUrl("~/Scripts/shared.js") %>'></script>
     <script>
+        // Card validators — only enforced when paying by card.
+        var cardValidatorIds = [
+            '<%= RFV_Card.ClientID %>',
+            '<%= RFV_Expiry.ClientID %>',
+            '<%= RFV_CVV.ClientID %>',
+            '<%= RFV_CardHolder.ClientID %>'
+        ];
+
+        function toggleCardValidators(isCard) {
+            if (typeof ValidatorEnable !== 'function') return;
+            cardValidatorIds.forEach(function (id) {
+                var v = document.getElementById(id);
+                if (v) ValidatorEnable(v, isCard);
+            });
+        }
+
+        function applyPaymentMethod(type) {
+            var isCard = (type === 'card');
+            document.getElementById('cardSection').style.display = isCard ? 'block' : 'none';
+            toggleCardValidators(isCard);
+        }
+
         function selectPayment(el, type) {
             document.querySelectorAll('.payment-option')
                 .forEach(o => o.classList.remove('selected'));
             el.classList.add('selected');
             document.getElementById(
-            '<%= hfPaymentMethod.ClientID %>').value = type;
-            document.getElementById('cardSection').style.display =
-                (type === 'card') ? 'block' : 'none';
+                '<%= hfPaymentMethod.ClientID %>').value = type;
+            applyPaymentMethod(type);
         }
 
         window.addEventListener('load', function () {
             var method = document.getElementById(
-            '<%= hfPaymentMethod.ClientID %>').value;
-        document.getElementById('cardSection').style.display =
-            (method === 'card') ? 'block' : 'none';
-    });
+                '<%= hfPaymentMethod.ClientID %>').value;
+            applyPaymentMethod(method);
+        });
 
         // Format the card number
         var cardInput = document.getElementById('<%= txtCardNumber.ClientID %>');
