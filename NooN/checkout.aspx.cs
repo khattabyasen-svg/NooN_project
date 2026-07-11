@@ -186,7 +186,7 @@ namespace NooN
                     }
                 }
 
-                // العنوان الافتراضي
+                // Default address
                 string sqlAddr = @"
                     SELECT TOP 1 city, district, street
                     FROM   addresses
