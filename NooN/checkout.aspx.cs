@@ -302,10 +302,12 @@ namespace NooN
                 decimal subtotal = Session["Subtotal"] != null
                     ? (decimal)Session["Subtotal"] : 0;
 
-                decimal discount = subtotal * 0.20m;
+                decimal discountRate = 0.20m;
+                decimal discount = subtotal * discountRate;
                 decimal tax = (subtotal - discount) * 0.15m;
                 decimal total = subtotal - discount + tax;
 
+                Session["DiscountRate"] = discountRate;
                 Session["Discount"] = discount;
                 Session["Tax"] = tax;
                 Session["Total"] = total;
