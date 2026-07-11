@@ -11,7 +11,7 @@
         <div class="confirm-icon">✅</div>
         <h2 class="confirm-title">تم تأكيد طلبك!</h2>
         <p class="confirm-subtitle">شكراً لك على ثقتك بـ Noon. تم استلام طلبك وسيتم معالجته قريباً. ستصلك رسالة تأكيد على بريدك الإلكتروني.</p>
-        <div class="confirm-order-num">طلب رقم: #NOO-2025-78432</div>
+        <div class="confirm-order-num">طلب رقم: <asp:Literal ID="litOrderNumber" runat="server" /></div>
 
         <div class="tracking-steps">
             <div class="track-step done"><div class="track-icon">✓</div><div class="track-label">تم الطلب</div></div>
