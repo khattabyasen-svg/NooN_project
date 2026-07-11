@@ -155,7 +155,7 @@ namespace NooN
         }
 
         // ══════════════════════════════════════════════════════════════
-        //  تعبئة بيانات المستخدم المسجّل
+        //  Pre-fill the logged-in user's details
         // ══════════════════════════════════════════════════════════════
         private void LoadUserDefaults(int userId)
         {
@@ -163,7 +163,7 @@ namespace NooN
             {
                 string cs = Db.ConnectionString;
 
-                // بيانات المستخدم
+                // User details
                 string sqlUser = @"
                     SELECT first_name, last_name, email, phone
                     FROM   users
