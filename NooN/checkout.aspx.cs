@@ -520,7 +520,11 @@ namespace NooN
                         // Commit only after every step succeeded.
                         tx.Commit();
 
-                        // Persist identifiers for the confirmation page.
+                        // Persist the authoritative amounts + identifiers for the confirmation page.
+                        Session["Subtotal"] = subtotal;
+                        Session["Discount"] = discount;
+                        Session["Tax"] = tax;
+                        Session["Total"] = total;
                         Session["TrackingNo"] = trackingNo;
                         Session["OrderNumber"] = orderNumber;
 
