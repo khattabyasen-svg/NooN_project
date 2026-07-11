@@ -667,7 +667,7 @@
                             ControlToValidate="txtCardNumber"
                             ErrorMessage="رقم البطاقة مطلوب"
                             CssClass="validation-error" Display="Dynamic"
-                            ValidationGroup="CardGroup" />
+                            ValidationGroup="OrderGroup" />
                     </div>
                     <div class="card-field-row">
                         <div class="form-group">
