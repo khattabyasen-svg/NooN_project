@@ -108,6 +108,26 @@ namespace NooN
                     litSku.Text = dr["sku"].ToString();
                     litCategory.Text = catName;
 
+                    // ── Product image gallery ──
+                    string prodName = Server.HtmlEncode(dr["name"].ToString());
+                    var imageUrls = ProductImage.AllUrls(dr["images"]);
+                    if (imageUrls.Count == 0)
+                        imageUrls.Add(ProductImage.Placeholder);
+
+                    litMainImage.Text =
+                        "<img id=\"galleryMainImg\" src=\"" + imageUrls[0] + "\" alt=\"" + prodName +
+                        "\" class=\"gallery-main-img\" onerror=\"this.onerror=null;this.src='" +
+                        ProductImage.Placeholder + "'\" />";
+
+                    var thumbs = new System.Text.StringBuilder();
+                    for (int i = 0; i < imageUrls.Count; i++)
+                    {
+                        thumbs.Append("<div class=\"gallery-thumb" + (i == 0 ? " active" : "") + "\">");
+                        thumbs.Append("<img src=\"" + imageUrls[i] + "\" data-full=\"" + imageUrls[i] + "\" alt=\"\" />");
+                        thumbs.Append("</div>");
+                    }
+                    litThumbs.Text = thumbs.ToString();
+
                     // ── Rating ──
                     double ratingAvg = dr["rating_avg"] != DBNull.Value ? Convert.ToDouble(dr["rating_avg"]) : 0;
                     int ratingCount = dr["rating_count"] != DBNull.Value ? Convert.ToInt32(dr["rating_count"]) : 0;
