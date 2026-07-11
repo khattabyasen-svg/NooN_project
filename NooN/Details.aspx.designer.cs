@@ -51,6 +51,24 @@ namespace NooN
         protected global::System.Web.UI.WebControls.Panel pnlDetail;
 
         /// <summary>
+        /// litMainImage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litMainImage;
+
+        /// <summary>
+        /// litThumbs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litThumbs;
+
+        /// <summary>
         /// litDiscBadge control.
         /// </summary>
         /// <remarks>
