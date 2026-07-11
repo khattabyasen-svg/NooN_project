@@ -139,7 +139,7 @@ namespace NooN
             }
         }
 
-        // استخراج أول صورة من الحقل
+        // Extract the first image from the field
         private string ParseFirstImage(string raw)
         {
             if (string.IsNullOrEmpty(raw)) return "images/placeholder.png";
