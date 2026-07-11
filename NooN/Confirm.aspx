@@ -34,7 +34,7 @@
                 CssClass="btn-primary" 
                 OnClick="btnContinueShopping_Click" />
 
-            <%-- زر التتبع (جافا سكريبت) --%>
+            <%-- Track-order button (JavaScript) --%>
             <asp:Button ID="btnTrackOrder" runat="server" 
                 Text="تتبع الطلب" 
                 CssClass="btn-secondary" 
