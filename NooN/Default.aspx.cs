@@ -202,26 +202,10 @@ namespace NooN
         /// </summary>
         protected string GetProductImage(object imagesObj)
         {
-            string images = imagesObj?.ToString() ?? "";
-
-            if (!string.IsNullOrWhiteSpace(images))
-            {
-                // Extract the first image from a simple JSON array without an external library.
-                string first = images.Trim();
-                if (first.StartsWith("["))
-                {
-                    // Remove [ ], whitespace and quotes.
-                    first = first.TrimStart('[').TrimEnd(']');
-                    int comma = first.IndexOf(',');
-                    if (comma > 0) first = first.Substring(0, comma);
-                    first = first.Trim().Trim('"').Trim('\'');
-                }
-
-                if (!string.IsNullOrWhiteSpace(first))
-                    return $"<img src='{ResolveUrl("~/" + first)}' alt='منتج' class='product-img' loading='lazy' />";
-            }
-
-            return "<span class='product-emoji'>🛍️</span>";
+            // Shared resolver returns a usable URL (or an inline placeholder).
+            // Double-quote the src so the placeholder data URI is always valid.
+            string url = ProductImage.FirstUrl(imagesObj);
+            return $"<img src=\"{url}\" alt='منتج' class='product-img' loading='lazy' />";
         }
 
         /// <summary>
