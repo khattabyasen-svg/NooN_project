@@ -693,7 +693,7 @@
                                 ControlToValidate="txtCVV"
                                 ErrorMessage="مطلوب"
                                 CssClass="validation-error" Display="Dynamic"
-                                ValidationGroup="CardGroup" />
+                                ValidationGroup="OrderGroup" />
                         </div>
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
