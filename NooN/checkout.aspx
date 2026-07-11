@@ -463,10 +463,10 @@
 
     <div class="checkout-layout" dir="rtl">
 
-        <%-- ════════ العمود الأيسر — الفورم ════════ --%>
+        <%-- ════════ Left column — the form ════════ --%>
         <div>
 
-            <%-- شريط الخطوات --%>
+            <%-- Step bar --%>
             <div class="checkout-step-bar">
                 <div class="checkout-step done">
                     <div class="step-circle">✓</div>
