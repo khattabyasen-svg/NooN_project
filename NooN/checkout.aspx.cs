@@ -24,7 +24,7 @@ namespace NooN
     // ── Page ───────────────────────────────────────────────────────────
     public partial class checkout : System.Web.UI.Page
     {
-        // ✅ اسم الـ Session واحد في كل مكان
+        // Single session key used everywhere.
         private const string SESSION_USER = "user_id";
 
         protected void Page_Load(object sender, EventArgs e)
