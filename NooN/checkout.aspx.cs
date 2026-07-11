@@ -122,13 +122,15 @@ namespace NooN
                 decimal subtotal = 0;
                 foreach (var item in items) subtotal += item.LineTotal;
 
-                decimal discount = subtotal * 0.10m;
+                decimal discountRate = 0.10m;   // base discount before any coupon
+                decimal discount = subtotal * discountRate;
                 decimal tax = (subtotal - discount) * 0.15m;
                 decimal total = subtotal - discount + tax;
 
                 // Store in Session
                 Session["CartItems"] = items;
                 Session["Subtotal"] = subtotal;
+                Session["DiscountRate"] = discountRate;
                 Session["Discount"] = discount;
                 Session["Tax"] = tax;
                 Session["Total"] = total;
