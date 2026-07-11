@@ -845,7 +845,7 @@
             });
         }
 
-        // تنسيق تاريخ الانتهاء
+        // Format the expiry date
         var expiryInput = document.getElementById('<%= txtExpiry.ClientID %>');
         if (expiryInput) {
             expiryInput.addEventListener('input', function () {
