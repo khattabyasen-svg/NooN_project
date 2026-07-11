@@ -758,7 +758,7 @@
                 </ItemTemplate>
             </asp:Repeater>
 
-            <%-- سلة فاضية --%>
+            <%-- Empty cart --%>
             <asp:Panel ID="pnlEmptyCart" runat="server" Visible="false">
                 <div class="empty-cart-msg">
                     <div class="empty-icon">🛒</div>
