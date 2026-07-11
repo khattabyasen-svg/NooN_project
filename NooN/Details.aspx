@@ -1003,12 +1003,15 @@
             var r = document.getElementById('<%= lblReviewMsg.ClientID %>');
             if (r && r.innerText.trim() !== '') showToast(r.innerText.trim());
 
-            // Gallery thumbs
+            // Gallery thumbs — swap the main image on click
             var thumbs = document.querySelectorAll('.gallery-thumb');
+            var mainImg = document.getElementById('galleryMainImg');
             thumbs.forEach(function (th) {
                 th.addEventListener('click', function () {
                     thumbs.forEach(function (t) { t.classList.remove('active'); });
                     th.classList.add('active');
+                    var im = th.querySelector('img');
+                    if (mainImg && im) mainImg.src = im.getAttribute('data-full') || im.src;
                 });
             });
 
