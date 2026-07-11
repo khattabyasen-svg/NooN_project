@@ -36,6 +36,14 @@ namespace NooN
 
                 LoadCartItems();
             }
+
+            // Card fields are only required when paying by card. This runs on every
+            // load (before validation) so it is enforced server-side, not just in JS.
+            bool payingByCard = hfPaymentMethod.Value == "card";
+            RFV_Card.Enabled = payingByCard;
+            RFV_Expiry.Enabled = payingByCard;
+            RFV_CVV.Enabled = payingByCard;
+            RFV_CardHolder.Enabled = payingByCard;
         }
 
         // ══════════════════════════════════════════════════════════════
