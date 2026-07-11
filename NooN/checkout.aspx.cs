@@ -316,7 +316,7 @@ namespace NooN
         }
 
         // ══════════════════════════════════════════════════════════════
-        //  حفظ الطلب كاملاً في DB
+        //  Save the whole order in a single transaction (all-or-nothing)
         // ══════════════════════════════════════════════════════════════
         private int SaveOrderToDb(
             string firstName, string lastName,
@@ -324,190 +324,187 @@ namespace NooN
             string city, string district,
             string address, string paymentMethod)
         {
-            try
+            using (var conn = new SqlConnection(Db.ConnectionString))
             {
-                string cs = Db.ConnectionString;
-
-                // ── 1. جيب أو أنشئ المستخدم ──
-                int userId = GetOrCreateUserId(cs, firstName, lastName, email, phone);
-
-                // ── 2. احفظ العنوان وخذ address_id ──
-                int addressId = SaveAddress(cs, userId, city, district, address);
-
-                // ── 3. اقرأ الأرقام من Session ──
-                decimal subtotal = Session["Subtotal"] != null ? (decimal)Session["Subtotal"] : 0;
-                decimal discount = Session["Discount"] != null ? (decimal)Session["Discount"] : 0;
-                decimal tax = Session["Tax"] != null ? (decimal)Session["Tax"] : 0;
-                decimal total = Session["Total"] != null ? (decimal)Session["Total"] : 0;
-                decimal shipping = 0;
-
-                // ── 4. رقم الطلب الفريد ──
-                string orderNumber = "ORD-" + DateTime.Now.ToString("yyyyMMdd-HHmmss");
-
-                // ── 5. INSERT orders ──
-                int orderId = 0;
-                string sqlOrder = @"
-                    INSERT INTO orders
-                        (user_id, address_id, coupon_id, order_number,
-                         status, subtotal, discount_amt, tax_amt,
-                         shipping_fee, total, notes, placed_at, updated_at)
-                    VALUES
-                        (@uid, @aid, NULL, @orderNum,
-                         'pending', @sub, @disc, @tax,
-                         @ship, @total, NULL, GETDATE(), GETDATE());
-                    SELECT SCOPE_IDENTITY();";
-
-                using (var conn = new SqlConnection(cs))
-                using (var cmd = new SqlCommand(sqlOrder, conn))
+                conn.Open();
+                using (var tx = conn.BeginTransaction())
                 {
-                    cmd.Parameters.AddWithValue("@uid", userId);
-                    cmd.Parameters.AddWithValue("@aid", addressId);
-                    cmd.Parameters.AddWithValue("@orderNum", orderNumber);
-                    cmd.Parameters.AddWithValue("@sub", subtotal);
-                    cmd.Parameters.AddWithValue("@disc", discount);
-                    cmd.Parameters.AddWithValue("@tax", tax);
-                    cmd.Parameters.AddWithValue("@ship", shipping);
-                    cmd.Parameters.AddWithValue("@total", total);
-                    conn.Open();
-                    orderId = Convert.ToInt32(cmd.ExecuteScalar());
-                }
-
-                if (orderId == 0) return 0;
-
-                // ── 6. INSERT order_items ──
-                var cartItems = Session["CartItems"] as List<CartItemDisplay>;
-                if (cartItems != null && cartItems.Count > 0)
-                {
-                    string sqlItem = @"
-                        INSERT INTO order_items
-                            (order_id, product_id, quantity,
-                             unit_price, color, size, subtotal)
-                        VALUES
-                            (@oid, @pid, @qty,
-                             @price, @color, @size, @itemSub)";
-
-                    using (var conn = new SqlConnection(cs))
+                    try
                     {
-                        conn.Open();
-                        foreach (var item in cartItems)
+                        // 1. Get or create the user.
+                        int userId = GetOrCreateUserId(conn, tx, firstName, lastName, email, phone);
+
+                        // 2. Save the address and take its address_id.
+                        int addressId = SaveAddress(conn, tx, userId, city, district, address);
+
+                        // 3. Read the amounts from Session.
+                        decimal subtotal = Session["Subtotal"] != null ? (decimal)Session["Subtotal"] : 0;
+                        decimal discount = Session["Discount"] != null ? (decimal)Session["Discount"] : 0;
+                        decimal tax = Session["Tax"] != null ? (decimal)Session["Tax"] : 0;
+                        decimal total = Session["Total"] != null ? (decimal)Session["Total"] : 0;
+                        decimal shipping = 0;
+
+                        // 4. Unique order number (millisecond precision to avoid collisions).
+                        string orderNumber = "ORD-" + DateTime.Now.ToString("yyyyMMdd-HHmmssfff");
+
+                        // 5. INSERT orders
+                        int orderId;
+                        string sqlOrder = @"
+                            INSERT INTO orders
+                                (user_id, address_id, coupon_id, order_number,
+                                 status, subtotal, discount_amt, tax_amt,
+                                 shipping_fee, total, notes, placed_at, updated_at)
+                            VALUES
+                                (@uid, @aid, NULL, @orderNum,
+                                 'pending', @sub, @disc, @tax,
+                                 @ship, @total, NULL, GETDATE(), GETDATE());
+                            SELECT SCOPE_IDENTITY();";
+
+                        using (var cmd = new SqlCommand(sqlOrder, conn, tx))
                         {
-                            using (var cmd = new SqlCommand(sqlItem, conn))
+                            cmd.Parameters.AddWithValue("@uid", userId);
+                            cmd.Parameters.AddWithValue("@aid", addressId);
+                            cmd.Parameters.AddWithValue("@orderNum", orderNumber);
+                            cmd.Parameters.AddWithValue("@sub", subtotal);
+                            cmd.Parameters.AddWithValue("@disc", discount);
+                            cmd.Parameters.AddWithValue("@tax", tax);
+                            cmd.Parameters.AddWithValue("@ship", shipping);
+                            cmd.Parameters.AddWithValue("@total", total);
+                            orderId = Convert.ToInt32(cmd.ExecuteScalar());
+                        }
+
+                        if (orderId == 0)
+                        {
+                            tx.Rollback();
+                            return 0;
+                        }
+
+                        // 6. INSERT order_items
+                        var cartItems = Session["CartItems"] as List<CartItemDisplay>;
+                        if (cartItems != null && cartItems.Count > 0)
+                        {
+                            string sqlItem = @"
+                                INSERT INTO order_items
+                                    (order_id, product_id, quantity,
+                                     unit_price, color, size, subtotal)
+                                VALUES
+                                    (@oid, @pid, @qty,
+                                     @price, @color, @size, @itemSub)";
+
+                            foreach (var item in cartItems)
                             {
-                                cmd.Parameters.AddWithValue("@oid", orderId);
-                                cmd.Parameters.AddWithValue("@pid", item.ProductId);
-                                cmd.Parameters.AddWithValue("@qty", item.Quantity);
-                                cmd.Parameters.AddWithValue("@price", item.UnitPrice);
-                                cmd.Parameters.AddWithValue("@itemSub", item.LineTotal);
-                                cmd.Parameters.AddWithValue("@color",
-                                    string.IsNullOrEmpty(item.Color)
-                                    ? (object)DBNull.Value : item.Color);
-                                cmd.Parameters.AddWithValue("@size",
-                                    string.IsNullOrEmpty(item.Size)
-                                    ? (object)DBNull.Value : item.Size);
+                                using (var cmd = new SqlCommand(sqlItem, conn, tx))
+                                {
+                                    cmd.Parameters.AddWithValue("@oid", orderId);
+                                    cmd.Parameters.AddWithValue("@pid", item.ProductId);
+                                    cmd.Parameters.AddWithValue("@qty", item.Quantity);
+                                    cmd.Parameters.AddWithValue("@price", item.UnitPrice);
+                                    cmd.Parameters.AddWithValue("@itemSub", item.LineTotal);
+                                    cmd.Parameters.AddWithValue("@color",
+                                        string.IsNullOrEmpty(item.Color)
+                                        ? (object)DBNull.Value : item.Color);
+                                    cmd.Parameters.AddWithValue("@size",
+                                        string.IsNullOrEmpty(item.Size)
+                                        ? (object)DBNull.Value : item.Size);
+                                    cmd.ExecuteNonQuery();
+                                }
+                            }
+                        }
+
+                        // 7. INSERT payments
+                        string dbMethod;
+                        if (paymentMethod == "apple") dbMethod = "wallet";
+                        else if (paymentMethod == "cash") dbMethod = "cod";
+                        else dbMethod = "card";
+
+                        string sqlPayment = @"
+                            INSERT INTO payments
+                                (order_id, method, status, amount, created_at)
+                            VALUES
+                                (@oid, @method, 'pending', @amount, GETDATE())";
+
+                        using (var cmd = new SqlCommand(sqlPayment, conn, tx))
+                        {
+                            cmd.Parameters.AddWithValue("@oid", orderId);
+                            cmd.Parameters.AddWithValue("@method", dbMethod);
+                            cmd.Parameters.AddWithValue("@amount", total);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // 8. INSERT shipments
+                        string trackingNo = "TRK-" + DateTime.Now.ToString("yyyyMMdd")
+                                          + "-" + orderId.ToString("D6");
+
+                        string sqlShipment = @"
+                            INSERT INTO shipments
+                                (order_id, address_id, status, est_delivery, tracking_no)
+                            VALUES
+                                (@oid, @aid, 'pending', @est, @tracking)";
+
+                        using (var cmd = new SqlCommand(sqlShipment, conn, tx))
+                        {
+                            cmd.Parameters.AddWithValue("@oid", orderId);
+                            cmd.Parameters.AddWithValue("@aid", addressId);
+                            cmd.Parameters.AddWithValue("@tracking", trackingNo);
+                            cmd.Parameters.AddWithValue("@est",
+                                DateTime.Now.AddDays(3).ToString("yyyy-MM-dd"));
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // 9. Clear the cart after ordering.
+                        if (Session[SESSION_USER] != null)
+                        {
+                            string sqlClear = @"
+                                DELETE ci
+                                FROM   cart_items ci
+                                JOIN   carts      c ON c.cart_id = ci.cart_id
+                                WHERE  c.user_id = @uid";
+
+                            using (var cmd = new SqlCommand(sqlClear, conn, tx))
+                            {
+                                cmd.Parameters.AddWithValue("@uid", (int)Session[SESSION_USER]);
                                 cmd.ExecuteNonQuery();
                             }
                         }
+
+                        // Commit only after every step succeeded.
+                        tx.Commit();
+
+                        // Persist identifiers for the confirmation page.
+                        Session["TrackingNo"] = trackingNo;
+                        Session["OrderNumber"] = orderNumber;
+
+                        return orderId;
                     }
-                }
-
-                // ── 7. INSERT payments ──
-                string dbMethod;
-                if (paymentMethod == "apple") dbMethod = "wallet";
-                else if (paymentMethod == "cash") dbMethod = "cod";
-                else dbMethod = "card";
-
-                string sqlPayment = @"
-                    INSERT INTO payments
-                        (order_id, method, status, amount, created_at)
-                    VALUES
-                        (@oid, @method, 'pending', @amount, GETDATE())";
-
-                using (var conn = new SqlConnection(cs))
-                using (var cmd = new SqlCommand(sqlPayment, conn))
-                {
-                    cmd.Parameters.AddWithValue("@oid", orderId);
-                    cmd.Parameters.AddWithValue("@method", dbMethod);
-                    cmd.Parameters.AddWithValue("@amount", total);
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
-
-                // ── 8. INSERT shipments ──
-                string trackingNo = "TRK-" + DateTime.Now.ToString("yyyyMMdd")
-                                  + "-" + orderId.ToString("D6");
-
-                string sqlShipment = @"
-                INSERT INTO shipments
-                    (order_id, address_id, status, est_delivery, tracking_no)
-                VALUES
-                    (@oid, @aid, 'pending', @est, @tracking)";
-
-                using (var conn = new SqlConnection(cs))
-                using (var cmd = new SqlCommand(sqlShipment, conn))
-                {
-                    cmd.Parameters.AddWithValue("@oid", orderId);
-                    cmd.Parameters.AddWithValue("@aid", addressId);
-                    cmd.Parameters.AddWithValue("@tracking", trackingNo);
-                    cmd.Parameters.AddWithValue("@est",
-                        DateTime.Now.AddDays(3).ToString("yyyy-MM-dd"));
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
-
-                // احفظ رقم التتبع في Session
-                Session["TrackingNo"] = trackingNo;
-
-                // ── 9. حذف السلة بعد الطلب ──
-                // ✅ نفس اسم الـ Session في كل مكان
-                if (Session[SESSION_USER] != null)
-                {
-                    string sqlClear = @"
-                        DELETE ci
-                        FROM   cart_items ci
-                        JOIN   carts      c ON c.cart_id = ci.cart_id
-                        WHERE  c.user_id = @uid";
-
-                    using (var conn = new SqlConnection(cs))
-                    using (var cmd = new SqlCommand(sqlClear, conn))
+                    catch (Exception ex)
                     {
-                        cmd.Parameters.AddWithValue("@uid", (int)Session[SESSION_USER]);
-                        conn.Open();
-                        cmd.ExecuteNonQuery();
+                        // Roll back so a partial order is never left behind.
+                        try { tx.Rollback(); } catch { /* connection already gone */ }
+                        System.Diagnostics.Debug.WriteLine("SaveOrderToDb: " + ex);
+                        return 0;
                     }
                 }
-
-                // ── 10. احفظ رقم الطلب في Session ──
-                Session["OrderNumber"] = orderNumber;
-
-                return orderId;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("SaveOrderToDb: " + ex.Message);
-                return 0;
             }
         }
 
         // ══════════════════════════════════════════════════════════════
-        //  Helper — جيب أو أنشئ المستخدم
+        //  Helper — get or create the user (within the order transaction)
         // ══════════════════════════════════════════════════════════════
         private int GetOrCreateUserId(
-            string cs,
+            SqlConnection conn, SqlTransaction tx,
             string firstName, string lastName,
             string email, string phone)
         {
-            // ✅ نفس اسم الـ Session
+            // Logged-in user: reuse the session id.
             if (Session[SESSION_USER] != null)
                 return (int)Session[SESSION_USER];
 
-            string sqlFind = "SELECT user_id FROM users WHERE email = @email";
-            using (var conn = new SqlConnection(cs))
-            using (var cmd = new SqlCommand(sqlFind, conn))
+            using (var cmd = new SqlCommand(
+                "SELECT user_id FROM users WHERE email = @email", conn, tx))
             {
                 cmd.Parameters.AddWithValue("@email", email);
-                conn.Open();
                 object res = cmd.ExecuteScalar();
-                if (res != null) return Convert.ToInt32(res);
+                if (res != null && res != DBNull.Value) return Convert.ToInt32(res);
             }
 
             string sqlInsert = @"
@@ -521,8 +518,7 @@ namespace NooN
                      GETDATE(), GETDATE());
                 SELECT SCOPE_IDENTITY();";
 
-            using (var conn = new SqlConnection(cs))
-            using (var cmd = new SqlCommand(sqlInsert, conn))
+            using (var cmd = new SqlCommand(sqlInsert, conn, tx))
             {
                 cmd.Parameters.AddWithValue("@fn", firstName);
                 cmd.Parameters.AddWithValue("@ln", lastName);
@@ -531,19 +527,18 @@ namespace NooN
                 // Guest checkout account: no chosen password, so store an unusable
                 // random hash. The user can set a real password later via reset.
                 cmd.Parameters.AddWithValue("@pw", PasswordHasher.Hash(Guid.NewGuid().ToString("N")));
-                conn.Open();
                 return Convert.ToInt32(cmd.ExecuteScalar());
             }
         }
 
         // ══════════════════════════════════════════════════════════════
-        //  Helper — احفظ العنوان
+        //  Helper — save the address (within the order transaction)
         // ══════════════════════════════════════════════════════════════
         private int SaveAddress(
-            string cs, int userId,
+            SqlConnection conn, SqlTransaction tx, int userId,
             string city, string district, string street)
         {
-            // تحقق إذا العنوان موجود مسبقاً
+            // Reuse the address if it already exists.
             string sqlFind = @"
                 SELECT TOP 1 address_id
                 FROM   addresses
@@ -552,19 +547,17 @@ namespace NooN
                   AND  district = @district
                   AND  street   = @street";
 
-            using (var conn = new SqlConnection(cs))
-            using (var cmd = new SqlCommand(sqlFind, conn))
+            using (var cmd = new SqlCommand(sqlFind, conn, tx))
             {
                 cmd.Parameters.AddWithValue("@uid", userId);
                 cmd.Parameters.AddWithValue("@city", city);
                 cmd.Parameters.AddWithValue("@district", district);
                 cmd.Parameters.AddWithValue("@street", street);
-                conn.Open();
                 object res = cmd.ExecuteScalar();
-                if (res != null) return Convert.ToInt32(res);
+                if (res != null && res != DBNull.Value) return Convert.ToInt32(res);
             }
 
-            // أنشئ عنوان جديد
+            // Otherwise create a new address.
             string sqlInsert = @"
                 INSERT INTO addresses
                     (user_id, label, city, district, street, is_default)
@@ -572,14 +565,12 @@ namespace NooN
                     (@uid, 'home', @city, @district, @street, 0);
                 SELECT SCOPE_IDENTITY();";
 
-            using (var conn = new SqlConnection(cs))
-            using (var cmd = new SqlCommand(sqlInsert, conn))
+            using (var cmd = new SqlCommand(sqlInsert, conn, tx))
             {
                 cmd.Parameters.AddWithValue("@uid", userId);
                 cmd.Parameters.AddWithValue("@city", city);
                 cmd.Parameters.AddWithValue("@district", district);
                 cmd.Parameters.AddWithValue("@street", street);
-                conn.Open();
                 return Convert.ToInt32(cmd.ExecuteScalar());
             }
         }
