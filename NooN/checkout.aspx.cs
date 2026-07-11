@@ -349,12 +349,54 @@ namespace NooN
                         // 2. Save the address and take its address_id.
                         int addressId = SaveAddress(conn, tx, userId, city, district, address);
 
-                        // 3. Read the amounts from Session.
-                        decimal subtotal = Session["Subtotal"] != null ? (decimal)Session["Subtotal"] : 0;
-                        decimal discount = Session["Discount"] != null ? (decimal)Session["Discount"] : 0;
-                        decimal tax = Session["Tax"] != null ? (decimal)Session["Tax"] : 0;
-                        decimal total = Session["Total"] != null ? (decimal)Session["Total"] : 0;
+                        // 3. Recompute the cart and totals authoritatively from the DB.
+                        //    Session totals are only for display — they can be stale or
+                        //    lost, so the saved order must not depend on them.
+                        var orderItems = new List<CartItemDisplay>();
+                        decimal subtotal = 0;
+
+                        string sqlCart = @"
+                            SELECT ci.product_id, p.price,
+                                   ci.quantity, ci.color, ci.size
+                            FROM   cart_items ci
+                            JOIN   carts    c ON c.cart_id    = ci.cart_id
+                            JOIN   products p ON p.product_id = ci.product_id
+                            WHERE  c.user_id = @uid AND p.status = 'active'";
+
+                        using (var cmd = new SqlCommand(sqlCart, conn, tx))
+                        {
+                            cmd.Parameters.AddWithValue("@uid", userId);
+                            using (var dr = cmd.ExecuteReader())
+                            {
+                                while (dr.Read())
+                                {
+                                    var item = new CartItemDisplay
+                                    {
+                                        ProductId = Convert.ToInt32(dr["product_id"]),
+                                        UnitPrice = Convert.ToDecimal(dr["price"]),
+                                        Quantity = Convert.ToInt32(dr["quantity"]),
+                                        Color = dr["color"] == DBNull.Value ? "" : dr["color"].ToString(),
+                                        Size = dr["size"] == DBNull.Value ? "" : dr["size"].ToString()
+                                    };
+                                    orderItems.Add(item);
+                                    subtotal += item.LineTotal;
+                                }
+                            }
+                        }
+
+                        // Nothing left to order (empty or already-cleared cart).
+                        if (orderItems.Count == 0)
+                        {
+                            tx.Rollback();
+                            return 0;
+                        }
+
+                        decimal discountRate = Session["DiscountRate"] != null
+                            ? (decimal)Session["DiscountRate"] : 0.10m;
+                        decimal discount = subtotal * discountRate;
                         decimal shipping = 0;
+                        decimal tax = (subtotal - discount) * 0.15m;
+                        decimal total = subtotal - discount + tax;
 
                         // 4. Unique order number (millisecond precision to avoid collisions).
                         string orderNumber = "ORD-" + DateTime.Now.ToString("yyyyMMdd-HHmmssfff");
