@@ -835,7 +835,7 @@
             (method === 'card') ? 'block' : 'none';
     });
 
-        // تنسيق رقم البطاقة
+        // Format the card number
         var cardInput = document.getElementById('<%= txtCardNumber.ClientID %>');
         if (cardInput) {
             cardInput.addEventListener('input', function () {
