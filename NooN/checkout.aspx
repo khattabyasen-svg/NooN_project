@@ -495,7 +495,7 @@
                 Visible="false"
                 Style="font-size: 14px; margin-bottom: 12px; display: block; padding: 10px; background: #fff0f0; border-radius: 8px;" />
 
-            <%-- ══ قسم معلومات التوصيل ══ --%>
+            <%-- ══ Delivery information section ══ --%>
             <div class="form-section">
                 <div class="form-section-title">
                     <span class="form-section-num">1</span>
