@@ -726,7 +726,7 @@
         <div class="order-summary-sticky">
             <div class="summary-title">🛍 ملخص الطلب</div>
 
-            <%-- Repeater منتجات السلة --%>
+            <%-- Cart items repeater --%>
             <asp:Repeater ID="rptCartItems" runat="server">
                 <ItemTemplate>
                     <div class="order-item-mini">
