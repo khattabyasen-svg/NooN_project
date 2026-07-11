@@ -766,7 +766,7 @@
                 </div>
             </asp:Panel>
 
-            <%-- كوبون --%>
+            <%-- Coupon --%>
             <div class="summary-divider" style="margin-top: 16px;"></div>
             <div class="coupon-box">
                 <asp:TextBox ID="txtCoupon" runat="server"
