@@ -28,7 +28,7 @@
         </div>
 
         <div class="confirm-actions">
-            <%-- زر العودة للرئيسية (سيرفري) --%>
+            <%-- Continue-shopping button (server-side) --%>
             <asp:Button ID="btnContinueShopping" runat="server" 
                 Text="← متابعة التسوق" 
                 CssClass="btn-primary" 
