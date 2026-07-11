@@ -714,15 +714,12 @@
             <%-- Gallery --%>
             <div class="gallery-wrap">
                 <div class="gallery-main">
-                    <span id="mainEmoji">🛍</span>
+                    <asp:Literal ID="litMainImage" runat="server" />
                     <asp:Literal ID="litDiscBadge" runat="server" />
                     <asp:Literal ID="litStatusBadge" runat="server" />
                 </div>
                 <div class="gallery-thumbs">
-                    <div class="gallery-thumb active">🛍</div>
-                    <div class="gallery-thumb">📦</div>
-                    <div class="gallery-thumb">🎁</div>
-                    <div class="gallery-thumb">⭐</div>
+                    <asp:Literal ID="litThumbs" runat="server" />
                 </div>
             </div>
 
