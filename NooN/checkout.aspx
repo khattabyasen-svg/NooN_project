@@ -654,7 +654,7 @@
 
                 <asp:HiddenField ID="hfPaymentMethod" runat="server" Value="card" />
 
-                <%-- حقول البطاقة --%>
+                <%-- Card fields --%>
                 <div class="card-fields" id="cardSection">
                     <div class="form-group">
                         <label class="form-label">رقم البطاقة</label>
