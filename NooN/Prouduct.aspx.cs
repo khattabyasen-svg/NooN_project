@@ -433,33 +433,9 @@ namespace NooN
         // ═══════════════════════════════════════════
         protected string GetFirstImage(object images)
         {
-            const string placeholder = "~/images/no-image.png";
-
-            if (images == null || images == DBNull.Value)
-                return ResolveUrl(placeholder);
-
-            string raw = images.ToString().Trim();
-            if (string.IsNullOrEmpty(raw))
-                return ResolveUrl(placeholder);
-
-            // JSON array ["img1.jpg","img2.jpg"]
-            if (raw.StartsWith("["))
-            {
-                int start = raw.IndexOf('"');
-                int end = raw.IndexOf('"', start + 1);
-                if (start >= 0 && end > start)
-                {
-                    string first = raw.Substring(start + 1, end - start - 1).Trim();
-                    return string.IsNullOrEmpty(first) ? ResolveUrl(placeholder) : first;
-                }
-            }
-
-            // مفصول بفاصلة
-            if (raw.Contains(","))
-                return raw.Split(',')[0].Trim();
-
-            // مسار واحد
-            return raw;
+            // Shared resolver handles single paths, CSV lists and JSON arrays,
+            // and returns an inline placeholder when there is no image.
+            return ProductImage.FirstUrl(images);
         }
 
         // ═══════════════════════════════════════════
