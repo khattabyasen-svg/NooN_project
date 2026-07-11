@@ -46,7 +46,7 @@ namespace NooN
                 p.product_id, p.name, p.description,
                 p.price, p.old_price, p.discount_pct,
                 p.brand, p.sku, p.rating_avg, p.rating_count,
-                p.status, p.available_colors, p.available_sizes,
+                p.status, p.available_colors, p.available_sizes, p.images,
                 ISNULL(c.name_ar, N'بدون فئة') AS category_name
             FROM products p
             LEFT JOIN product_categories c ON p.category_id = c.category_id
