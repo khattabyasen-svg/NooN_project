@@ -15,11 +15,13 @@ namespace NooN
         /// Inline SVG placeholder used when a product has no image. It is a data
         /// URI, so it never hits the network and can never 404 or loop.
         /// </summary>
+        // Quotes are percent-encoded (%22) so the URI contains no raw quote
+        // characters and stays valid inside single- or double-quoted attributes.
         public const string Placeholder =
-            "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E" +
-            "%3Crect width='400' height='300' fill='%23eeeeee'/%3E" +
-            "%3Cpath d='M120 210l55-55 35 35 45-45 65 65v20H120z' fill='%23cccccc'/%3E" +
-            "%3Ccircle cx='160' cy='120' r='22' fill='%23cccccc'/%3E%3C/svg%3E";
+            "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%22400%22%20height=%22300%22%3E" +
+            "%3Crect%20width=%22400%22%20height=%22300%22%20fill=%22%23eeeeee%22/%3E" +
+            "%3Cpath%20d=%22M120%20210l55-55%2035%2035%2045-45%2065%2065v20H120z%22%20fill=%22%23cccccc%22/%3E" +
+            "%3Ccircle%20cx=%22160%22%20cy=%22120%22%20r=%2222%22%20fill=%22%23cccccc%22/%3E%3C/svg%3E";
 
         /// <summary>
         /// Returns a usable URL for the first image of a product, or the inline
