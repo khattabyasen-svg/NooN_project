@@ -615,7 +615,7 @@
                 </div>
             </div>
 
-            <%-- ══ قسم طريقة الدفع ══ --%>
+            <%-- ══ Payment method section ══ --%>
             <div class="form-section">
                 <div class="form-section-title">
                     <span class="form-section-num">2</span>
