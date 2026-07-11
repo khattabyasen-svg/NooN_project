@@ -23,8 +23,8 @@
 
         <div class="delivery-card">
             <div style="font-size:13px;color:var(--text-muted);margin-bottom:8px;">موعد التوصيل المتوقع</div>
-            <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--text-primary);">الأحد - الثلاثاء، 2-4 مارس 2026</div>
-            <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">التوصيل إلى: حي النزهة، الرياض</div>
+            <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--text-primary);"><asp:Literal ID="litDeliveryDate" runat="server" /></div>
+            <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">التوصيل إلى: <asp:Literal ID="litDeliveryTo" runat="server" /></div>
         </div>
 
         <div class="confirm-actions">
