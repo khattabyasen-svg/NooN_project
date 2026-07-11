@@ -733,7 +733,7 @@
                         <div class="order-item-img">
                             <img src='<%# Eval("ImageUrl") %>'
                                 alt='<%# Eval("ProductName") %>'
-                                onerror="this.src='images/placeholder.png'" />
+                                onerror="imgFallback(this)" />
                         </div>
                         <div style="flex: 1; min-width: 0;">
                             <div class="order-item-name">
