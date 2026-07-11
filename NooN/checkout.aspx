@@ -489,7 +489,7 @@
                 </div>
             </div>
 
-            <%-- رسالة خطأ عامة --%>
+            <%-- General error message --%>
             <asp:Label ID="lblError" runat="server"
                 CssClass="validation-error"
                 Visible="false"
