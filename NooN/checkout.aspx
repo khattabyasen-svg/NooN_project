@@ -818,6 +818,14 @@
 
     <script src='<%= ResolveUrl("~/Scripts/shared.js") %>'></script>
     <script>
+        // Image fallback for a missing product image. Clears onerror first so a
+        // missing placeholder can never re-trigger it (which caused an infinite
+        // request loop), then swaps to an inline SVG that never hits the network.
+        function imgFallback(img) {
+            img.onerror = null;
+            img.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Crect width='44' height='44' fill='%23eeeeee'/%3E%3Cpath d='M11 31l7-7 4 4 5-5 6 6v2H11z' fill='%23c9c9c9'/%3E%3Ccircle cx='17' cy='17' r='3' fill='%23c9c9c9'/%3E%3C/svg%3E";
+        }
+
         // Card validators — only enforced when paying by card.
         var cardValidatorIds = [
             '<%= RFV_Card.ClientID %>',
