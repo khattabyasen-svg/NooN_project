@@ -96,6 +96,20 @@
             overflow: hidden;
         }
 
+        .gallery-main-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: inherit;
+        }
+
         .gallery-badge {
             position: absolute;
             top: 14px;
