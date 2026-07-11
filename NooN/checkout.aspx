@@ -680,7 +680,7 @@
                                 ControlToValidate="txtExpiry"
                                 ErrorMessage="مطلوب"
                                 CssClass="validation-error" Display="Dynamic"
-                                ValidationGroup="CardGroup" />
+                                ValidationGroup="OrderGroup" />
                         </div>
                         <div class="form-group">
                             <label class="form-label">CVV</label>
