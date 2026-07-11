@@ -722,7 +722,7 @@
             </div>
         </div>
 
-        <%-- ════════ العمود الأيمن — ملخص الطلب ════════ --%>
+        <%-- ════════ Right column — order summary ════════ --%>
         <div class="order-summary-sticky">
             <div class="summary-title">🛍 ملخص الطلب</div>
 
