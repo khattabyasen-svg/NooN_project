@@ -219,7 +219,7 @@ namespace NooN
         }
 
         // ══════════════════════════════════════════════════════════════
-        //  زر تأكيد الطلب
+        //  Place order button
         // ══════════════════════════════════════════════════════════════
         protected void btnPlaceOrder_Click(object sender, EventArgs e)
         {
@@ -249,15 +249,18 @@ namespace NooN
                     firstName, lastName, phone, email,
                     city, district, address, paymentMethod);
 
-                if (orderId > 0)
-                    Session["OrderId"] = orderId;
+                // Only proceed to confirmation if the order actually saved.
+                if (orderId <= 0)
+                {
+                    lblError.Text = "تعذّر إتمام الطلب، يرجى المحاولة مجدداً.";
+                    lblError.Visible = true;
+                    return;
+                }
 
-                // ✅ false يمنع ThreadAbortException
+                Session["OrderId"] = orderId;
+
+                // endResponse:false avoids a ThreadAbortException.
                 Response.Redirect("Confirm.aspx", false);
-            }
-            catch (System.Threading.ThreadAbortException)
-            {
-                // ✅ طبيعي مع Redirect — تجاهله
             }
             catch (Exception ex)
             {
@@ -267,8 +270,10 @@ namespace NooN
                 lblError.Text = "تعذّر إتمام الطلب، يرجى المحاولة مجدداً.";
                 lblError.Visible = true;
             }
-        }        // ══════════════════════════════════════════════════════════════
-        //  كوبون الخصم
+        }
+
+        // ══════════════════════════════════════════════════════════════
+        //  Discount coupon
         // ══════════════════════════════════════════════════════════════
         protected void btnApplyCoupon_Click(object sender, EventArgs e)
         {
