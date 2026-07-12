@@ -80,7 +80,7 @@
                     </asp:Panel>
 
                     <div class="products-grid">
-                        <asp:Repeater ID="rptProducts" runat="server" OnItemCommand="rptProducts_ItemCommand">
+                        <asp:Repeater ID="rptProducts" runat="server">
                             <ItemTemplate>
                                 <div class="product-card"
                                     onclick="location.href='Details.aspx?id=<%# Eval("product_id") %>'">
