@@ -966,10 +966,21 @@
             return ok;
         }
 
-        // ── Wishlist ──
-        function wishToggle(btn) {
-            btn.innerText = btn.innerText === '🤍' ? '❤️' : '🤍';
-            showToast(btn.innerText === '❤️' ? 'أُضيف إلى المفضلة ❤️' : 'حُذف من المفضلة');
+        // ── Add to cart (AJAX) ──
+        // Validates the selected options, then posts to ShopService.ashx via
+        // the shared noonShop helper. The page never reloads.
+        function detailsAddToCart(btn) {
+            if (!validateCart()) return;
+
+            var qtyHf = document.getElementById('<%= hfQty.ClientID %>');
+            var colorHf = document.getElementById('<%= hfColor.ClientID %>');
+            var sizeHf = document.getElementById('<%= hfSize.ClientID %>');
+
+            noonShop.addToCart(btn, {
+                quantity: qtyHf ? qtyHf.value : 1,
+                color: colorHf ? colorHf.value.trim() : '',
+                size: sizeHf ? sizeHf.value.trim() : ''
+            });
         }
 
         // ── Toast ──
