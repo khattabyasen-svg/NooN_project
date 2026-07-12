@@ -520,7 +520,7 @@ namespace NooN
                             cmd.ExecuteNonQuery();
                         }
 
-                        // 8. INSERT shipments
+                        // 9. INSERT shipments
                         string trackingNo = "TRK-" + DateTime.Now.ToString("yyyyMMdd")
                                           + "-" + orderId.ToString("D6");
 
