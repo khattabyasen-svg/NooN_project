@@ -120,7 +120,6 @@
             <Triggers>
                 <asp:AsyncPostBackTrigger ControlID="btnApplyFilter" EventName="Click" />
                 <asp:AsyncPostBackTrigger ControlID="ddlSort"        EventName="SelectedIndexChanged" />
-                <asp:AsyncPostBackTrigger ControlID="rptProducts"    EventName="ItemCommand" />
             </Triggers>
         </asp:UpdatePanel>
 
