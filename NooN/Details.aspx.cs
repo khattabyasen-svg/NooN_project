@@ -158,7 +158,8 @@ namespace NooN
                     else if (status == "out_of_stock")
                         litStatusBadge.Text = "<span class='gallery-status status-out_of_stock'>غير متوفر</span>";
 
-                    btnAddToCart.Enabled = (status == "active");
+                    btnAddToCart.Disabled = (status != "active");
+                    btnAddToCart.Attributes["data-pid"] = _productId.ToString();
 
                     // ── Price ──
                     decimal price = Convert.ToDecimal(dr["price"]);
