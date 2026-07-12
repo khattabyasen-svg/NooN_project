@@ -158,7 +158,29 @@ namespace NooN
                     else cartId = Convert.ToInt32(res);
                 }
 
-                // 2) Upsert the item — ISNULL so NULL color/size compare correctly.
+                // 2) Stock check — the requested quantity plus what is already
+                //    in the cart (all color/size variants share one inventory
+                //    row) must not exceed the available stock.
+                int inCartQty;
+                using (SqlCommand cmdInCart = new SqlCommand(@"
+                    SELECT ISNULL(SUM(quantity), 0)
+                    FROM cart_items
+                    WHERE cart_id = @cartId AND product_id = @pid", conn))
+                {
+                    cmdInCart.Parameters.AddWithValue("@cartId", cartId);
+                    cmdInCart.Parameters.AddWithValue("@pid", productId);
+                    inCartQty = Convert.ToInt32(cmdInCart.ExecuteScalar());
+                }
+
+                if (inCartQty + qty > stockQty)
+                {
+                    int remaining = stockQty - inCartQty;
+                    return Fail(remaining > 0
+                        ? "لا يوجد مخزون كافٍ — المتبقي " + remaining + " فقط ولديك " + inCartQty + " في السلة."
+                        : "لقد أضفت كامل الكمية المتوفرة من هذا المنتج إلى سلتك.");
+                }
+
+                // 3) Upsert the item — ISNULL so NULL color/size compare correctly.
                 using (SqlCommand cmdItem = new SqlCommand(@"
                     IF EXISTS (
                         SELECT 1 FROM cart_items
