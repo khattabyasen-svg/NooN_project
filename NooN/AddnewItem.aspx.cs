@@ -213,6 +213,10 @@ namespace NooN
         // الإدخال باستخدام ADO.NET مع باراميترات (آمن ضد الـ SQL Injection)
         private int InsertProduct(string imagesCsv, string colors, string sizes)
         {
+            int stockQty = 0;
+            if (!string.IsNullOrWhiteSpace(txtStockQty.Text))
+                stockQty = int.Parse(txtStockQty.Text);
+
             string sql = @"
                 INSERT INTO products
                     (category_id, name, slug, description, price, old_price,
@@ -225,29 +229,59 @@ namespace NooN
                      @available_colors, @available_sizes);";
 
             using (SqlConnection conn = new SqlConnection(connStr))
-            using (SqlCommand cmd = new SqlCommand(sql, conn))
             {
-                cmd.Parameters.AddWithValue("@category_id", int.Parse(ddlCategory.SelectedValue));
-                cmd.Parameters.AddWithValue("@name", txtName.Text.Trim());
-                cmd.Parameters.AddWithValue("@slug", txtSlug.Text.Trim());
-                cmd.Parameters.AddWithValue("@description",
-                    string.IsNullOrWhiteSpace(txtDescription.Text) ? (object)DBNull.Value : txtDescription.Text.Trim());
-                cmd.Parameters.AddWithValue("@price", decimal.Parse(txtPrice.Text));
-                cmd.Parameters.AddWithValue("@old_price",
-                    string.IsNullOrWhiteSpace(txtOldPrice.Text) ? (object)DBNull.Value : decimal.Parse(txtOldPrice.Text));
-                cmd.Parameters.AddWithValue("@discount_pct",
-                    string.IsNullOrWhiteSpace(txtDiscount.Text) ? 0 : decimal.Parse(txtDiscount.Text));
-                cmd.Parameters.AddWithValue("@brand",
-                    string.IsNullOrWhiteSpace(txtBrand.Text) ? (object)DBNull.Value : txtBrand.Text.Trim());
-                cmd.Parameters.AddWithValue("@sku", txtSKU.Text.Trim());
-                cmd.Parameters.AddWithValue("@images", (object)imagesCsv ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@status", "active");
-                cmd.Parameters.AddWithValue("@available_colors", (object)colors ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@available_sizes", (object)sizes ?? DBNull.Value);
-
                 conn.Open();
-                // OUTPUT INSERTED.product_id يرجع رقم المنتج الجديد
-                return (int)cmd.ExecuteScalar();
+
+                // Product + inventory row must be created together (all-or-nothing).
+                using (SqlTransaction tx = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        int newId;
+                        using (SqlCommand cmd = new SqlCommand(sql, conn, tx))
+                        {
+                            cmd.Parameters.AddWithValue("@category_id", int.Parse(ddlCategory.SelectedValue));
+                            cmd.Parameters.AddWithValue("@name", txtName.Text.Trim());
+                            cmd.Parameters.AddWithValue("@slug", txtSlug.Text.Trim());
+                            cmd.Parameters.AddWithValue("@description",
+                                string.IsNullOrWhiteSpace(txtDescription.Text) ? (object)DBNull.Value : txtDescription.Text.Trim());
+                            cmd.Parameters.AddWithValue("@price", decimal.Parse(txtPrice.Text));
+                            cmd.Parameters.AddWithValue("@old_price",
+                                string.IsNullOrWhiteSpace(txtOldPrice.Text) ? (object)DBNull.Value : decimal.Parse(txtOldPrice.Text));
+                            cmd.Parameters.AddWithValue("@discount_pct",
+                                string.IsNullOrWhiteSpace(txtDiscount.Text) ? 0 : decimal.Parse(txtDiscount.Text));
+                            cmd.Parameters.AddWithValue("@brand",
+                                string.IsNullOrWhiteSpace(txtBrand.Text) ? (object)DBNull.Value : txtBrand.Text.Trim());
+                            cmd.Parameters.AddWithValue("@sku", txtSKU.Text.Trim());
+                            cmd.Parameters.AddWithValue("@images", (object)imagesCsv ?? DBNull.Value);
+                            cmd.Parameters.AddWithValue("@status", stockQty > 0 ? "active" : "out_of_stock");
+                            cmd.Parameters.AddWithValue("@available_colors", (object)colors ?? DBNull.Value);
+                            cmd.Parameters.AddWithValue("@available_sizes", (object)sizes ?? DBNull.Value);
+
+                            // OUTPUT INSERTED.product_id يرجع رقم المنتج الجديد
+                            newId = (int)cmd.ExecuteScalar();
+                        }
+
+                        using (SqlCommand invCmd = new SqlCommand(@"
+                            INSERT INTO inventory
+                                (product_id, available_qty, reserved_qty, sold_qty, reorder_level, updated_at)
+                            VALUES
+                                (@pid, @qty, 0, 0, 5, GETDATE());", conn, tx))
+                        {
+                            invCmd.Parameters.AddWithValue("@pid", newId);
+                            invCmd.Parameters.AddWithValue("@qty", stockQty);
+                            invCmd.ExecuteNonQuery();
+                        }
+
+                        tx.Commit();
+                        return newId;
+                    }
+                    catch
+                    {
+                        tx.Rollback();
+                        throw;
+                    }
+                }
             }
         }
 
