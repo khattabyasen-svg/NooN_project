@@ -257,7 +257,7 @@ namespace NooN
                 // Only proceed to confirmation if the order actually saved.
                 if (orderId <= 0)
                 {
-                    lblError.Text = "تعذّر إتمام الطلب، يرجى المحاولة مجدداً.";
+                    lblError.Text = _orderError ?? "تعذّر إتمام الطلب، يرجى المحاولة مجدداً.";
                     lblError.Visible = true;
                     return;
                 }
