@@ -27,6 +27,10 @@ namespace NooN
         // Single session key used everywhere.
         private const string SESSION_USER = "user_id";
 
+        // Specific reason a save failed (e.g. insufficient stock); shown
+        // to the user instead of the generic error when set.
+        private string _orderError;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
