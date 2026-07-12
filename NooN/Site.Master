@@ -25,6 +25,18 @@
             cursor: pointer; min-width: 140px; color: #333;
         }
         .nav-category-ddl:focus { outline: none; border-color: #f5a623; }
+        /* Toast used by Scripts/noon-shop.js (AJAX cart/favorites) */
+        #noonToast {
+            position: fixed; bottom: 24px; right: 24px; z-index: 99999;
+            max-width: 340px; padding: 12px 20px; border-radius: 10px;
+            font-weight: 600; direction: rtl;
+            box-shadow: 0 6px 24px rgba(0,0,0,.18);
+            opacity: 0; visibility: hidden; transform: translateY(10px);
+            transition: opacity .3s, transform .3s, visibility .3s;
+            background: #eaffea; color: #27ae60; border: 1px solid #c3e6cb;
+        }
+        #noonToast.error { background: #ffeaea; color: #c0392b; border-color: #f5c6cb; }
+        #noonToast.show { opacity: 1; visibility: visible; transform: translateY(0); }
     </style>
 </head>
 
