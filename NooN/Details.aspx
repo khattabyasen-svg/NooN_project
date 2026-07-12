@@ -143,6 +143,7 @@
         }
 
         .status-inactive {
+
             background: #f0f0f0;
             color: var(--muted);
         }
@@ -781,9 +782,6 @@
                 <p class="detail-desc">
                     <asp:Literal ID="litDesc" runat="server" />
                 </p>
-
-                <%-- Message --%>
-                <asp:Label ID="lblMsg" runat="server" CssClass="detail-msg" />
 
                 <%-- Colors — يظهر فقط إذا المنتج عنده ألوان --%>
                 <asp:Panel ID="pnlColors" runat="server" Visible="false">
