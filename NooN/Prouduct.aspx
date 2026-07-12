@@ -84,10 +84,11 @@
                                          class="product-img" loading="lazy" />
                                 </a>
 
-                                <asp:LinkButton ID="lbWish" runat="server"
-                                    CommandName="ToggleWish"
-                                    CssClass="wish-btn"
-                                    CausesValidation="false" />
+                                <%-- AJAX favorite toggle — no postback --%>
+                                <button type="button"
+                                    class='wish-btn <%# Convert.ToInt32(Eval("is_wished")) == 1 ? "wish-active" : "" %>'
+                                    data-pid='<%# Eval("product_id") %>'
+                                    onclick="noonShop.toggleFav(this);"><%# Convert.ToInt32(Eval("is_wished")) == 1 ? "❤️" : "🤍" %></button>
 
                                 <div class="card-body">
                                     <span class="category-tag"><%# Eval("category_name") %></span>
