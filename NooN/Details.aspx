@@ -815,18 +815,15 @@
 
                 <asp:HiddenField ID="hfProductId" runat="server" />
 
-                <%-- Actions --%>
+                <%-- Actions — AJAX via ShopService.ashx, no postback --%>
                 <div class="action-row">
-                    <asp:UpdatePanel ID="upAddCart" runat="server" UpdateMode="Conditional">
-                        <ContentTemplate>
-                            <asp:Label ID="Label1" runat="server" />
-
-                            <asp:Button ID="btnAddToCart" runat="server"
-                                Text="أضف إلى السلة"
-                                OnClick="btnAddToCart_Click"
-                                CssClass="btn-add-cart" />
-                        </ContentTemplate>
-                    </asp:UpdatePanel>
+                    <button type="button" id="btnAddToCart" runat="server"
+                        class="btn-add-cart"
+                        onclick="detailsAddToCart(this);">أضف إلى السلة</button>
+                    <button type="button" id="btnFav" runat="server"
+                        class="btn-wishlist"
+                        title="المفضلة"
+                        onclick="noonShop.toggleFav(this);">🤍</button>
                 </div>
 
                 <%-- Features --%>
