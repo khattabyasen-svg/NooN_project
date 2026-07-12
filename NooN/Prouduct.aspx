@@ -72,8 +72,7 @@
             <ContentTemplate>
                 <div class="products-grid">
                     <asp:Repeater ID="rptProducts" runat="server"
-                        OnItemDataBound="rptProducts_ItemDataBound"
-                        OnItemCommand="rptProducts_ItemCommand">
+                        OnItemDataBound="rptProducts_ItemDataBound">
                         <ItemTemplate>
                             <div class="product-card">
 
