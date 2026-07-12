@@ -60,15 +60,6 @@ namespace NooN
         protected global::System.Web.UI.WebControls.Literal litMainImage;
 
         /// <summary>
-        /// litThumbs control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litThumbs;
-
-        /// <summary>
         /// litDiscBadge control.
         /// </summary>
         /// <remarks>
@@ -85,6 +76,15 @@ namespace NooN
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litStatusBadge;
+
+        /// <summary>
+        /// litThumbs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litThumbs;
 
         /// <summary>
         /// litBrand control.
@@ -193,15 +193,6 @@ namespace NooN
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litDesc;
-
-        /// <summary>
-        /// lblMsg control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMsg;
 
         /// <summary>
         /// pnlColors control.
