@@ -208,7 +208,7 @@ namespace NooN
                     cmdItem.ExecuteNonQuery();
                 }
 
-                // 3) Touch the cart's updated_at.
+                // 4) Touch the cart's updated_at.
                 using (SqlCommand cu = new SqlCommand(
                     "UPDATE carts SET updated_at = GETDATE() WHERE cart_id = @cid", conn))
                 {
