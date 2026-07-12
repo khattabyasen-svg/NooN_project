@@ -103,31 +103,31 @@ namespace NooN
 
         private void UpdateCartBadge()
         {
-            if (Session["user_id"] == null)
+            int count = 0;
+
+            if (Session["user_id"] != null)
             {
-                lblCartBadge.Visible = false;
-                return;
+                int userId = Convert.ToInt32(Session["user_id"]);
+                string cacheKey = "cart_count_" + userId;
+
+                if (HttpContext.Current.Cache[cacheKey] != null)
+                {
+                    count = (int)HttpContext.Current.Cache[cacheKey];
+                }
+                else
+                {
+                    count = GetCartCountFromDB(userId);
+                    HttpContext.Current.Cache.Insert(
+                        cacheKey, count, null,
+                        DateTime.Now.AddMinutes(2),
+                        System.Web.Caching.Cache.NoSlidingExpiration);
+                }
             }
 
-            int userId = Convert.ToInt32(Session["user_id"]);
-            string cacheKey = "cart_count_" + userId;
-            int count;
-
-            if (HttpContext.Current.Cache[cacheKey] != null)
-            {
-                count = (int)HttpContext.Current.Cache[cacheKey];
-            }
-            else
-            {
-                count = GetCartCountFromDB(userId);
-                HttpContext.Current.Cache.Insert(
-                    cacheKey, count, null,
-                    DateTime.Now.AddMinutes(2),
-                    System.Web.Caching.Cache.NoSlidingExpiration);
-            }
-
+            // Always render the badge element (hidden via CSS when empty) so
+            // the AJAX script in noon-shop.js can update it without a postback.
             lblCartBadge.Text = count.ToString();
-            lblCartBadge.Visible = count > 0;
+            lblCartBadge.Style["display"] = count > 0 ? "" : "none";
         }
 
         private int GetCartCountFromDB(int userId)
