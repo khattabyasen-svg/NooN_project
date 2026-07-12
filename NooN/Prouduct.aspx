@@ -104,13 +104,12 @@
                                         <asp:Literal ID="litOldPrice" runat="server" />
                                     </div>
 
-                                    <asp:LinkButton runat="server"
-                                        CommandName="AddToCart"
-                                        CommandArgument='<%# Eval("product_id") %>'
-                                        CssClass="btn-cart"
-                                        CausesValidation="false">
+                                    <%-- AJAX add to cart — no postback --%>
+                                    <button type="button" class="btn-cart"
+                                        data-pid='<%# Eval("product_id") %>'
+                                        onclick="noonShop.addToCart(this);">
                                         🛒 أضف للسلة
-                                    </asp:LinkButton>
+                                    </button>
                                 </div>
 
                             </div>
