@@ -181,19 +181,6 @@
 
     prm.add_endRequest(function () {
         document.getElementById("loadingOverlay").style.display = "none";
-
-        var msg = document.getElementById("<%= lblMsg.ClientID %>");
-        if (msg && msg.style.display !== "none") {
-            clearTimeout(msg._t);
-            msg._t = setTimeout(function () {
-                msg.style.transition = "opacity .4s";
-                msg.style.opacity = "0";
-                setTimeout(function () {
-                    msg.style.display = "none";
-                    msg.style.opacity = "";
-                }, 400);
-            }, 3000);
-        }
     });
 </script>
 
