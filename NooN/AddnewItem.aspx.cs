@@ -293,7 +293,7 @@ namespace NooN
         private void ClearForm()
         {
             txtName.Text = txtSlug.Text = txtBrand.Text = txtSKU.Text = "";
-            txtPrice.Text = txtOldPrice.Text = txtDiscount.Text = "";
+            txtPrice.Text = txtOldPrice.Text = txtDiscount.Text = txtStockQty.Text = "";
             txtDescription.Text = txtCustomColor.Text = "";
             ddlCategory.SelectedValue = "0";
             foreach (ListItem i in cblColors.Items) i.Selected = false;
