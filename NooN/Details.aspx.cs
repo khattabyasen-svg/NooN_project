@@ -145,23 +145,34 @@ namespace NooN
                     litRatingAvg.Text = ratingAvg.ToString("0.0");
                     litRatingCount.Text = ratingCount.ToString("N0");
 
-                    // ── Status ──
+                    // ── Status / Stock ──
                     string status = dr["status"].ToString().ToLower();
+                    int stockQty = Convert.ToInt32(dr["stock_quantity"]);
 
-                    if (status == "active")
-                        litStockStatus.Text = "<span class='in-stock'>✓ متوفر في المخزن</span>";
-                    else if (status == "out_of_stock")
+                    // A product is only purchasable when active AND in stock.
+                    bool canBuy = (status == "active" && stockQty > 0);
+
+                    if (canBuy)
+                    {
+                        litStockStatus.Text = stockQty <= 5
+                            ? $"<span class='out-stock'>⚠ باقي {stockQty} فقط في المخزن</span>"
+                            : "<span class='in-stock'>✓ متوفر في المخزن</span>";
+                    }
+                    else if (status == "active" || status == "out_of_stock")
                         litStockStatus.Text = "<span class='out-stock'>✗ غير متوفر</span>";
                     else
                         litStockStatus.Text = "<span style='color:var(--muted)'>غير نشط</span>";
 
-                    if (status == "active")
+                    if (canBuy)
                         litStatusBadge.Text = "<span class='gallery-status status-active'>متوفر ✓</span>";
-                    else if (status == "out_of_stock")
+                    else if (status == "active" || status == "out_of_stock")
                         litStatusBadge.Text = "<span class='gallery-status status-out_of_stock'>غير متوفر</span>";
 
-                    btnAddToCart.Disabled = (status != "active");
+                    btnAddToCart.Disabled = !canBuy;
                     btnAddToCart.Attributes["data-pid"] = _productId.ToString();
+
+                    // The qty picker must not exceed the available stock.
+                    hfMaxQty.Value = Math.Min(stockQty, 99).ToString();
 
                     // ── Price ──
                     decimal price = Convert.ToDecimal(dr["price"]);
