@@ -540,7 +540,7 @@ namespace NooN
                             cmd.ExecuteNonQuery();
                         }
 
-                        // 9. Clear the cart after ordering.
+                        // 10. Clear the cart after ordering.
                         if (Session[SESSION_USER] != null)
                         {
                             string sqlClear = @"
