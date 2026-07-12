@@ -90,13 +90,12 @@
 
                                         <%# GetDiscountBadge(Eval("discount_pct")) %>
 
-                                        <%-- Favorite toggle: async postback that removes the item from the wishlist --%>
-                                        <asp:LinkButton runat="server" CssClass="product-fav active"
-                                            CommandName="ToggleFav"
-                                            CommandArgument='<%# Eval("product_id") %>'
-                                            OnClientClick="event.stopPropagation();"
-                                            ToolTip="إزالة من المفضلة"
-                                            Text="❤️" />
+                                        <%-- Favorite toggle: AJAX call that removes the card on un-favorite --%>
+                                        <button type="button" class="product-fav active"
+                                            data-pid='<%# Eval("product_id") %>'
+                                            data-remove-card="1"
+                                            title="إزالة من المفضلة"
+                                            onclick="event.stopPropagation(); noonShop.toggleFav(this);">❤️</button>
                                     </div>
 
                                     <div class="product-info">
