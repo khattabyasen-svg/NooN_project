@@ -228,17 +228,8 @@ namespace NooN
                                  + old.ToString("N0") + " د.أ</span>";
             }
 
-            // المفضلة — من is_wished بدون استعلام إضافي
-            var lbWish = (LinkButton)e.Item.FindControl("lbWish");
-            if (lbWish != null)
-            {
-                int productId = Convert.ToInt32(row["product_id"]);
-                bool isWished = Convert.ToInt32(row["is_wished"]) == 1;
-
-                lbWish.CommandArgument = productId.ToString();
-                lbWish.Text = isWished ? "❤️" : "🤍";
-                if (isWished) lbWish.CssClass += " wish-active";
-            }
+            // Favorite state (is_wished) is bound inline in the markup and
+            // toggled client-side via noonShop.toggleFav (ShopService.ashx).
         }
 
         // ═══════════════════════════════════════════
