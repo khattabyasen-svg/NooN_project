@@ -47,9 +47,11 @@ namespace NooN
                 p.price, p.old_price, p.discount_pct,
                 p.brand, p.sku, p.rating_avg, p.rating_count,
                 p.status, p.available_colors, p.available_sizes, p.images,
+                ISNULL(i.available_qty, 0) AS stock_quantity,
                 ISNULL(c.name_ar, N'بدون فئة') AS category_name
             FROM products p
             LEFT JOIN product_categories c ON p.category_id = c.category_id
+            LEFT JOIN inventory i ON i.product_id = p.product_id
             WHERE p.product_id = @pid";
 
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
