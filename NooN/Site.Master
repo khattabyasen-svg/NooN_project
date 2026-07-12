@@ -121,6 +121,7 @@
 
     </form>
 
+    <script src="Scripts/noon-shop.js"></script>
     <script src="Scripts/master.js" defer></script>
     <script>
         function navigateToCategory(ddl) {
