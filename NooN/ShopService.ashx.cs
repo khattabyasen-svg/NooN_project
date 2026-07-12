@@ -104,10 +104,13 @@ namespace NooN
                 // The product must exist and be purchasable.
                 string status;
                 string availColors, availSizes;
+                int stockQty;
                 using (SqlCommand cmd = new SqlCommand(@"
-                    SELECT status, available_colors, available_sizes
-                    FROM products
-                    WHERE product_id = @pid", conn))
+                    SELECT p.status, p.available_colors, p.available_sizes,
+                           ISNULL(i.available_qty, 0) AS stock_quantity
+                    FROM products p
+                    LEFT JOIN inventory i ON i.product_id = p.product_id
+                    WHERE p.product_id = @pid", conn))
                 {
                     cmd.Parameters.AddWithValue("@pid", productId);
                     using (SqlDataReader dr = cmd.ExecuteReader())
@@ -118,10 +121,11 @@ namespace NooN
                         status = dr["status"].ToString().ToLower();
                         availColors = dr["available_colors"] != DBNull.Value ? dr["available_colors"].ToString().Trim() : "";
                         availSizes = dr["available_sizes"] != DBNull.Value ? dr["available_sizes"].ToString().Trim() : "";
+                        stockQty = Convert.ToInt32(dr["stock_quantity"]);
                     }
                 }
 
-                if (status != "active")
+                if (status != "active" || stockQty <= 0)
                     return Fail("عذراً، هذا المنتج غير متوفر حالياً.");
 
                 // Options that the product defines are mandatory.
