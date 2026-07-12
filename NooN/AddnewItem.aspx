@@ -74,6 +74,10 @@
                             <label class="block text-sm font-medium text-gray-700 mb-1">Product Code (SKU)</label>
                             <asp:TextBox ID="txtSKU" runat="server" CssClass="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></asp:TextBox>
                         </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Stock Quantity</label>
+                            <asp:TextBox ID="txtStockQty" runat="server" TextMode="Number" min="0" CssClass="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></asp:TextBox>
+                        </div>
                     </div>
 
                     <div class="mb-8">
