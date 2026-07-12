@@ -811,6 +811,8 @@
                     </div>
                     <%-- HiddenField يحمل القيمة الفعلية للسيرفر --%>
                     <asp:HiddenField ID="hfQty" runat="server" Value="1" />
+                    <%-- الحد الأقصى للكمية حسب المخزون المتاح --%>
+                    <asp:HiddenField ID="hfMaxQty" runat="server" Value="99" />
                 </div>
 
                 <asp:HiddenField ID="hfProductId" runat="server" />
