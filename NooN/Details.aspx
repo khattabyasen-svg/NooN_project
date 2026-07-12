@@ -896,8 +896,11 @@
         function changeQty(delta) {
             var display = document.getElementById('qtyDisplay');
             var hf = document.getElementById('<%= hfQty.ClientID %>');
+            var hfMax = document.getElementById('<%= hfMaxQty.ClientID %>');
+            var max = hfMax ? parseInt(hfMax.value) : 99;
+            if (isNaN(max) || max < 1) max = 1;
             var v = parseInt(hf.value) + delta;
-            if (v >= 1 && v <= 99) {
+            if (v >= 1 && v <= max) {
                 hf.value = v;
                 display.innerText = v;
             }
