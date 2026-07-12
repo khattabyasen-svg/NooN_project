@@ -1003,9 +1003,6 @@
         window.addEventListener("load", function () {
 
             // Toast من السيرفر
-            var m = document.getElementById('<%= lblMsg.ClientID %>');
-            if (m && m.innerText.trim() !== '') showToast(m.innerText.trim());
-
             var r = document.getElementById('<%= lblReviewMsg.ClientID %>');
             if (r && r.innerText.trim() !== '') showToast(r.innerText.trim());
 
