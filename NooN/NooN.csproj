@@ -460,6 +460,9 @@
     <Compile Include="Helpers\Db.cs" />
     <Compile Include="Helpers\PasswordHasher.cs" />
     <Compile Include="Helpers\ProductImage.cs" />
+    <Compile Include="ShopService.ashx.cs">
+      <DependentUpon>ShopService.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
