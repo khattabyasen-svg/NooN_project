@@ -452,7 +452,55 @@ namespace NooN
                             }
                         }
 
-                        // 7. INSERT payments
+                        // 7. Deduct the ordered quantities from inventory.
+                        //    Color/size variants share one inventory row, so the
+                        //    quantities are grouped per product first. The UPDATE
+                        //    only succeeds when enough stock remains, which keeps
+                        //    the check atomic against concurrent orders.
+                        var qtyPerProduct = new Dictionary<int, int>();
+                        foreach (var item in orderItems)
+                        {
+                            int q;
+                            qtyPerProduct.TryGetValue(item.ProductId, out q);
+                            qtyPerProduct[item.ProductId] = q + item.Quantity;
+                        }
+
+                        string sqlStock = @"
+                            UPDATE inventory
+                               SET available_qty = available_qty - @qty,
+                                   sold_qty      = sold_qty + @qty,
+                                   updated_at    = GETDATE()
+                             WHERE product_id = @pid
+                               AND available_qty >= @qty";
+
+                        foreach (var kv in qtyPerProduct)
+                        {
+                            using (var cmd = new SqlCommand(sqlStock, conn, tx))
+                            {
+                                cmd.Parameters.AddWithValue("@pid", kv.Key);
+                                cmd.Parameters.AddWithValue("@qty", kv.Value);
+                                if (cmd.ExecuteNonQuery() == 0)
+                                {
+                                    // Not enough stock (or no inventory row) — abort the order.
+                                    tx.Rollback();
+                                    _orderError = "عذراً، الكمية المطلوبة لم تعد متوفرة في المخزون لأحد المنتجات. يرجى مراجعة سلتك.";
+                                    return 0;
+                                }
+                            }
+
+                            // Mark the product out of stock once its inventory is exhausted.
+                            using (var cmd = new SqlCommand(@"
+                                UPDATE products SET status = 'out_of_stock', updated_at = GETDATE()
+                                WHERE product_id = @pid
+                                  AND EXISTS (SELECT 1 FROM inventory
+                                              WHERE product_id = @pid AND available_qty = 0)", conn, tx))
+                            {
+                                cmd.Parameters.AddWithValue("@pid", kv.Key);
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+
+                        // 8. INSERT payments
                         string dbMethod;
                         if (paymentMethod == "apple") dbMethod = "wallet";
                         else if (paymentMethod == "cash") dbMethod = "cod";
