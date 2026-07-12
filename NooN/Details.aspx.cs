@@ -94,7 +94,9 @@ namespace NooN
                         }
                     }
 
-                    ViewState["isFav"] = isFav;
+                    // Initial favorite state; toggled client-side afterwards.
+                    btnFav.InnerText = isFav ? "❤️" : "🤍";
+                    btnFav.Attributes["data-pid"] = _productId.ToString();
 
                     // ── Breadcrumb ──
                     string catName = dr["category_name"].ToString();
