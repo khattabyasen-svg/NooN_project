@@ -138,6 +138,15 @@ namespace NooN
                     return false;
                 }
             }
+            // Stock quantity (optional): if entered it must be zero or a positive whole number.
+            if (!string.IsNullOrWhiteSpace(txtStockQty.Text))
+            {
+                if (!int.TryParse(txtStockQty.Text, out int stockQty) || stockQty < 0)
+                {
+                    ShowMessage("Please enter a valid stock quantity (0 or more).", false);
+                    return false;
+                }
+            }
             return true;
         }
 
