@@ -311,15 +311,6 @@ namespace NooN
             return 0;
         }
 
-        private void ShowMessage(string text, bool isError)
-        {
-            lblMsg.Text = text;
-            lblMsg.Visible = true;
-            lblMsg.Style["background"] = isError ? "#ffeaea" : "#eaffea";
-            lblMsg.Style["color"] = isError ? "#c0392b" : "#27ae60";
-            lblMsg.Style["border"] = isError ? "1px solid #f5c6cb" : "1px solid #c3e6cb";
-        }
-
         protected void txtMinPrice_TextChanged(object sender, EventArgs e) { }
     }
 }
