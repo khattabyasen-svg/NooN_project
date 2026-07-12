@@ -2,15 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-<%-- ═══════════════════════════ رسالة التنبيه ═══════════════════════════ --%>
-<asp:UpdatePanel ID="upMsg" runat="server" UpdateMode="Conditional">
-    <ContentTemplate>
-        <asp:Label ID="lblMsg" runat="server" Visible="false"
-            style="display:block;padding:10px 16px;border-radius:8px;
-                   margin-bottom:12px;font-weight:600;text-align:center;" />
-    </ContentTemplate>
-</asp:UpdatePanel>
-
 <div class="products-page" dir="rtl">
 
     <%-- ─────────── السايدبار ─────────── --%>
