@@ -193,6 +193,8 @@
     <Content Include="Report.aspx" />
     <Content Include="resetpassword.aspx" />
     <Content Include="Scripts\Add_pro.js" />
+    <Content Include="Scripts\noon-shop.js" />
+    <Content Include="ShopService.ashx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
