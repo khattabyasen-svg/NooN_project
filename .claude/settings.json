@@ -13,20 +13,6 @@
           }
         ]
       }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "shell": "powershell",
-            "command": "$j=$input|ConvertFrom-Json;$f=$j.tool_input.file_path;if(-not $f){exit 0};$n=Split-Path $f -Leaf;git add -- \"$f\" 2>&1|Out-Null;git diff --cached --quiet -- \"$f\";if($LASTEXITCODE-ne 0){git commit -q -m \"auto: update $n\" -- \"$f\" 2>&1|Out-Null};exit 0",
-            "timeout": 30,
-            "statusMessage": "Auto-committing changes..."
-          }
-        ]
-      }
     ]
   }
 }
