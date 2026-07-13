@@ -104,10 +104,16 @@
                                         <asp:Literal ID="litOldPrice" runat="server" />
                                     </div>
 
+                                    <%-- Unavailable products stay visible but cannot be added to the cart --%>
+                                    <%# Convert.ToInt32(Eval("is_available")) == 0
+                                            ? "<div class='p-unavailable'>Product not available.</div>"
+                                            : "" %>
+
                                     <%-- AJAX add to cart — no postback --%>
                                     <button type="button" class="btn-cart"
                                         data-pid='<%# Eval("product_id") %>'
-                                        onclick="noonShop.addToCart(this);">
+                                        onclick="noonShop.addToCart(this);"
+                                        <%# Convert.ToInt32(Eval("is_available")) == 0 ? "disabled" : "" %>>
                                         🛒 أضف للسلة
                                     </button>
                                 </div>
