@@ -356,6 +356,25 @@ body {
         text-decoration: none;
     }
 
+    .btn-cart:disabled {
+        background: var(--border);
+        color: var(--muted);
+        cursor: not-allowed;
+        transform: none;
+    }
+
+/* Unavailable product notice (shown above the add-to-cart button) */
+.p-unavailable {
+    margin: 8px 0 6px;
+    padding: 6px 10px;
+    background: #fdecea;
+    color: #c0392b;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    text-align: center;
+}
+
 /* No results */
 .no-results {
     grid-column: 1 / -1;
