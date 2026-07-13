@@ -128,11 +128,14 @@ namespace NooN
                 if (status != "active" || stockQty <= 0)
                     return Fail("عذراً، هذا المنتج غير متوفر حالياً.");
 
-                // Options that the product defines are mandatory.
-                if (!string.IsNullOrEmpty(availColors) && string.IsNullOrEmpty(color))
-                    return Fail("يرجى اختيار اللون.");
-                if (!string.IsNullOrEmpty(availSizes) && string.IsNullOrEmpty(size))
-                    return Fail("يرجى اختيار الحجم / السعة.");
+                // When no option is sent (quick-add from the products grid has
+                // no pickers), fall back to the product's first available
+                // color / size instead of rejecting the request. The details
+                // page still enforces an explicit choice client-side.
+                if (string.IsNullOrEmpty(color) && !string.IsNullOrEmpty(availColors))
+                    color = availColors.Split(',')[0].Trim();
+                if (string.IsNullOrEmpty(size) && !string.IsNullOrEmpty(availSizes))
+                    size = availSizes.Split(',')[0].Trim();
 
                 object colorParam = string.IsNullOrEmpty(color) ? (object)DBNull.Value : color;
                 object sizeParam = string.IsNullOrEmpty(size) ? (object)DBNull.Value : size;
