@@ -169,13 +169,16 @@ namespace NooN
                         p.rating_count,
                         p.images,
                         ISNULL(c.name_ar, N'بدون فئة') AS category_name,
-                        CASE WHEN w.product_id IS NOT NULL THEN 1 ELSE 0 END AS is_wished
+                        CASE WHEN w.product_id IS NOT NULL THEN 1 ELSE 0 END AS is_wished,
+                        CASE WHEN p.status = 'active' AND ISNULL(i.available_qty, 0) > 0
+                             THEN 1 ELSE 0 END AS is_available
                     FROM products p
                     LEFT JOIN product_categories c ON p.category_id = c.category_id
+                    LEFT JOIN inventory i ON i.product_id = p.product_id
                     LEFT JOIN wishlist_items w
                            ON w.product_id = p.product_id
                           AND w.user_id    = @currentUser
-                    WHERE p.status = 'active'
+                    WHERE p.status IN ('active', 'out_of_stock')
                     " + where.ToString() + @"
                     ORDER BY " + orderBy;
 
