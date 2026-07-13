@@ -308,5 +308,10 @@ namespace NooN
                 ? "block mb-4 p-3 rounded-lg bg-green-100 text-green-700"
                 : "block mb-4 p-3 rounded-lg bg-red-100 text-red-700";
         }
+
+        protected void txtStockQty_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

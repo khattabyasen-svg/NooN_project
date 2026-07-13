@@ -1,7 +1,39 @@
 {
   "permissions": {
     "allow": [
-      "PowerShell(& \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\MSBuild.exe\" \"D:\\\\NooN\\\\NooN.sln\" /t:Build /p:Configuration=Debug 2>&1 | Select-Object -Last 50)"
+      "PowerShell(& \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\MSBuild.exe\" \"D:\\\\NooN\\\\NooN.sln\" /t:Build /p:Configuration=Debug 2>&1 | Select-Object -Last 50)",
+      "PowerShell(npm info *)",
+      "PowerShell(npx -y mssql-mcp-server --help 2>&1 | Select-Object -First 30)",
+      "PowerShell(npx @connorbritain/mssql-mcp-server --help 2>&1 | Select-Object -First 20)",
+      "PowerShell(claude mcp *)",
+      "mcp__mssql__list_tables",
+      "mcp__mssql__read_data",
+      "PowerShell(Invoke-Sqlcmd *)",
+      "mcp__mssql__list_environments",
+      "mcp__mssql__test_connection",
+      "Bash(claude mcp *)",
+      "mcp__mssql__list_databases",
+      "PowerShell(netstat *)",
+      "PowerShell(Get-ChildItem *)",
+      "mcp__mssql__describe_table",
+      "Bash(git push *)",
+      "Bash(git rm *)",
+      "Bash(rm NooN/test.cs)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git remote *)",
+      "PowerShell(& \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\amd64\\\\MSBuild.exe\" \"D:\\\\NooN\\\\NooN.sln\" /t:Build /p:Configuration=Debug /nologo /verbosity:minimal /clp:ErrorsOnly)",
+      "PowerShell(& \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\amd64\\\\MSBuild.exe\" \"D:\\\\NooN\\\\NooN.sln\" /t:Build /p:Configuration=Debug /nologo /verbosity:minimal /clp:Summary)",
+      "Skill(run)",
+      "Bash(curl -s -L http://localhost:51792/LoginUser.aspx)",
+      "Bash(npm init *)",
+      "Bash(npm install *)",
+      "Read(//tmp/**)",
+      "Bash(awk 'length\\($0\\) > 500 {print NR\": [LONG LINE \"length\\($0\\)\" chars]\"; next} NR>150' \"D:/NooN/NooN/reports/Report1.rdlc\")",
+      "Bash(grep -n \"Scripts\\\\\\\\\\\\\\\\master.js\\\\|System.Web.Extensions\" \"D:/NooN/NooN/NooN.csproj\")",
+      "Bash(grep -rn \"Scripts\\\\\\\\\\\\\\\\master.js\" \"D:/NooN/NooN/NooN.csproj\")",
+      "PowerShell(& \"C:\\\\Windows\\\\Microsoft.NET\\\\Framework64\\\\v4.0.30319\\\\aspnet_compiler.exe\" -v /NooN -p \"D:\\\\NooN\\\\NooN\" -f \"$env:TEMP\\\\noon_precompile\" 2>$null; if \\($LASTEXITCODE -eq 0\\) { \"ASPX precompile OK\" } else { \"ASPX precompile failed with exit code $LASTEXITCODE\" })",
+      "PowerShell(Remove-Item *)"
     ]
   }
 }
