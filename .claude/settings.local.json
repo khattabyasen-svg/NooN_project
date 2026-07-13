@@ -33,7 +33,8 @@
       "Bash(grep -n \"Scripts\\\\\\\\\\\\\\\\master.js\\\\|System.Web.Extensions\" \"D:/NooN/NooN/NooN.csproj\")",
       "Bash(grep -rn \"Scripts\\\\\\\\\\\\\\\\master.js\" \"D:/NooN/NooN/NooN.csproj\")",
       "PowerShell(& \"C:\\\\Windows\\\\Microsoft.NET\\\\Framework64\\\\v4.0.30319\\\\aspnet_compiler.exe\" -v /NooN -p \"D:\\\\NooN\\\\NooN\" -f \"$env:TEMP\\\\noon_precompile\" 2>$null; if \\($LASTEXITCODE -eq 0\\) { \"ASPX precompile OK\" } else { \"ASPX precompile failed with exit code $LASTEXITCODE\" })",
-      "PowerShell(Remove-Item *)"
+      "PowerShell(Remove-Item *)",
+      "PowerShell(& \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\MSBuild.exe\" D:\\\\NooN\\\\NooN\\\\NooN.csproj /nologo /v:m /p:Configuration=Debug)"
     ]
   }
 }
