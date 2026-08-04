@@ -1,46 +1,47 @@
 /* ============================================================
-   NOON — master.css (المسار الجديد: للـ Master Page)
+   NOON — master.css  (Site.Master styles)
+   Jordan region | Black · White · Gold palette
    ============================================================ */
 
+/* Override / extend the global token set from shared.css.
+   These match the gold palette defined in shared.css. */
 :root {
-    --accent: #feee00; /* أصفر نون */
-    --accent-dark: #e5d700;
-    --text-primary: #404553;
-    --text-secondary: #7e859b;
-    --white: #ffffff;
-    --off-white: #f7f7f7;
-    --border: #ebebf0;
+    --accent:         #C9A84C;
+    --accent-dark:    #A88A38;
+    --text-primary:   #1A1714;
+    --text-secondary: #5C574F;
+    --text-muted:     #9B9590;
+    --white:          #FFFFFF;
+    --off-white:      #FAF8F5;
+    --border:         #E5DDD2;
 }
 
-/* ✅ تعديل الـ Body للسماح بالتمرير والنزول لأسفل الصفحة */
 html, body {
     margin: 0;
     padding: 0;
-    min-height: 100%; /* تغيير من height: 100vh */
-    display: block; /* لضمان عمل السكرول الطبيعي */
+    min-height: 100%;
+    display: block;
     background-color: var(--off-white);
     font-family: 'Tajawal', sans-serif;
-    overflow-x: hidden; /* منع التمرير العرضي */
-    overflow-y: auto; /* السماح بالتمرير الطولي */
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 /* ── Announcement bar ── */
 .announcement {
-    background: #404553;
-    color: var(--white);
+    background: #1A1714;
+    color: rgba(255,255,255,0.85);
     text-align: center;
     padding: 10px 20px;
     font-size: 13px;
     font-weight: 400;
+    letter-spacing: 0.3px;
 }
-
-    .announcement strong {
-        color: var(--accent);
-    }
+.announcement strong { color: var(--accent); }
 
 /* ── Navbar ── */
 .navbar {
-    position: sticky; /* جعل الهيدر يلتصق بالأعلى عند النزول */
+    position: sticky;
     top: 0;
     z-index: 1000;
     background: var(--white);
@@ -51,7 +52,7 @@ html, body {
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(26,23,20,0.05);
 }
 
 .nav-logo {
@@ -60,36 +61,41 @@ html, body {
     color: var(--text-primary);
     text-decoration: none;
     cursor: pointer;
+    font-family: 'Playfair Display', serif;
 }
-
-    .nav-logo span {
-        color: var(--accent);
-    }
+.nav-logo span { color: var(--accent); }
 
 .nav-search {
     flex: 1;
     max-width: 600px;
     position: relative;
-    top: 0px;
-    right: 0px;
     height: 49px;
 }
-
-    .nav-search input {
-        width: 100%;
-        height: 40px;
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 0 40px 0 15px;
-        background: var(--off-white);
-        outline: none;
-    }
+.nav-search input {
+    width: 100%;
+    height: 40px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 0 40px 0 15px;
+    background: var(--off-white);
+    outline: none;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px;
+    color: var(--text-primary);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.nav-search input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.10);
+    background: var(--white);
+}
 
 .nav-search-icon {
     position: absolute;
     left: 12px;
     top: 10px;
-    color: var(--text-secondary);
+    color: var(--text-muted);
+    cursor: pointer;
 }
 
 .nav-actions {
@@ -109,8 +115,9 @@ html, body {
     background: none;
     border: none;
     cursor: pointer;
+    transition: color 0.2s;
 }
-
+.nav-btn:hover { color: var(--accent-dark); }
 
 .cart-btn {
     background: var(--text-primary);
@@ -118,15 +125,16 @@ html, body {
     padding: 8px 15px;
     border-radius: 5px;
     position: relative;
+    transition: background 0.2s;
 }
-
+.cart-btn:hover { background: var(--accent-dark) !important; color: var(--white) !important; }
 
 .cart-badge {
     position: absolute;
     top: -8px;
     left: -8px;
-    background: #e65100;
-    color: #fff;
+    background: var(--accent);
+    color: var(--text-primary);
     font-size: 11px;
     font-weight: 800;
     min-width: 20px;
@@ -137,6 +145,57 @@ html, body {
     justify-content: center;
     padding: 0 4px;
     line-height: 1;
+    border: 1.5px solid var(--white);
+}
+
+/* ── Category dropdown ── */
+.nav-category-ddl {
+    height: 38px;
+    padding: 0 10px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    background: var(--white);
+    cursor: pointer;
+    min-width: 140px;
+    color: var(--text-primary);
+    font-family: 'Tajawal', sans-serif;
+    transition: border-color 0.2s;
+}
+.nav-category-ddl:focus { outline: none; border-color: var(--accent); }
+
+/* ── Toast notification ── */
+#noonToast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 99999;
+    max-width: 340px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    direction: rtl;
+    box-shadow: 0 6px 24px rgba(0,0,0,.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity .3s, transform .3s, visibility .3s;
+    background: #eaffea;
+    color: #27ae60;
+    border: 1px solid #c3e6cb;
+    font-family: 'Tajawal', sans-serif;
+}
+#noonToast.error { background: #ffeaea; color: #c0392b; border-color: #f5c6cb; }
+#noonToast.show  { opacity: 1; visibility: visible; transform: translateY(0); }
+
+/* ── Site footer ── */
+.site-footer {
+    text-align: center;
+    padding: 20px;
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 13px;
 }
 
 /* ── Category strip ── */
@@ -152,12 +211,9 @@ html, body {
 }
 .btn-search-hidden {
     position: absolute;
-    width: 0;
-    height: 0;
-    opacity: 0;
-    overflow: hidden;
-    border: none;
-    padding: 0;
+    width: 0; height: 0;
+    opacity: 0; overflow: hidden;
+    border: none; padding: 0;
 }
 .nav-cat-item {
     text-decoration: none;
@@ -165,32 +221,42 @@ html, body {
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
+    padding-bottom: 2px;
+    transition: color 0.2s;
+}
+.nav-cat-item:hover,
+.nav-cat-item.active {
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--accent);
 }
 
-    .nav-cat-item:hover, .nav-cat-item.active {
-        color: var(--text-primary);
-        border-bottom: 2px solid var(--accent);
-    }
-
-/* ── Content Area (توسيع المحتوى) ── */
+/* ── Main content area ── */
 .main-content-area {
-    min-height: 600px; /* ضمان وجود مساحة حتى لو الصفحة فارغة */
+    min-height: 600px;
     padding: 20px;
     max-width: 1300px;
-    margin: 0 auto; /* توسيط المحتوى */
+    margin: 0 auto;
 }
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
     .navbar {
         padding: 10px 15px;
+        height: auto;
+        min-height: 60px;
+        flex-wrap: nowrap;
+        gap: 10px;
     }
-
-    .nav-search {
-        display: none;
-    }
-    /* إخفاء البحث في الموبايل لتبسيط العرض */
-    .nav-btn .label {
-        display: none;
-    }
+    .nav-logo { font-size: 1.4rem; flex-shrink: 0; }
+    .nav-search { display: none; }
+    .nav-category-ddl { display: none; }
+    .nav-btn .label { display: none; }
+    .nav-actions { gap: 8px; }
+    .nav-categories { padding: 8px 15px; gap: 12px; }
+    .main-content-area { padding: 12px; }
+}
+@media (max-width: 480px) {
+    .navbar { padding: 8px 10px; }
+    .cart-btn { padding: 6px 10px; }
+    .main-content-area { padding: 8px; }
 }

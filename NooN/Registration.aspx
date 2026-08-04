@@ -5,7 +5,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Account — NooN</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="Content/Registration.css" rel="stylesheet" />
 
 </head>
@@ -20,12 +19,22 @@
             <%-- Row: First Name + Last Name --%>
             <div class="field-row">
                 <div class="field-group">
-                    <asp:Label ID="LabName" runat="server" Text="Username" AssociatedControlID="TxtFName"></asp:Label>
-                    <asp:TextBox ID="TxtFName" runat="server" placeholder="your_name"></asp:TextBox>
+                    <asp:Label ID="LabName" runat="server" Text="First Name" AssociatedControlID="TxtFName"></asp:Label>
+                    <asp:TextBox ID="TxtFName" runat="server" placeholder="Mohammed"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RFV_FName" runat="server"
+                        ControlToValidate="TxtFName"
+                        ErrorMessage="First name is required."
+                        CssClass="field-error" Display="Dynamic"
+                        ValidationGroup="RegGroup" />
                 </div>
                 <div class="field-group">
-                    <asp:Label ID="Lab_lastname" runat="server" Text="Lastname" AssociatedControlID="TxtLname"></asp:Label>
-                    <asp:TextBox ID="TxtLname" runat="server" placeholder="your_lastname"></asp:TextBox>
+                    <asp:Label ID="Lab_lastname" runat="server" Text="Last Name" AssociatedControlID="TxtLname"></asp:Label>
+                    <asp:TextBox ID="TxtLname" runat="server" placeholder="Al-Ahmad"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RFV_LName" runat="server"
+                        ControlToValidate="TxtLname"
+                        ErrorMessage="Last name is required."
+                        CssClass="field-error" Display="Dynamic"
+                        ValidationGroup="RegGroup" />
                 </div>
             </div>
 
@@ -33,12 +42,34 @@
             <div class="field-group">
                 <asp:Label ID="LabEmail" runat="server" Text="Email" AssociatedControlID="TxtEmail"></asp:Label>
                 <asp:TextBox ID="TxtEmail" runat="server" AutoCompleteType="Email" TextMode="Email" placeholder="you@example.com"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RFV_Email" runat="server"
+                    ControlToValidate="TxtEmail"
+                    ErrorMessage="Email is required."
+                    CssClass="field-error" Display="Dynamic"
+                    ValidationGroup="RegGroup" />
+                <asp:RegularExpressionValidator ID="REV_Email" runat="server"
+                    ControlToValidate="TxtEmail"
+                    ErrorMessage="Enter a valid email address."
+                    ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"
+                    CssClass="field-error" Display="Dynamic"
+                    ValidationGroup="RegGroup" />
             </div>
 
             <%-- Phone --%>
             <div class="field-group">
                 <asp:Label ID="Label3" runat="server" Text="Phone Number" AssociatedControlID="TxtPhone"></asp:Label>
-                <asp:TextBox ID="TxtPhone" runat="server" TextMode="Phone" placeholder="+962 7x xxx xxxx"></asp:TextBox>
+                <asp:TextBox ID="TxtPhone" runat="server" TextMode="Phone" placeholder="05XXXXXXXX"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RFV_Phone" runat="server"
+                    ControlToValidate="TxtPhone"
+                    ErrorMessage="Phone number is required."
+                    CssClass="field-error" Display="Dynamic"
+                    ValidationGroup="RegGroup" />
+                <asp:RegularExpressionValidator ID="REV_Phone" runat="server"
+                    ControlToValidate="TxtPhone"
+                    ErrorMessage="Phone must start with 05 and be 10 digits."
+                    ValidationExpression="^05\d{8}$"
+                    CssClass="field-error" Display="Dynamic"
+                    ValidationGroup="RegGroup" />
             </div>
 
             <div class="form-divider">Security</div>
@@ -50,16 +81,32 @@
                     <asp:Label ID="LabPas" runat="server" Text="Password" AssociatedControlID="TxtPass"></asp:Label>
                     <asp:TextBox ID="TxtPass" runat="server" TextMode="Password" placeholder="••••••••••"></asp:TextBox>
                     <ajaxToolkit:PasswordStrength ID="PasswordStrength1" runat="server" TargetControlID="TxtPass" MinimumLowerCaseCharacters="1" MinimumNumericCharacters="1" MinimumSymbolCharacters="1" MinimumUpperCaseCharacters="1" PreferredPasswordLength="8" BarBorderCssClass="" BarIndicatorCssClass="" DisplayPosition="BelowLeft" RequiresUpperAndLowerCaseCharacters="True" TextStrengthDescriptions="ضعيفة جداً;ضعيفة;متوسطة;قوية;قوية جداً"/>
+                    <asp:RequiredFieldValidator ID="RFV_Pass" runat="server"
+                        ControlToValidate="TxtPass"
+                        ErrorMessage="Password is required."
+                        CssClass="field-error" Display="Dynamic"
+                        ValidationGroup="RegGroup" />
                 </div>
                 <div class="field-group">
-                    <asp:Label ID="LabConfirm" runat="server" Text="Confirm" AssociatedControlID="TxtConfirm"></asp:Label>
+                    <asp:Label ID="LabConfirm" runat="server" Text="Confirm Password" AssociatedControlID="TxtConfirm"></asp:Label>
                     <asp:TextBox ID="TxtConfirm" runat="server" TextMode="Password" placeholder="••••••••••"></asp:TextBox>
-
+                    <asp:RequiredFieldValidator ID="RFV_Confirm" runat="server"
+                        ControlToValidate="TxtConfirm"
+                        ErrorMessage="Please confirm your password."
+                        CssClass="field-error" Display="Dynamic"
+                        ValidationGroup="RegGroup" />
+                    <asp:CompareValidator ID="CV_Passwords" runat="server"
+                        ControlToValidate="TxtConfirm"
+                        ControlToCompare="TxtPass"
+                        ErrorMessage="Passwords do not match."
+                        CssClass="field-error" Display="Dynamic"
+                        ValidationGroup="RegGroup" />
                 </div>
             </div>
 
             <%-- Submit --%>
-            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Create Account" />
+            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click"
+                Text="Create Account" ValidationGroup="RegGroup" />
 
             <%-- Error Label --%>
             <asp:Label ID="Laberor" runat="server" ForeColor="Red" Text=""></asp:Label>

@@ -44,9 +44,12 @@ namespace NooN
             // Card fields are only required when paying by card. This runs on every
             // load (before validation) so it is enforced server-side, not just in JS.
             bool payingByCard = hfPaymentMethod.Value == "card";
-            RFV_Card.Enabled = payingByCard;
-            RFV_Expiry.Enabled = payingByCard;
-            RFV_CVV.Enabled = payingByCard;
+            RFV_Card.Enabled     = payingByCard;
+            REV_Card.Enabled     = payingByCard;
+            RFV_Expiry.Enabled   = payingByCard;
+            REV_Expiry.Enabled   = payingByCard;
+            RFV_CVV.Enabled      = payingByCard;
+            REV_CVV.Enabled      = payingByCard;
             RFV_CardHolder.Enabled = payingByCard;
         }
 
@@ -263,6 +266,11 @@ namespace NooN
                 }
 
                 Session["OrderId"] = orderId;
+
+                // Evict the stale cart-count cache so the navbar badge
+                // immediately shows 0 on the confirmation page.
+                System.Web.HttpContext.Current.Cache.Remove(
+                    "cart_count_" + Session[SESSION_USER]);
 
                 // endResponse:false avoids a ThreadAbortException.
                 Response.Redirect("Confirm.aspx", false);

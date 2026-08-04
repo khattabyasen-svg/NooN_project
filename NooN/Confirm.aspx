@@ -35,10 +35,16 @@
                 OnClick="btnContinueShopping_Click" />
 
             <%-- Track-order button (JavaScript) --%>
-            <asp:Button ID="btnTrackOrder" runat="server" 
-                Text="تتبع الطلب" 
-                CssClass="btn-secondary" 
+            <asp:Button ID="btnTrackOrder" runat="server"
+                Text="تتبع الطلب"
+                CssClass="btn-secondary"
                 OnClientClick="showToast('📧 تم إرسال رابط التتبع لبريدك'); return false;" />
+
+            <%-- Print-order button: opens the order details report in a new tab --%>
+            <asp:HyperLink ID="btnPrintOrder" runat="server"
+                Text="🖨️ طباعة الطلب"
+                CssClass="btn-secondary"
+                Target="_blank" />
         </div>
     </div>
  

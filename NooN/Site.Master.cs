@@ -19,21 +19,21 @@ namespace NooN
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
-                BindCategories();
+                //BindCategories();
 
             UpdateCartBadge();
         }
 
         // ══ Categories ══
-        private void BindCategories()
-        {
-            ddlCategories.DataSource = GetCategories();
-            ddlCategories.DataTextField = "name_ar";
-            ddlCategories.DataValueField = "category_id";
-            ddlCategories.DataBind();
+        //private void BindCategories()
+        //{
+        //    ddlCategories.DataSource = GetCategories();
+        //    ddlCategories.DataTextField = "name_ar";
+        //    ddlCategories.DataValueField = "category_id";
+        //    ddlCategories.DataBind();
 
-            ddlCategories.Items.Insert(0, new ListItem("🏷️ كل الفئات", "0"));
-        }
+        //    ddlCategories.Items.Insert(0, new ListItem("🏷️ كل الفئات", "0"));
+        //}
 
         // Categories rarely change, so cache the list for all users.
         // This avoids a DB round-trip on every page load across the whole site.

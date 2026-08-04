@@ -1,68 +1,132 @@
-/* ============================================================
-   NOON — detail.js
-   Scripts specific to pages/detail.html
-   ============================================================ */
+/* ==============================================
+   detail.js — NooN Store
+   Scripts for Details.aspx (product detail page)
 
-let qtyVal = 1;
+   Server-generated control IDs are injected via
+   the detailIds object defined inline in Details.aspx
+   (above this script tag). Any reference to a hidden
+   field or label uses detailIds.<key> to get the
+   rendered client ID.
+   ============================================== */
 
-/* ── Load product data from URL params ── */
-function loadProductFromURL() {
-  const p = new URLSearchParams(window.location.search);
-  const icon = p.get('icon') || '📱';
-
-  if (p.get('name'))     document.getElementById('detail-name').textContent     = p.get('name');
-  if (p.get('price'))    document.getElementById('detail-price').textContent    = p.get('price') + ' د.أ';
-  if (p.get('oldPrice')) document.getElementById('detail-old').textContent      = p.get('oldPrice');
-  if (p.get('discount')) document.getElementById('detail-discount').textContent = '-' + p.get('discount');
-  if (p.get('reviews'))  document.getElementById('detail-reviews').textContent  = p.get('reviews') + ' تقييم';
-  if (p.get('cat'))      document.getElementById('detail-cat-bc').textContent   = p.get('cat');
-
-  /* Set gallery icons */
-  document.getElementById('gallery-main').textContent = icon;
-  const icons = [icon, '🔋', '📦', '🎁'];
-  icons.forEach((ic, i) => {
-    const t = document.getElementById('thumb-' + i);
-    if (t) {
-      t.textContent = ic;
-      t.onclick = () => selectThumb(t, ic);
+function changeQty(delta) {
+    var display = document.getElementById('qtyDisplay');
+    var hf     = document.getElementById(detailIds.hfQty);
+    var hfMax  = document.getElementById(detailIds.hfMaxQty);
+    var max = hfMax ? parseInt(hfMax.value) : 99;
+    if (isNaN(max) || max < 1) max = 1;
+    var v = parseInt(hf.value) + delta;
+    if (v >= 1 && v <= max) {
+        hf.value = v;
+        display.innerText = v;
     }
-  });
 }
 
-/* ── Quantity control ── */
-function changeQty(d) {
-  qtyVal = Math.max(1, qtyVal + d);
-  document.getElementById('qty-display').textContent = qtyVal;
+function pickColor(btn) {
+    document.querySelectorAll('.color-btn').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    var hf = document.getElementById(detailIds.hfColor);
+    if (hf) hf.value = btn.getAttribute('data-color');
+    var grp = document.getElementById('colorGroup');
+    if (grp) grp.classList.remove('invalid');
 }
 
-/* ── Gallery thumbnail selection ── */
-function selectThumb(el, icon) {
-  document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('gallery-main').textContent = icon;
+function pickSize(btn) {
+    document.querySelectorAll('.size-btn').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    var hf = document.getElementById(detailIds.hfSize);
+    if (hf) hf.value = btn.getAttribute('data-size');
+    var grp = document.getElementById('sizeGroup');
+    if (grp) grp.classList.remove('invalid');
 }
 
-/* ── Colour swatch selection ── */
-function selectColor(el) {
-  document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
-  el.classList.add('active');
+function pickStar(val) {
+    document.getElementById(detailIds.hfRating).value = val;
+    document.querySelectorAll('.star-pick').forEach(function (s) {
+        s.classList.toggle('active', parseInt(s.getAttribute('data-val')) <= val);
+    });
 }
 
-/* ── Size button selection ── */
-function selectSize(el) {
-  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
+function validateCart() {
+    var ok = true;
+
+    var colorHf = document.getElementById(detailIds.hfColor);
+    if (colorHf !== null) {
+        if (!colorHf.value || colorHf.value.trim() === '') {
+            var grp = document.getElementById('colorGroup');
+            if (grp) {
+                grp.classList.add('invalid');
+                setTimeout(function () { grp.classList.remove('invalid'); }, 2000);
+            }
+            showToast('⚠️ يرجى اختيار اللون أولاً');
+            ok = false;
+        }
+    }
+
+    var sizeHf = document.getElementById(detailIds.hfSize);
+    if (sizeHf !== null && ok) {
+        if (!sizeHf.value || sizeHf.value.trim() === '') {
+            var grp2 = document.getElementById('sizeGroup');
+            if (grp2) {
+                grp2.classList.add('invalid');
+                setTimeout(function () { grp2.classList.remove('invalid'); }, 2000);
+            }
+            showToast('⚠️ يرجى اختيار الحجم أولاً');
+            ok = false;
+        }
+    }
+
+    return ok;
 }
 
-/* ── Wishlist button toggle ── */
-function wishlistToggle(btn) {
-  if (btn.textContent === '🤍') {
-    btn.textContent = '❤️';
-    showToast('تمت الإضافة إلى المفضلة ❤️');
-  } else {
-    btn.textContent = '🤍';
-  }
+function detailsAddToCart(btn) {
+    if (!validateCart()) return;
+
+    var qtyHf   = document.getElementById(detailIds.hfQty);
+    var colorHf = document.getElementById(detailIds.hfColor);
+    var sizeHf  = document.getElementById(detailIds.hfSize);
+
+    noonShop.addToCart(btn, {
+        quantity: qtyHf   ? qtyHf.value          : 1,
+        color:    colorHf ? colorHf.value.trim()  : '',
+        size:     sizeHf  ? sizeHf.value.trim()   : ''
+    });
 }
 
-/* ── Auto-init ── */
-document.addEventListener('DOMContentLoaded', loadProductFromURL);
+function showToast(msg) {
+    var t = document.getElementById('detailToast');
+    t.innerText = msg;
+    t.style.display = 'block';
+    t.style.opacity = '1';
+    t.style.transition = '';
+    setTimeout(function () {
+        t.style.transition = 'opacity .5s';
+        t.style.opacity = '0';
+        setTimeout(function () {
+            t.style.display = 'none';
+            t.style.opacity = '1';
+        }, 500);
+    }, 2500);
+}
+
+window.addEventListener('load', function () {
+    var r = document.getElementById(detailIds.lblReviewMsg);
+    if (r && r.innerText.trim() !== '') showToast(r.innerText.trim());
+
+    var thumbs  = document.querySelectorAll('.gallery-thumb');
+    var mainImg = document.getElementById('galleryMainImg');
+    thumbs.forEach(function (th) {
+        th.addEventListener('click', function () {
+            thumbs.forEach(function (t) { t.classList.remove('active'); });
+            th.classList.add('active');
+            var im = th.querySelector('img');
+            if (mainImg && im) mainImg.src = im.getAttribute('data-full') || im.src;
+        });
+    });
+
+    var hfQty = document.getElementById(detailIds.hfQty);
+    var disp  = document.getElementById('qtyDisplay');
+    if (hfQty && disp && hfQty.value) {
+        disp.innerText = hfQty.value;
+    }
+});

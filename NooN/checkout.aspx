@@ -6,457 +6,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="Content/shared.css" rel="stylesheet" />
-    <style>
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-
-        body {
-            background: #f5f5f5;
-            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
-        }
-
-        /* ── Layout ── */
-        .checkout-layout {
-            display: grid;
-            grid-template-columns: 1fr 360px;
-            gap: 24px;
-            max-width: 1100px;
-            margin: 32px auto;
-            padding: 0 16px;
-            align-items: start;
-        }
-
-        @media(max-width:860px) {
-            .checkout-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .order-summary-sticky {
-                order: -1;
-            }
-        }
-
-        /* ── Step Bar ── */
-        .checkout-step-bar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 28px;
-            background: #fff;
-            border-radius: 12px;
-            padding: 18px 24px;
-            border: 1px solid #e8e8e8;
-        }
-
-        .checkout-step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .step-circle {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 2px solid #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 700;
-            color: #aaa;
-            background: #fff;
-            transition: all .3s;
-        }
-
-        .step-label {
-            font-size: 12px;
-            color: #aaa;
-            font-weight: 600;
-        }
-
-        .checkout-step.active .step-circle {
-            border-color: #f5a623;
-            background: #f5a623;
-            color: #fff;
-        }
-
-        .checkout-step.active .step-label {
-            color: #f5a623;
-        }
-
-        .checkout-step.done .step-circle {
-            border-color: #00b14f;
-            background: #00b14f;
-            color: #fff;
-        }
-
-        .checkout-step.done .step-label {
-            color: #00b14f;
-        }
-
-        .step-line {
-            flex: 1;
-            height: 2px;
-            background: #e8e8e8;
-            min-width: 40px;
-            margin: 0 4px 22px;
-        }
-
-        /* ── Form Section ── */
-        .form-section {
-            background: #fff;
-            border: 1px solid #e8e8e8;
-            border-radius: 14px;
-            padding: 24px;
-            margin-bottom: 20px;
-        }
-
-        .form-section-title {
-            font-size: 17px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .form-section-num {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: #f5a623;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        /* ── Form Controls ── */
-        .form-grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        @media(max-width:560px) {
-            .form-grid-2 {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: #444;
-            margin-bottom: 6px;
-        }
-
-        .form-input, .form-select {
-            width: 100%;
-            padding: 11px 14px;
-            border: 1.5px solid #e0e0e0;
-            border-radius: 9px;
-            font-size: 14px;
-            color: #1a1a2e;
-            background: #fafafa;
-            transition: border-color .2s, box-shadow .2s;
-            outline: none;
-        }
-
-            .form-input:focus, .form-select:focus {
-                border-color: #f5a623;
-                box-shadow: 0 0 0 3px rgba(245,166,35,.12);
-                background: #fff;
-            }
-
-            .form-input::placeholder {
-                color: #bbb;
-            }
-
-        .validation-error {
-            display: block;
-            font-size: 12px;
-            color: #e53935;
-            margin-top: 4px;
-            font-weight: 500;
-        }
-
-        /* ── Payment ── */
-        .payment-methods {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .payment-option {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            border: 2px solid #e8e8e8;
-            border-radius: 12px;
-            padding: 14px 18px;
-            cursor: pointer;
-            transition: border-color .2s, background .2s;
-            background: #fafafa;
-        }
-
-            .payment-option:hover {
-                border-color: #f5a623;
-                background: #fffbf2;
-            }
-
-            .payment-option.selected {
-                border-color: #f5a623;
-                background: #fffbf2;
-            }
-
-        .payment-radio {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            border: 2px solid #ddd;
-            flex-shrink: 0;
-            transition: all .2s;
-        }
-
-        .payment-option.selected .payment-radio {
-            border-color: #f5a623;
-            border-width: 5px;
-        }
-
-        .payment-icon {
-            font-size: 24px;
-        }
-
-        .payment-name {
-            font-size: 14px;
-            font-weight: 700;
-            color: #1a1a2e;
-        }
-
-        .payment-desc {
-            font-size: 12px;
-            color: #888;
-            margin-top: 2px;
-        }
-
-        /* ── Card Fields ── */
-        .card-fields {
-            background: #f9f9f9;
-            border: 1px solid #eee;
-            border-radius: 10px;
-            padding: 18px;
-            margin-bottom: 20px;
-        }
-
-        .card-field-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        /* ── Button ── */
-        .checkout-place-btn {
-            width: 100%;
-            background: linear-gradient(135deg,#f5a623,#e8960f);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            padding: 16px;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: opacity .2s, transform .1s;
-            margin-top: 4px;
-        }
-
-            .checkout-place-btn:hover {
-                opacity: .92;
-                transform: translateY(-1px);
-            }
-
-            .checkout-place-btn:active {
-                transform: translateY(0);
-            }
-
-        /* ── Order Summary ── */
-        .order-summary-sticky {
-            background: #fff;
-            border: 1px solid #e8e8e8;
-            border-radius: 14px;
-            padding: 22px;
-            position: sticky;
-            top: 90px;
-        }
-
-        .summary-title {
-            font-size: 17px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 18px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .order-item-mini {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 0;
-            border-bottom: 1px solid #f5f5f5;
-        }
-
-            .order-item-mini:last-of-type {
-                border-bottom: none;
-            }
-
-        .order-item-img {
-            width: 44px;
-            height: 44px;
-            background: #f5f5f5;
-            border-radius: 8px;
-            overflow: hidden;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-            .order-item-img img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-
-        .order-item-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: #1a1a2e;
-        }
-
-        .order-item-qty {
-            font-size: 12px;
-            color: #888;
-            margin-top: 2px;
-        }
-
-        .order-item-price {
-            margin-right: auto;
-            font-size: 13px;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        .summary-divider {
-            height: 1px;
-            background: #f0f0f0;
-            margin: 14px 0;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            color: #555;
-            padding: 5px 0;
-        }
-
-        .summary-row-label {
-            color: #777;
-        }
-
-        .summary-row-value {
-            font-weight: 600;
-        }
-
-            .summary-row-value.free {
-                color: #00b14f;
-            }
-
-        .summary-total {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 6px;
-        }
-
-            .summary-total > span:first-child {
-                font-size: 16px;
-                font-weight: 700;
-                color: #1a1a2e;
-            }
-
-        .summary-total-value {
-            font-size: 20px;
-            font-weight: 800;
-            color: #f5a623;
-        }
-
-        /* ── Coupon ── */
-        .coupon-box {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .coupon-btn {
-            padding: 11px 18px;
-            background: #1a1a2e;
-            color: #fff;
-            border: none;
-            border-radius: 9px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-            .coupon-btn:hover {
-                background: #2d2d4e;
-            }
-
-        .secure-note {
-            text-align: center;
-            font-size: 12px;
-            color: #aaa;
-            margin-top: 12px;
-        }
-
-            .secure-note span {
-                color: #00b14f;
-                font-weight: 600;
-            }
-
-        /* ── Empty Cart ── */
-        .empty-cart-msg {
-            text-align: center;
-            padding: 32px 16px;
-            color: #888;
-        }
-
-            .empty-cart-msg .empty-icon {
-                font-size: 48px;
-                margin-bottom: 12px;
-            }
-
-            .empty-cart-msg p {
-                font-size: 15px;
-                margin: 0;
-            }
-    </style>
+    <link href="Content/checkout.css" rel="stylesheet" />
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -668,6 +218,13 @@
                             ErrorMessage="رقم البطاقة مطلوب"
                             CssClass="validation-error" Display="Dynamic"
                             ValidationGroup="OrderGroup" />
+                        <asp:RegularExpressionValidator
+                            ID="REV_Card" runat="server"
+                            ControlToValidate="txtCardNumber"
+                            ErrorMessage="رقم البطاقة يجب أن يتكوّن من 16 إلى 19 رقماً"
+                            ValidationExpression="^[\d\s]{16,19}$"
+                            CssClass="validation-error" Display="Dynamic"
+                            ValidationGroup="OrderGroup" />
                     </div>
                     <div class="card-field-row">
                         <div class="form-group">
@@ -681,17 +238,31 @@
                                 ErrorMessage="مطلوب"
                                 CssClass="validation-error" Display="Dynamic"
                                 ValidationGroup="OrderGroup" />
+                            <asp:RegularExpressionValidator
+                                ID="REV_Expiry" runat="server"
+                                ControlToValidate="txtExpiry"
+                                ErrorMessage="الصيغة الصحيحة MM/YY"
+                                ValidationExpression="^(0[1-9]|1[0-2])\/\d{2}$"
+                                CssClass="validation-error" Display="Dynamic"
+                                ValidationGroup="OrderGroup" />
                         </div>
                         <div class="form-group">
                             <label class="form-label">CVV</label>
                             <asp:TextBox ID="txtCVV" runat="server"
                                 CssClass="form-input"
-                                placeholder="•••" MaxLength="3"
+                                placeholder="•••" MaxLength="4"
                                 TextMode="Password" />
                             <asp:RequiredFieldValidator
                                 ID="RFV_CVV" runat="server"
                                 ControlToValidate="txtCVV"
                                 ErrorMessage="مطلوب"
+                                CssClass="validation-error" Display="Dynamic"
+                                ValidationGroup="OrderGroup" />
+                            <asp:RegularExpressionValidator
+                                ID="REV_CVV" runat="server"
+                                ControlToValidate="txtCVV"
+                                ErrorMessage="CVV يجب أن يتكوّن من 3 أو 4 أرقام"
+                                ValidationExpression="^\d{3,4}$"
                                 CssClass="validation-error" Display="Dynamic"
                                 ValidationGroup="OrderGroup" />
                         </div>
@@ -818,70 +389,19 @@
 
     <script src='<%= ResolveUrl("~/Scripts/shared.js") %>'></script>
     <script>
-        // Image fallback for a missing product image. Clears onerror first so a
-        // missing placeholder can never re-trigger it (which caused an infinite
-        // request loop), then swaps to an inline SVG that never hits the network.
-        function imgFallback(img) {
-            img.onerror = null;
-            img.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Crect width='44' height='44' fill='%23eeeeee'/%3E%3Cpath d='M11 31l7-7 4 4 5-5 6 6v2H11z' fill='%23c9c9c9'/%3E%3Ccircle cx='17' cy='17' r='3' fill='%23c9c9c9'/%3E%3C/svg%3E";
-        }
-
-        // Card validators — only enforced when paying by card.
-        var cardValidatorIds = [
-            '<%= RFV_Card.ClientID %>',
-            '<%= RFV_Expiry.ClientID %>',
-            '<%= RFV_CVV.ClientID %>',
-            '<%= RFV_CardHolder.ClientID %>'
-        ];
-
-        function toggleCardValidators(isCard) {
-            if (typeof ValidatorEnable !== 'function') return;
-            cardValidatorIds.forEach(function (id) {
-                var v = document.getElementById(id);
-                if (v) ValidatorEnable(v, isCard);
-            });
-        }
-
-        function applyPaymentMethod(type) {
-            var isCard = (type === 'card');
-            document.getElementById('cardSection').style.display = isCard ? 'block' : 'none';
-            toggleCardValidators(isCard);
-        }
-
-        function selectPayment(el, type) {
-            document.querySelectorAll('.payment-option')
-                .forEach(o => o.classList.remove('selected'));
-            el.classList.add('selected');
-            document.getElementById(
-                '<%= hfPaymentMethod.ClientID %>').value = type;
-            applyPaymentMethod(type);
-        }
-
-        window.addEventListener('load', function () {
-            var method = document.getElementById(
-                '<%= hfPaymentMethod.ClientID %>').value;
-            applyPaymentMethod(method);
-        });
-
-        // Format the card number
-        var cardInput = document.getElementById('<%= txtCardNumber.ClientID %>');
-        if (cardInput) {
-            cardInput.addEventListener('input', function () {
-                var v = this.value.replace(/\D/g, '').substring(0, 16);
-                var parts = v.match(/.{1,4}/g);
-                this.value = parts ? parts.join(' ') : v;
-            });
-        }
-
-        // Format the expiry date
-        var expiryInput = document.getElementById('<%= txtExpiry.ClientID %>');
-        if (expiryInput) {
-            expiryInput.addEventListener('input', function () {
-                var v = this.value.replace(/\D/g, '');
-                if (v.length >= 2) v = v.substring(0, 2) + '/' + v.substring(2, 4);
-                this.value = v;
-            });
-        }
+        var checkoutIds = {
+            hfPaymentMethod: '<%= hfPaymentMethod.ClientID %>',
+            rfvCard:         '<%= RFV_Card.ClientID %>',
+            revCard:         '<%= REV_Card.ClientID %>',
+            rfvExpiry:       '<%= RFV_Expiry.ClientID %>',
+            revExpiry:       '<%= REV_Expiry.ClientID %>',
+            rfvCVV:          '<%= RFV_CVV.ClientID %>',
+            revCVV:          '<%= REV_CVV.ClientID %>',
+            rfvCardHolder:   '<%= RFV_CardHolder.ClientID %>',
+            txtCardNumber:   '<%= txtCardNumber.ClientID %>',
+            txtExpiry:       '<%= txtExpiry.ClientID %>'
+        };
     </script>
+    <script src='<%= ResolveUrl("~/Scripts/checkout.js") %>'></script>
 
 </asp:Content>

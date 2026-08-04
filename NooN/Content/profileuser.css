@@ -1,227 +1,429 @@
-﻿/* التنسيقات الأصلية المحسنة */
+/* ============================================================
+   NOON — profileuser.css
+   Styles for the User Profile page (Userprofile.aspx).
+   Site.Master loads shared.css + master.css first; this file
+   only adds profile-specific rules.
+   ============================================================ */
+
+/* Profile-only design tokens (prefixed --pf- to avoid
+   overriding global variables from shared/master CSS) */
 :root {
-    --bg: #ffffff;
-    --surface: #f9f9f9;
-    --surface2: #f1f1f1;
-    --border: #d1d1d1;
-    --accent: #111111;
-    --text: #111111;
-    --text3: #888888;
-    --radius: 14px;
-    --radius-sm: 8px;
-    --font: 'Cairo',sans-serif;
+    --pf-font:       'Cairo', 'Tajawal', sans-serif;
+    --pf-gold:       #C9A84C;
+    --pf-gold-dark:  #A88A38;
+    --pf-surface:    #ffffff;
+    --pf-bg:         #FAF8F5;
+    --pf-surface2:   #F4F1EC;
+    --pf-border:     #E5DDD2;
+    --pf-text:       #1A1714;
+    --pf-text2:      #5C574F;
+    --pf-text3:      #9B9590;
+    --pf-radius:     12px;
+    --pf-radius-sm:  8px;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box
-}
-
-body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font);
-    min-height: 100vh;
-    font-size: 14px
-}
-
-.toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(255,255,255,.96);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-    height: 56px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 0 24px;
-}
-
-.toolbar-logo {
-    font-size: 22px;
-    font-weight: 900;
-    color: #111;
-    display: flex;
-    align-items: center;
-    gap: 6px
-}
-
-    .toolbar-logo span {
-        width: 10px;
-        height: 10px;
-        background: #111;
-        border-radius: 50%;
-    }
-
-.toolbar-right {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 12px
-}
-
-.user-chip {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 99px;
-    padding: 4px 12px 4px 4px;
-}
-
-.chip-av {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: #111;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    color: #fff
-}
-
-.layout {
+/* ── Page layout ─────────────────────────────────────────── */
+.profile-layout {
     display: grid;
-    grid-template-columns: 220px 1fr;
-    min-height: calc(100vh - 56px)
+    grid-template-columns: 210px 1fr;
+    min-height: calc(100vh - 110px); /* 70px navbar + 40px content-area padding */
+    background: var(--pf-bg);
+    direction: rtl;
+    /* pull out of .main-content-area's 20px padding so sidebar touches edges */
+    margin: -20px;
 }
 
-.sidebar {
-    background: var(--surface);
-    border-left: 1px solid var(--border);
-    padding: 20px 12px;
+/* ── Sidebar ─────────────────────────────────────────────── */
+.profile-sidebar {
+    background: var(--pf-surface);
+    border-left: 1px solid var(--pf-border);
+    padding: 24px 10px;
     display: flex;
     flex-direction: column;
-    gap: 4px
+    gap: 4px;
 }
 
 .sb-item {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 12px;
-    border-radius: var(--radius-sm);
+    padding: 11px 14px;
+    border-radius: var(--pf-radius-sm);
     cursor: pointer;
-    color: #444;
-    font-size: 13px;
-    text-decoration: none
+    color: var(--pf-text2);
+    font-size: 14px;
+    font-family: var(--pf-font);
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
 }
 
-    .sb-item.active {
-        background: #e8e8e8;
-        color: #111;
-        font-weight: 700;
-        border: 1px solid var(--border)
-    }
+.sb-item:hover {
+    background: var(--pf-surface2);
+    color: var(--pf-text);
+}
 
-.content {
-    padding: 24px;
+.sb-item.active {
+    background: rgba(201,168,76,0.10);
+    color: var(--pf-text);
+    font-weight: 700;
+    border: 1px solid var(--pf-gold);
+}
+
+/* ── Main content ────────────────────────────────────────── */
+.profile-content {
+    padding: 28px 28px 40px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    max-width: 800px;
 }
 
+/* ── Profile hero ────────────────────────────────────────── */
+.profile-hero {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 0 4px;
+}
+
+.profile-avatar {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: var(--pf-text);
+    color: var(--pf-gold);
+    font-size: 19px;
+    font-weight: 700;
+    font-family: var(--pf-font);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: 1px;
+    border: 2px solid var(--pf-gold);
+}
+
+.profile-hero-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.profile-hero-name {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: var(--pf-font);
+    color: var(--pf-text);
+    line-height: 1.3;
+}
+
+.last-updated {
+    font-size: 12px;
+    color: var(--pf-text3);
+    font-family: var(--pf-font);
+}
+
+/* ── Card panels ─────────────────────────────────────────── */
 .panel {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    background: var(--pf-surface);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius);
     overflow: hidden;
-    box-shadow: 0 1px 4px rgba(0,0,0,.05)
+    box-shadow: 0 1px 5px rgba(0,0,0,.05);
 }
 
 .panel-hdr {
-    padding: 14px 18px;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface2);
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--pf-border);
+    background: var(--pf-surface2);
     display: flex;
     justify-content: space-between;
-    align-items: center
+    align-items: center;
+}
+
+.panel-title {
+    font-size: 14px;
+    font-weight: 700;
+    font-family: var(--pf-font);
+    color: var(--pf-text);
+}
+
+.user-id-badge {
+    font-size: 11px;
+    color: var(--pf-text3);
+    font-family: var(--pf-font);
 }
 
 .panel-body {
-    padding: 20px 18px
+    padding: 22px 20px;
 }
 
+/* ── Validation summary ──────────────────────────────────── */
+.validation-summary {
+    background: #fff0f0;
+    border: 1px solid #ffc0c0;
+    border-radius: var(--pf-radius-sm);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #c0392b;
+    font-family: var(--pf-font);
+    margin-bottom: 16px;
+    display: block;
+}
+
+.validation-summary ul {
+    margin: 6px 0 0;
+    padding-right: 18px;
+}
+
+/* ── Fields grid ─────────────────────────────────────────── */
 .info-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px
+    gap: 16px;
 }
 
 .field {
     display: flex;
     flex-direction: column;
-    gap: 5px
+    gap: 6px;
 }
 
-    .field label {
-        font-size: 11px;
-        color: var(--text3);
-        font-weight: 700;
-        text-transform: uppercase
-    }
+.field-full {
+    grid-column: span 2;
+}
 
-/* تنسيق الـ TextBox ليطابق التصميم */
+.field label {
+    font-size: 11px;
+    color: var(--pf-text3);
+    font-weight: 700;
+    font-family: var(--pf-font);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.field-error {
+    font-size: 12px;
+    color: #c0392b;
+    font-family: var(--pf-font);
+    margin-top: 2px;
+}
+
+/* ── TextBox control ─────────────────────────────────────── */
 .asp-input {
     width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 9px 12px;
-    font-size: 13px;
-    font-family: var(--font);
-    color: #111;
-    transition: .2s;
+    background: var(--pf-surface2);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-radius-sm);
+    padding: 10px 13px;
+    font-size: 14px;
+    font-family: var(--pf-font);
+    color: var(--pf-text);
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
     outline: none;
 }
 
-    .asp-input:focus {
-        border-color: #111;
-        background: #fff;
-        box-shadow: 0 0 0 3px rgba(0,0,0,.05)
-    }
+.asp-input:focus {
+    border-color: var(--pf-gold);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(201,168,76,.10);
+}
 
-    .asp-input[readonly] {
-        background: var(--surface2);
-        cursor: not-allowed;
-        border-color: transparent
-    }
+.asp-input[readonly] {
+    background: var(--pf-surface2);
+    border-color: transparent;
+    color: var(--pf-text2);
+    cursor: not-allowed;
+}
 
-.btn-primary {
-    background: #111;
+/* ── Password row ────────────────────────────────────────── */
+.password-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.password-display {
+    flex: 1;
+    background: var(--pf-surface2);
+    border: 1px solid transparent;
+    border-radius: var(--pf-radius-sm);
+    padding: 10px 13px;
+    font-size: 20px;
+    letter-spacing: 4px;
+    color: var(--pf-text3);
+    user-select: none;
+    line-height: 1;
+}
+
+/* ── Action buttons ──────────────────────────────────────── */
+.actions-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+}
+
+.btn-profile-primary {
+    background: var(--pf-text);
     color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: var(--radius-sm);
+    border: 2px solid var(--pf-text);
+    padding: 10px 22px;
+    border-radius: var(--pf-radius-sm);
     cursor: pointer;
     font-weight: 700;
-    font-family: var(--font);
-    transition: .2s
+    font-size: 14px;
+    font-family: var(--pf-font);
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
 }
 
-.btn-secondary {
-    background: #fff;
+.btn-profile-primary:hover {
+    background: var(--pf-gold);
+    border-color: var(--pf-gold);
+    color: var(--pf-text);
+}
+
+.btn-profile-secondary {
+    background: var(--pf-surface);
     color: #111;
-    border: 1px solid var(--border);
-    padding: 10px 20px;
-    border-radius: var(--radius-sm);
+    border: 2px solid var(--pf-border);
+    padding: 10px 22px;
+    border-radius: var(--pf-radius-sm);
     cursor: pointer;
-    font-family: var(--font)
+    font-size: 14px;
+    font-family: var(--pf-font);
+    transition: border-color 0.2s;
 }
 
-.pass-dots {
-    letter-spacing: 3px;
-    font-weight: bold
+.btn-profile-secondary:hover {
+    border-color: #111;
 }
 
-.save-status {
-    font-size: 12px;
-    color: #27ae60;
+.btn-outline {
+    background: transparent;
+    color: var(--pf-text);
+    border: 2px solid var(--pf-border);
+    padding: 9px 18px;
+    border-radius: var(--pf-radius-sm);
+    cursor: pointer;
+    font-size: 13px;
     font-weight: 600;
-    margin-right: 10px
+    font-family: var(--pf-font);
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.btn-outline:hover {
+    background: var(--pf-gold);
+    border-color: var(--pf-gold);
+    color: var(--pf-text);
+}
+
+/* ── Status label ────────────────────────────────────────── */
+.save-status {
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--pf-font);
+}
+
+/* ── Orders summary ──────────────────────────────────────── */
+.orders-summary {
+    display: flex;
+    align-items: center;
+}
+
+.order-stat {
+    flex: 1;
+    text-align: center;
+    padding: 14px 0;
+}
+
+.order-stat-num {
+    font-size: 30px;
+    font-weight: 900;
+    font-family: var(--pf-font);
+    color: var(--pf-text);
+    line-height: 1;
+    margin-bottom: 6px;
+}
+
+.order-stat-label {
+    font-size: 13px;
+    color: var(--pf-text3);
+    font-family: var(--pf-font);
+}
+
+.order-stat-divider {
+    width: 1px;
+    height: 50px;
+    background: var(--pf-border);
+    flex-shrink: 0;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 860px) {
+    .profile-content {
+        padding: 20px 16px 32px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-layout {
+        grid-template-columns: 1fr;
+        margin: -20px -12px; /* match .main-content-area mobile padding */
+    }
+
+    .profile-sidebar {
+        border-left: none;
+        border-bottom: 1px solid var(--pf-border);
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 10px 12px;
+        gap: 6px;
+    }
+
+    .sb-item {
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 9px 14px;
+    }
+
+    .profile-content {
+        padding: 16px 14px 28px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .field-full {
+        grid-column: span 1;
+    }
+
+    .profile-hero {
+        padding: 4px 0 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-hero-name {
+        font-size: 17px;
+    }
+
+    .panel-body {
+        padding: 16px 14px;
+    }
+
+    .actions-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-profile-primary,
+    .btn-profile-secondary {
+        width: 100%;
+        text-align: center;
+    }
 }

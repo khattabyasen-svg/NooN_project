@@ -221,3 +221,38 @@ body {
     color: #888;
     font-size: 0.9rem;
 }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-group {
+        min-width: 100%;
+    }
+
+    .status-group {
+        max-width: 100%;
+    }
+
+    /* make table scroll horizontally */
+    .table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .grid {
+        min-width: 560px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-header h1 {
+        font-size: 1.1rem;
+    }
+}

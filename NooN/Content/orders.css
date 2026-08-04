@@ -410,3 +410,32 @@ body {
   from { opacity: 0; transform: translateX(-16px); }
   to   { opacity: 1; transform: translateX(0); }
 }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  body { display: block; }
+  .main { width: 100%; min-width: 0; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .topbar { padding: 0 12px; }
+  .breadcrumb { display: none; }
+  .topbar-title { font-size: 14px; }
+  .filters-row { flex-direction: column; }
+  .search-wrap { min-width: 100%; }
+  /* make table horizontally scrollable */
+  .card { overflow-x: auto; }
+  .orders-table { min-width: 640px; }
+  /* detail panel full width on mobile */
+  .detail-panel { width: 100%; left: 0; right: 0; }
+  .pagination { flex-direction: column; gap: 8px; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .stats-row { grid-template-columns: 1fr; }
+  .topbar-actions .btn:not(.primary) { display: none; }
+  .tabs { overflow-x: auto; flex-wrap: nowrap; }
+  .tab { white-space: nowrap; }
+}

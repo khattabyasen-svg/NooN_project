@@ -30,21 +30,28 @@ namespace NooN
                 return;
             }
 
-            // ── 2. New password must match confirm ────────────────────────────
+            // ── 2. New password minimum length ───────────────────────────────
+            if (newPassword.Length < 8)
+            {
+                ShowMessage("Password must be at least 8 characters long.", MessageType.Error);
+                return;
+            }
+
+            // ── 3. New password must match confirm ────────────────────────────
             if (newPassword != confirmPassword)
             {
                 ShowMessage("New password and confirm password do not match.", MessageType.Error);
                 return;
             }
 
-            // ── 3. New password must differ from current ──────────────────────
+            // ── 4. New password must differ from current ──────────────────────
             if (newPassword == currentPassword)
             {
                 ShowMessage("New password must be different from your current password.", MessageType.Error);
                 return;
             }
 
-            // ── 4. Identify the logged-in user ────────────────────────────────
+            // ── 5. Identify the logged-in user ────────────────────────────────
             // Adjust this if you store the user ID differently (e.g. FormsAuthentication)
             if (Session["user_id"] == null)
             {
@@ -54,7 +61,7 @@ namespace NooN
 
             int userId = Convert.ToInt32(Session["user_id"]);
 
-            // ── 5. Verify current password & update in DB ─────────────────────
+            // ── 6. Verify current password & update in DB ─────────────────────
             try
             {
                 using (SqlConnection conn = new SqlConnection(connStr))

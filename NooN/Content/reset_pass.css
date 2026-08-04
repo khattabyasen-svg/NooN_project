@@ -1,28 +1,26 @@
-﻿*, *::before, *::after {
+*, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
 :root {
-    /* نظام ألوان أبيض وأسود جديد */
-    --ink: #000000; /* أسود خالص للنصوص الرئيسية */
-    --paper: #ffffff; /* أبيض خالص للخلفية */
-    --cream: #f0f0f0; /* رمادي فاتح جداً كبديل للكريمي */
-    --accent: #000000; /* أسود للعناصر التفاعلية (الزر) */
-    --accent-dark: #333333; /* رمادي غامق جداً لحالة الحوم (Hover) */
-    --muted: #666666; /* رمادي متوسط للنصوص الثانوية */
-    --border: #e0e0e0; /* رمادي فاتح جداً للحدود */
-    --success: #000000; /* أسود لحالات النجاح في هذا السياق */
+    --ink:         #1A1714;
+    --paper:       #FFFFFF;
+    --cream:       #FAF8F5;
+    --accent:      #C9A84C;
+    --accent-dark: #A88A38;
+    --muted:       #9B9590;
+    --border:      #E5DDD2;
+    --success:     #2E7D52;
+    --error:       #C0392B;
 }
 
-html, body {
-    height: 100%;
-}
+html, body { height: 100%; }
 
 body {
-    font-family: 'DM Sans', sans-serif;
-    background-color: var(--paper);
+    font-family: 'Tajawal', 'DM Sans', sans-serif;
+    background-color: var(--cream);
     color: var(--ink);
     display: flex;
     align-items: center;
@@ -30,61 +28,52 @@ body {
     min-height: 100vh;
     padding: 2rem;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
-    /* Decorative background elements - تم تعديلها لتكون تدرجات رمادية ناعمة */
-    body::before {
-        content: '';
-        position: fixed;
-        top: -20%;
-        right: -10%;
-        width: 600px;
-        height: 600px;
-        border-radius: 50%;
-        /* تدرج رمادي فاتح جداً */
-        background: radial-gradient(circle, rgba(0,0,0,0.03) 0%, transparent 70%);
-        pointer-events: none;
-    }
+body::before {
+    content: '';
+    position: fixed;
+    top: -20%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+}
 
-    body::after {
-        content: '';
-        position: fixed;
-        bottom: -15%;
-        left: -5%;
-        width: 500px;
-        height: 500px;
-        border-radius: 50%;
-        /* تدرج رمادي فاتح جداً */
-        background: radial-gradient(circle, rgba(0,0,0,0.02) 0%, transparent 70%);
-        pointer-events: none;
-    }
+body::after {
+    content: '';
+    position: fixed;
+    bottom: -15%;
+    left: -5%;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%);
+    pointer-events: none;
+}
 
 .card {
-    background: #fff;
+    background: var(--paper);
     border: 1px solid var(--border);
     border-radius: 4px;
     padding: 3rem 3.5rem;
     width: 100%;
     max-width: 440px;
     position: relative;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.02), 0 8px 32px rgba(0,0,0,0.04);
+    box-shadow: 0 4px 32px rgba(26,23,20,0.07);
     animation: riseUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes riseUp {
-    from {
-        opacity: 0;
-        transform: translateY(24px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Accent line at top - تم تعديله ليكون تدرجاً أسوداً */
+/* Gold accent line at top */
 .card::before {
     content: '';
     position: absolute;
@@ -92,182 +81,151 @@ body {
     left: 10%;
     right: 10%;
     height: 2px;
-    /* تدرج من الشفاف إلى الأسود إلى الشفاف */
     background: linear-gradient(90deg, transparent, var(--accent), transparent);
     border-radius: 0 0 2px 2px;
 }
 
-.card-header {
-    margin-bottom: 2.5rem;
-    animation: riseUp 0.6s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
+.card-header { margin-bottom: 2.5rem; animation: riseUp 0.6s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
 .card-eyebrow {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--accent); /* أسود */
+    color: var(--accent);
     margin-bottom: 0.6rem;
 }
 
 .card-title {
     font-family: 'Playfair Display', serif;
     font-size: 1.9rem;
-    font-weight: 600;
-    color: var(--ink); /* أسود */
+    font-weight: 700;
+    color: var(--ink);
     line-height: 1.2;
 }
 
 .card-subtitle {
-    font-size: 0.85rem;
-    color: var(--muted); /* رمادي متوسط */
+    font-size: 0.88rem;
+    color: var(--muted);
     margin-top: 0.5rem;
-    font-weight: 300;
-    line-height: 1.5;
+    font-weight: 400;
+    line-height: 1.6;
 }
 
 .field-group {
     margin-bottom: 1.4rem;
     animation: riseUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-
-    .field-group:nth-child(1) {
-        animation-delay: 0.15s;
-    }
-
-    .field-group:nth-child(2) {
-        animation-delay: 0.22s;
-    }
-
-    .field-group:nth-child(3) {
-        animation-delay: 0.29s;
-    }
+.field-group:nth-child(1) { animation-delay: 0.15s; }
+.field-group:nth-child(2) { animation-delay: 0.22s; }
+.field-group:nth-child(3) { animation-delay: 0.29s; }
 
 .field-label {
     display: block;
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    color: var(--muted); /* رمادي متوسط */
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--muted);
     text-transform: uppercase;
     margin-bottom: 0.45rem;
+    font-family: 'Tajawal', sans-serif;
+    transition: color 0.2s;
 }
+.field-group:focus-within .field-label { color: var(--accent); }
 
 .field-input {
     width: 100%;
     padding: 0.75rem 1rem;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Tajawal', sans-serif;
     font-size: 0.95rem;
     font-weight: 400;
-    color: var(--ink); /* أسود */
-    background: #ffffff; /* خلفية الحقل بيضاء */
-    border: 1px solid var(--border); /* حدود رمادية فاتحة */
+    color: var(--ink);
+    background: var(--cream);
+    border: 1.5px solid var(--border);
     border-radius: 3px;
     outline: none;
     transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
     appearance: none;
 }
-
-    .field-input:focus {
-        border-color: var(--accent); /* حدود سوداء عند التركيز */
-        background: #ffffff;
-        /* ظل أسود خفيف جداً عند التركيز */
-        box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
-    }
-
-    .field-input::placeholder {
-        color: #999999; /* رمادي فاتح لمتن النص الهائل */
-    }
-
-.divider {
-    height: 1px;
-    background: var(--border); /* خط فاصل رمادي فاتح */
-    margin: 1.8rem 0;
+.field-input:focus {
+    border-color: var(--accent);
+    background: var(--paper);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.10);
 }
+.field-input::placeholder { color: var(--muted); }
+
+.divider { height: 1px; background: var(--border); margin: 1.8rem 0; }
 
 .btn-save {
     width: 100%;
     padding: 0.85rem 1.5rem;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Tajawal', sans-serif;
     font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #ffffff; /* نص أبيض على زر أسود */
-    background: var(--accent); /* خلفية سوداء للزر */
-    border: none;
+    color: var(--paper);
+    background: var(--ink);
+    border: 2px solid var(--ink);
     border-radius: 3px;
     cursor: pointer;
-    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
     position: relative;
     overflow: hidden;
     animation: riseUp 0.6s 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-
-    .btn-save:hover {
-        background: var(--accent-dark); /* رمادي غامق عند الحوم */
-        /* ظل أسود خفيف عند الحوم */
-        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-        transform: translateY(-1px);
-    }
-
-    .btn-save:active {
-        transform: translateY(0);
-        box-shadow: none;
-    }
-
-    /* Ripple effect - تم تعديله ليكون أبيض ناعم */
-    .btn-save::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
-
-    .btn-save:hover::after {
-        opacity: 1;
-    }
+.btn-save:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--ink);
+    box-shadow: 0 4px 20px rgba(201,168,76,0.25);
+    transform: translateY(-1px);
+}
+.btn-save:active { transform: translateY(0); box-shadow: none; }
 
 .card-footer {
     margin-top: 1.5rem;
     text-align: center;
-    font-size: 0.8rem;
-    color: var(--muted); /* رمادي متوسط */
+    font-size: 0.82rem;
+    color: var(--muted);
     animation: riseUp 0.6s 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+    font-family: 'Tajawal', sans-serif;
 }
+.card-footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.card-footer a:hover { text-decoration: underline; }
 
-    .card-footer a {
-        color: var(--accent); /* أسود للرابط */
-        text-decoration: none;
-        font-weight: 500;
-    }
-
-        .card-footer a:hover {
-            text-decoration: underline;
-        }
-
-/* Lock icon - تم تعديل الألوان لتناسب الأسود والأبيض */
+/* Lock icon */
 .icon-wrap {
     width: 44px;
     height: 44px;
-    background: var(--cream); /* خلفية رمادية فاتحة جداً */
+    background: rgba(201,168,76,0.10);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 1.2rem;
 }
+.icon-wrap svg {
+    width: 20px; height: 20px;
+    stroke: var(--accent);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
 
-    .icon-wrap svg {
-        width: 20px;
-        height: 20px;
-        stroke: var(--accent); /* أيقونة سوداء */
-        fill: none;
-        stroke-width: 1.8;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-    }
+/* Validator error messages */
+.field-error {
+    display: block;
+    font-size: 12px;
+    color: var(--error);
+    margin-top: 4px;
+    font-family: 'Tajawal', sans-serif;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    body { align-items: flex-start; padding: 16px 12px; }
+    .card { padding: 2rem 1.5rem; }
+}

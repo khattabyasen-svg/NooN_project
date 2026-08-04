@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 using System.Web.UI;
 
 namespace NooN
@@ -20,7 +21,7 @@ namespace NooN
             string password_hash = TxtPass.Text.Trim();
             string confirm = TxtConfirm.Text.Trim();
 
-            // ✅ التحقق من الحقول الفارغة
+            // Empty-field guard
             if (string.IsNullOrEmpty(first_name) ||
                 string.IsNullOrEmpty(last_name) ||
                 string.IsNullOrEmpty(email) ||
@@ -33,11 +34,35 @@ namespace NooN
                 return;
             }
 
-            // ✅ التحقق من تطابق الباسورد
+            // Email format
+            if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                Laberor.Text = "❌ Enter a valid email address.";
+                Laberor.Visible = true;
+                return;
+            }
+
+            // Phone format: Saudi mobile (05XXXXXXXX)
+            if (!Regex.IsMatch(phone, @"^05\d{8}$"))
+            {
+                Laberor.Text = "❌ Phone must start with 05 and be 10 digits.";
+                Laberor.Visible = true;
+                return;
+            }
+
+            // Minimum password length
+            if (password_hash.Length < 8)
+            {
+                Laberor.Text = "❌ Password must be at least 8 characters.";
+                Laberor.Visible = true;
+                return;
+            }
+
+            // Password confirmation match
             if (password_hash != confirm)
             {
                 Laberor.Text = "❌ Passwords do not match.";
-                Laberor .Visible = true;
+                Laberor.Visible = true;
                 return;
             }
 

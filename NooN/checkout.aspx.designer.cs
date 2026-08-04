@@ -195,6 +195,15 @@ namespace NooN
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RFV_Card;
 
         /// <summary>
+        /// REV_Card control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator REV_Card;
+
+        /// <summary>
         /// txtExpiry control.
         /// </summary>
         /// <remarks>
@@ -213,6 +222,15 @@ namespace NooN
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RFV_Expiry;
 
         /// <summary>
+        /// REV_Expiry control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator REV_Expiry;
+
+        /// <summary>
         /// txtCVV control.
         /// </summary>
         /// <remarks>
@@ -229,6 +247,15 @@ namespace NooN
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RFV_CVV;
+
+        /// <summary>
+        /// REV_CVV control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator REV_CVV;
 
         /// <summary>
         /// txtCardHolder control.

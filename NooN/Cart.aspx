@@ -1,55 +1,13 @@
 ﻿<%@ Page Title="سلة التسوق - NooN" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Cart.aspx.cs" Inherits="NooN.Cart" %>
 
-<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="HeadContent" ContentPlaceHolderID="head" runat="server">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link href="Content/cart.css" rel="stylesheet" />
+</asp:Content>
 
-  
+<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <style>
-        :root { --primary: #FFC600; --dark: #1A1A1A; --gray-bg: #F7F7F7; --danger: #eb4d4b; --success: #27ae60; }
-        body { background-color: var(--gray-bg); font-family: 'Tajawal', sans-serif; direction: rtl; }
-        .cart-container { max-width: 1200px; margin: 40px auto; padding: 0 15px; }
-        .cart-layout { display: grid; grid-template-columns: 1fr 380px; gap: 30px; }
-        
-        /* البطاقات والتنسيق */
-        .cart-card { background: white; border-radius: 16px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .cart-card-body { display: flex; gap: 20px; align-items: center; }
-        .img-container { width: 100px; height: 100px; border-radius: 12px; overflow: hidden; background: #f9f9f9; border: 1px solid #eee; }
-        .img-container img { width: 100%; height: 100%; object-fit: contain; }
-        
-        .product-info { flex-grow: 1; }
-        .product-name { font-size: 18px; font-weight: 700; color: var(--dark); text-decoration: none; display: block; margin-bottom: 5px; }
-        .product-meta { font-size: 13px; color: #777; margin-bottom: 10px; }
-        
-        /* التحكم بالكمية */
-        .qty-box { display: flex; align-items: center; gap: 12px; background: #f3f3f3; width: fit-content; padding: 5px 12px; border-radius: 50px; }
-        .qty-btn { text-decoration: none; color: var(--dark); font-weight: bold; font-size: 18px; }
-        .qty-val { font-weight: 800; min-width: 20px; text-align: center; }
-
-        .price-col { text-align: left; min-width: 120px; }
-        .item-price { font-size: 19px; font-weight: 900; }
-        .btn-remove { color: var(--danger); font-size: 13px; text-decoration: none; display: block; margin-top: 8px; }
-
-        /* ملخص الفاتورة */
-        .summary-card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: sticky; top: 20px; }
-        .bill-row { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 15px; }
-        .bill-row.total { font-size: 22px; font-weight: 900; border-top: 2px solid #f9f9f9; padding-top: 15px; margin-top: 15px; }
-        .discount-text { color: var(--success); font-weight: bold; }
-        
-        .btn-checkout { width: 100%; background: var(--primary); color: var(--dark); border: none; padding: 15px; border-radius: 12px; font-weight: 800; font-size: 17px; cursor: pointer; transition: 0.3s; margin-top: 15px; }
-        .btn-checkout:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,198,0,0.4); }
-
-        .coupon-area { display: flex; gap: 10px; margin-bottom: 10px; }
-        .txt-coupon { flex-grow: 1; padding: 10px; border: 1px solid #ddd; border-radius: 10px; outline: none; }
-        .btn-apply { background: var(--dark); color: white; border: none; padding: 0 15px; border-radius: 10px; cursor: pointer; }
-
-        .alert { padding: 12px; border-radius: 10px; margin-bottom: 20px; font-size: 14px; }
-        .alert-success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
-        .alert-danger { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
-        
-        @media (max-width: 991px) { .cart-layout { grid-template-columns: 1fr; } }
-    </style>
 
     <div class="cart-container">
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">

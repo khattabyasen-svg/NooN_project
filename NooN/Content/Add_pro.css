@@ -7,9 +7,9 @@
     --bg-table-head: #f7f8fa;
     --bg-row-hover: #fafbfd;
     --border: #e5e7eb;
-    --border-focus: #3b82f6;
-    --accent: #3b82f6;
-    --accent-soft: rgba(59,130,246,0.08);
+    --border-focus: #C9A84C;
+    --accent: #C9A84C;
+    --accent-soft: rgba(201,168,76,0.08);
     --green: #22c55e;
     --green-soft: #dcfce7;
     --green-text: #15803d;
@@ -25,9 +25,9 @@
     --text-secondary: #374151;
     --text-muted: #9ca3af;
     --text-light: #6b7280;
-    --sidebar-active-bg: #eff6ff;
-    --sidebar-active-text: #2563eb;
-    --sidebar-active-bar: #3b82f6;
+    --sidebar-active-bg: rgba(201,168,76,0.08);
+    --sidebar-active-text: #A88A38;
+    --sidebar-active-bar: #C9A84C;
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
     --radius: 12px;
     --radius-sm: 8px;
@@ -772,5 +772,63 @@ td {
 
     .content {
         padding: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .topbar {
+        padding: 0 12px;
+    }
+
+    .breadcrumb .current {
+        display: none;
+    }
+
+    /* make table scroll horizontally */
+    .table-card {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        min-width: 620px;
+    }
+
+    .filters-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-wrap {
+        min-width: 100%;
+    }
+
+    .stat-tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+    }
+
+    .stat-tab {
+        white-space: nowrap;
+    }
+
+    .table-footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 16px;
+    }
+
+    .page-header {
+        gap: 8px;
+    }
+
+    .topbar-actions .btn-danger {
+        display: none;
     }
 }

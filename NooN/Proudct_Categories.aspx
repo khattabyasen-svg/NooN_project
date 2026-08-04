@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="rtl">
 <head runat="server">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>إدارة الفئات - NooN</title>
     <link href="Content/Proudct_categories.css" rel="stylesheet" />
 </head>

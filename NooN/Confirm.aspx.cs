@@ -28,6 +28,17 @@ namespace NooN
 
             litOrderNumber.Text = "#" + HttpUtility.HtmlEncode(Session["OrderNumber"].ToString());
 
+            // Point the print button at the order details report for this order.
+            // Falls back to hidden if the numeric order id is missing from Session.
+            if (Session["OrderId"] != null)
+            {
+                btnPrintOrder.NavigateUrl = "OrderReport.aspx?id=" + Convert.ToInt32(Session["OrderId"]);
+            }
+            else
+            {
+                btnPrintOrder.Visible = false;
+            }
+
             // Estimated delivery: a 2–4 day window from now (matches the 3-day
             // shipment estimate saved at checkout).
             DateTime from = DateTime.Now.AddDays(2);

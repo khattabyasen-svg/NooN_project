@@ -57,6 +57,22 @@
             padding: 12px 15px;
             border-bottom: 1px solid #eee;
         }
+
+        .grid-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 16px; border-radius: 8px; }
+            .search-container { flex-wrap: wrap; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 12px; }
+            .search-container { flex-direction: column; }
+            .form-control, .btn-search { width: 100%; }
+        }
     </style>
 </asp:Content>
 
@@ -95,6 +111,7 @@
                         OnClick="btnSearch_Click" />
                 </div>
 
+                <div class="grid-wrapper">
                 <asp:GridView ID="gvResults" runat="server"
                     AutoGenerateColumns="false"
                     CssClass="grid"
@@ -106,6 +123,7 @@
                         <asp:BoundField DataField="category_name" HeaderText="الفئة" />
                     </Columns>
                 </asp:GridView>
+                </div>
 
             </ContentTemplate>
         </asp:UpdatePanel>
