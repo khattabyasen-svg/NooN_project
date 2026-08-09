@@ -16,7 +16,7 @@
                 <div class="hero-actions">
                     <asp:Button ID="btnShopNow" runat="server" Text="تسوق الآن ←" CssClass="btn-primary" OnClick="btnShopNow_Click" />
                     <asp:Button ID="btnDailyOffers" runat="server" Text="العروض اليوم" CssClass="btn-secondary" OnClick="btnShopNow_Click" />
-                    <asp:Button ID="btnTest" runat="server" Text="طباعه" CssClass="btn-secondary" OnClick="btnTest_Click" />
+               <%--     <asp:Button ID="btnTest" runat="server" Text="طباعه" CssClass="btn-secondary" OnClick="btnTest_Click" />--%>
                 </div>
             </div>
 
@@ -27,12 +27,12 @@
                         <div class="shape-card shape-card-1">
                             <div class="shape-icon">📱</div>
                             <div class="shape-label">iPhone 15 Pro</div>
-                            <div class="shape-price">3,999 ر.س</div>
+                            <div class="shape-price">3,999 د.أ</div>
                         </div>
                         <div class="shape-card shape-card-2">
                             <div class="shape-icon" style="font-size: 1.5rem">⌚</div>
                             <div class="shape-label-w">Apple Watch</div>
-                            <div class="shape-price-w">1,299 ر.س</div>
+                            <div class="shape-price-w">1,299 د.أ</div>
                         </div>
                     </div>
                 </div>

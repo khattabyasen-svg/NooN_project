@@ -28,7 +28,3 @@ function removeCartItem(el) {
     showToast('🗑️ تم حذف المنتج من السلة');
   }, 300);
 }
-if (window.NoonState.cartCount === 0) {
-    showToast("⚠️ سلتك فارغة! أضف منتجات أولاً للمتابعة.");
-    return;
-}

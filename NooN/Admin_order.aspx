@@ -129,7 +129,7 @@
             <td><div class="order-num">#NOO-2025-78432</div></td>
             <td><div class="customer-info"><div class="avatar">م</div><div><div class="c-name">محمد الأحمد</div><div class="c-email">mohammed@email.com</div></div></div></td>
             <td><div>3 منتجات</div><div class="items-count">iPhone, Sony, Nike</div></td>
-            <td><div class="order-total">7,293 ر.س</div></td>
+            <td><div class="order-total">7,293 د.أ</div></td>
             <td><span style="font-size:12px">💳 بطاقة</span></td>
             <td><span class="badge b-delivered">✅ مُوصّل</span></td>
             <td><div style="font-size:12px">02 مارس 2025</div><div style="font-size:11px;color:var(--muted)">10:24 ص</div></td>
@@ -140,7 +140,7 @@
             <td><div class="order-num">#NOO-2025-78431</div></td>
             <td><div class="customer-info"><div class="avatar">س</div><div><div class="c-name">سارة العمري</div><div class="c-email">sara@email.com</div></div></div></td>
             <td><div>1 منتج</div><div class="items-count">Apple Watch Ultra</div></td>
-            <td><div class="order-total">2,199 ر.س</div></td>
+            <td><div class="order-total">2,199 د.أ</div></td>
             <td><span style="font-size:12px">📱 Apple Pay</span></td>
             <td><span class="badge b-shipped">🚚 شُحن</span></td>
             <td><div style="font-size:12px">01 مارس 2025</div><div style="font-size:11px;color:var(--muted)">03:15 م</div></td>
@@ -151,7 +151,7 @@
             <td><div class="order-num">#NOO-2025-78430</div></td>
             <td><div class="customer-info"><div class="avatar">ف</div><div><div class="c-name">فيصل الغامدي</div><div class="c-email">faisal@email.com</div></div></div></td>
             <td><div>2 منتج</div><div class="items-count">Dyson V15, طقم أثاث</div></td>
-            <td><div class="order-total">4,398 ر.س</div></td>
+            <td><div class="order-total">4,398 د.أ</div></td>
             <td><span style="font-size:12px">🏦 STC Pay</span></td>
             <td><span class="badge b-processing">⚙️ معالجة</span></td>
             <td><div style="font-size:12px">01 مارس 2025</div><div style="font-size:11px;color:var(--muted)">11:48 ص</div></td>
@@ -162,7 +162,7 @@
             <td><div class="order-num">#NOO-2025-78429</div></td>
             <td><div class="customer-info"><div class="avatar">ن</div><div><div class="c-name">نورة السالم</div><div class="c-email">noura@email.com</div></div></div></td>
             <td><div>4 منتجات</div><div class="items-count">Dior, Nike, Samsung...</div></td>
-            <td><div class="order-total">5,847 ر.س</div></td>
+            <td><div class="order-total">5,847 د.أ</div></td>
             <td><span style="font-size:12px">💳 بطاقة</span></td>
             <td><span class="badge b-paid">💳 مدفوع</span></td>
             <td><div style="font-size:12px">28 فبراير 2025</div><div style="font-size:11px;color:var(--muted)">08:30 ص</div></td>
@@ -173,7 +173,7 @@
             <td><div class="order-num">#NOO-2025-78428</div></td>
             <td><div class="customer-info"><div class="avatar">ع</div><div><div class="c-name">عبدالله المطيري</div><div class="c-email">abdullah@email.com</div></div></div></td>
             <td><div>1 منتج</div><div class="items-count">سماعات Sony</div></td>
-            <td><div class="order-total">1,199 ر.س</div></td>
+            <td><div class="order-total">1,199 د.أ</div></td>
             <td><span style="font-size:12px">💵 الاستلام</span></td>
             <td><span class="badge b-pending">⏳ انتظار</span></td>
             <td><div style="font-size:12px">28 فبراير 2025</div><div style="font-size:11px;color:var(--muted)">06:12 م</div></td>
@@ -184,7 +184,7 @@
             <td><div class="order-num">#NOO-2025-78427</div></td>
             <td><div class="customer-info"><div class="avatar">ر</div><div><div class="c-name">ريم الحربي</div><div class="c-email">reem@email.com</div></div></div></td>
             <td><div>2 منتج</div><div class="items-count">حقيبة Samsonite, عطر</div></td>
-            <td><div class="order-total">869 ر.س</div></td>
+            <td><div class="order-total">869 د.أ</div></td>
             <td><span style="font-size:12px">📱 Apple Pay</span></td>
             <td><span class="badge b-cancelled">❌ ملغي</span></td>
             <td><div style="font-size:12px">27 فبراير 2025</div><div style="font-size:11px;color:var(--muted)">02:45 م</div></td>
@@ -240,27 +240,27 @@
       <div class="detail-sec-title">معلومات العميل</div>
       <div class="info-grid">
         <div><div class="info-lbl">الاسم</div><div class="info-val">محمد الأحمد</div></div>
-        <div><div class="info-lbl">الجوال</div><div class="info-val">0512345678</div></div>
+        <div><div class="info-lbl">الجوال</div><div class="info-val">0791234567</div></div>
         <div><div class="info-lbl">البريد</div><div class="info-val" style="font-size:12px">mohammed@email.com</div></div>
-        <div><div class="info-lbl">المدينة</div><div class="info-val">الرياض</div></div>
-        <div style="grid-column:1/-1"><div class="info-lbl">عنوان التوصيل</div><div class="info-val">شارع الملك فهد، حي النزهة، مبنى 24</div></div>
+        <div><div class="info-lbl">المحافظة</div><div class="info-val">عمّان</div></div>
+        <div style="grid-column:1/-1"><div class="info-lbl">عنوان التوصيل</div><div class="info-val">شارع المدينة المنورة، حي الصويفية، مبنى 24</div></div>
       </div>
     </div>
 
     <div class="detail-section">
       <div class="detail-sec-title">المنتجات (3)</div>
-      <div class="order-item-row"><div class="oi-img">📱</div><div><div class="oi-name">iPhone 15 Pro Max</div><div class="oi-variant">256GB — أسود × 1</div></div><div class="oi-price">3,999 ر.س</div></div>
-      <div class="order-item-row"><div class="oi-img">🎧</div><div><div class="oi-name">Sony WH-1000XM5</div><div class="oi-variant">أسود × 2</div></div><div class="oi-price">2,398 ر.س</div></div>
-      <div class="order-item-row"><div class="oi-img">👟</div><div><div class="oi-name">Nike Air Max 270</div><div class="oi-variant">43 — أبيض × 1</div></div><div class="oi-price">649 ر.س</div></div>
+      <div class="order-item-row"><div class="oi-img">📱</div><div><div class="oi-name">iPhone 15 Pro Max</div><div class="oi-variant">256GB — أسود × 1</div></div><div class="oi-price">3,999 د.أ</div></div>
+      <div class="order-item-row"><div class="oi-img">🎧</div><div><div class="oi-name">Sony WH-1000XM5</div><div class="oi-variant">أسود × 2</div></div><div class="oi-price">2,398 د.أ</div></div>
+      <div class="order-item-row"><div class="oi-img">👟</div><div><div class="oi-name">Nike Air Max 270</div><div class="oi-variant">43 — أبيض × 1</div></div><div class="oi-price">649 د.أ</div></div>
     </div>
 
     <div class="detail-section">
       <div class="detail-sec-title">ملخص المبلغ</div>
-      <div class="summary-row"><span style="color:var(--muted)">المجموع الفرعي</span><span>7,046 ر.س</span></div>
-      <div class="summary-row"><span style="color:var(--muted)">خصم NOON20</span><span style="color:var(--green)">- 705 ر.س</span></div>
+      <div class="summary-row"><span style="color:var(--muted)">المجموع الفرعي</span><span>7,046 د.أ</span></div>
+      <div class="summary-row"><span style="color:var(--muted)">خصم NOON20</span><span style="color:var(--green)">- 705 د.أ</span></div>
       <div class="summary-row"><span style="color:var(--muted)">الشحن</span><span style="color:var(--green)">مجاني</span></div>
-      <div class="summary-row"><span style="color:var(--muted)">ضريبة (15%)</span><span>952 ر.س</span></div>
-      <div class="summary-total"><span>الإجمالي</span><span>7,293 ر.س</span></div>
+      <div class="summary-row"><span style="color:var(--muted)">ضريبة (16%)</span><span>952 د.أ</span></div>
+      <div class="summary-total"><span>الإجمالي</span><span>7,293 د.أ</span></div>
     </div>
 
     <div style="display:flex;gap:8px;flex-wrap:wrap">

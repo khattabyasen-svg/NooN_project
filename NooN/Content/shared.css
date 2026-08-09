@@ -1,52 +1,70 @@
 /* ============================================================
    NOON — shared.css
    Global design tokens + styles used across ALL pages.
-   Jordan region | Black · White · Gold palette
+   Jordan region | SHEIN/Noon-inspired "Coral Pop" palette
+   Primary/sale coral · hot-yellow flash · white/ink neutrals
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Tajawal:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Tajawal:wght@300;400;500;700;900&display=swap');
 
 /* ── Design Tokens ─────────────────────────────────────────── */
 :root {
-  /* Gold */
-  --gold:           #C9A84C;
-  --gold-dark:      #A88A38;
-  --gold-light:     #F5EDD5;
-  --gold-border:    #E0CC90;
+  /* Primary — coral (CTA + sale) */
+  --primary:        #FF3B4A;
+  --primary-dark:   #E42233;
+  --primary-light:  #FFE7E9;
+  --primary-border: #FFC7CC;
 
-  /* Neutrals */
-  --black:          #1A1714;
+  /* Sale / urgency (coral family, used for badges + prices) */
+  --sale:           #FF3B4A;
+  --sale-dark:      #E42233;
+  --sale-bg:        #FFECEE;
+
+  /* Flash / deal highlight */
+  --flash:          #FFD31A;
+  --flash-dark:     #E6BC00;
+
+  /* Neutrals / ink */
+  --black:          #16151A;
+  --ink:            #16151A;
   --white:          #FFFFFF;
-  --cream:          #FAF8F5;
-  --off-white:      #F4F1EC;
-  --border:         #E5DDD2;
-  --muted-border:   #EDE8E1;
+  --bg:             #FFFFFF;
+  --bg-soft:        #F7F7F8;
+  --cream:          #F7F7F8;   /* legacy alias */
+  --off-white:      #F7F7F8;
+  --border:         #EAEAEC;
+  --muted-border:   #F0F0F2;
 
   /* Text */
-  --text-primary:   #1A1714;
-  --text-secondary: #5C574F;
-  --text-muted:     #9B9590;
+  --text-primary:   #16151A;
+  --text-secondary: #5C5B63;
+  --text-muted:     #9A99A2;
 
   /* Semantic */
   --success:        #2E7D52;
-  --error:          #C0392B;
+  --success-bg:     #E9F6EF;
+  --error:          #E42233;
 
-  /* Aliases for legacy code */
-  --accent:         #C9A84C;
-  --accent-dark:    #A88A38;
-  --accent-light:   #F5EDD5;
+  /* Legacy aliases → coral, so every existing --accent/--gold rule recolors */
+  --accent:         #FF3B4A;
+  --accent-dark:    #E42233;
+  --accent-light:   #FFE7E9;
+  --gold:           #FF3B4A;
+  --gold-dark:      #E42233;
+  --gold-light:     #FFE7E9;
+  --gold-border:    #FFC7CC;
 
   /* Shadows */
-  --shadow-sm: 0 1px 3px  rgba(26,23,20,0.06);
-  --shadow-md: 0 4px 20px rgba(26,23,20,0.08);
-  --shadow-lg: 0 12px 48px rgba(26,23,20,0.10);
+  --shadow-sm: 0 1px 3px  rgba(22,21,26,0.06);
+  --shadow-md: 0 4px 18px rgba(22,21,26,0.08);
+  --shadow-lg: 0 12px 40px rgba(22,21,26,0.12);
 
   /* Radii */
-  --radius:    4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
+  --radius:    6px;
+  --radius-md: 10px;
+  --radius-lg: 18px;
 
-  --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+  --transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
 }
 
 /* ── Reset ─────────────────────────────────────────────────── */
@@ -63,33 +81,46 @@ body  {
 
 /* ── Shared Buttons ─────────────────────────────────────────── */
 .btn-primary {
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   padding: 13px 28px;
-  background: var(--black); color: var(--white);
-  border: 2px solid var(--black);
+  background: var(--primary); color: var(--white);
+  border: 2px solid var(--primary);
   border-radius: var(--radius);
-  font-family: 'Tajawal', sans-serif; font-size: 15px; font-weight: 600;
+  font-family: 'Tajawal', sans-serif; font-size: 15px; font-weight: 700;
   cursor: pointer; transition: var(--transition); text-decoration: none;
 }
 .btn-primary:hover {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: var(--black);
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+  color: var(--white);
+  box-shadow: 0 6px 18px rgba(255,59,74,0.30);
 }
 
 .btn-secondary {
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   padding: 13px 28px;
   background: transparent; color: var(--text-primary);
   border: 2px solid var(--border);
   border-radius: var(--radius);
-  font-family: 'Tajawal', sans-serif; font-size: 15px; font-weight: 600;
+  font-family: 'Tajawal', sans-serif; font-size: 15px; font-weight: 700;
   cursor: pointer; transition: var(--transition); text-decoration: none;
 }
 .btn-secondary:hover {
-  border-color: var(--gold);
-  color: var(--gold-dark);
+  border-color: var(--primary);
+  color: var(--primary);
 }
+
+/* Ink button — for secondary dark CTAs (e.g. "checkout") */
+.btn-ink {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 28px;
+  background: var(--ink); color: var(--white);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  font-family: 'Tajawal', sans-serif; font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: var(--transition); text-decoration: none;
+}
+.btn-ink:hover { background: var(--primary); border-color: var(--primary); }
 
 /* ── Section helpers ────────────────────────────────────────── */
 .section        { padding: 60px 40px; }
@@ -100,26 +131,28 @@ body  {
 .divider        { height: 1px; background: var(--border); margin: 0 40px; }
 
 /* ── Product card ───────────────────────────────────────────── */
+/* Dense, responsive grid — auto-fills columns, SHEIN-style density */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
 }
 .product-card {
-  background: var(--white); border: 1.5px solid var(--muted-border);
+  background: var(--white); border: 1px solid var(--muted-border);
   border-radius: var(--radius-md); overflow: hidden;
   cursor: pointer; transition: var(--transition); position: relative;
 }
-.product-card:hover { border-color: var(--gold-border); box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+.product-card:hover { border-color: var(--primary-border); box-shadow: var(--shadow-lg); transform: translateY(-4px); }
 
 .product-image-wrap {
-  position: relative; background: var(--off-white);
-  height: 220px; overflow: hidden;
+  position: relative; background: var(--bg-soft);
+  height: 240px; overflow: hidden;
   display: flex; align-items: center; justify-content: center; font-size: 5rem;
 }
-.product-badge { position: absolute; top: 12px; right: 12px; background: var(--error); color: white; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 3px; letter-spacing: 0.5px; }
-.product-badge.new { background: var(--success); }
-.product-badge.hot { background: var(--gold); color: var(--black); }
+/* Bold discount pill — SHEIN/Noon sale energy */
+.product-badge { position: absolute; top: 10px; right: 10px; background: var(--sale); color: #fff; font-size: 12px; font-weight: 800; padding: 4px 9px; border-radius: 4px; letter-spacing: 0.3px; box-shadow: 0 2px 8px rgba(255,59,74,0.35); }
+.product-badge.new { background: var(--success); box-shadow: none; }
+.product-badge.hot { background: var(--flash); color: var(--ink); box-shadow: 0 2px 8px rgba(255,211,26,0.45); }
 
 .product-fav {
   position: absolute; top: 12px; left: 12px;
@@ -132,29 +165,30 @@ body  {
 .product-fav:hover  { transform: scale(1.1); }
 .product-fav.active { opacity: 1; }
 
-.product-info      { padding: 16px; }
-.product-cat       { font-size: 11px; color: var(--text-muted); font-weight: 500; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
-.product-name      { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; line-height: 1.4; }
+.product-info      { padding: 14px; }
+.product-cat       { font-size: 11px; color: var(--text-muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+.product-name      { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; line-height: 1.4; }
 .product-rating    { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
-.stars             { color: var(--gold); font-size: 13px; letter-spacing: 1px; }
+.stars             { color: var(--flash-dark); font-size: 13px; letter-spacing: 1px; }
 .rating-count      { font-size: 12px; color: var(--text-muted); }
-.product-price-row { display: flex; align-items: center; justify-content: space-between; }
-.product-price     { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--text-primary); }
+.product-price-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+/* Bold price + strikethrough old price (sale color) */
+.product-price     { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 800; color: var(--sale); line-height: 1.1; }
 .product-old-price { font-size: 13px; color: var(--text-muted); text-decoration: line-through; margin-right: 6px; }
 
 .product-add-btn {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: var(--black); color: white; border: none;
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--primary); color: white; border: none;
   cursor: pointer; font-size: 18px;
   display: flex; align-items: center; justify-content: center;
   transition: var(--transition); flex-shrink: 0;
 }
-.product-add-btn:hover { background: var(--gold); }
+.product-add-btn:hover { background: var(--primary-dark); transform: scale(1.08); }
 
 .product-quick-add {
   position: absolute; bottom: 0; left: 0; right: 0;
-  background: var(--black); color: white;
-  text-align: center; padding: 12px; font-size: 14px; font-weight: 600;
+  background: var(--primary); color: white;
+  text-align: center; padding: 12px; font-size: 14px; font-weight: 700;
   cursor: pointer; transform: translateY(100%); transition: var(--transition);
 }
 .product-card:hover .product-quick-add { transform: translateY(0); }
@@ -167,7 +201,7 @@ body  {
 .summary-row-value.free { color: var(--success); }
 .summary-divider   { height: 1px; background: var(--border); margin: 8px 0; }
 .summary-total     { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; font-size: 16px; font-weight: 700; color: var(--text-primary); }
-.summary-total-value { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold-dark); }
+.summary-total-value { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 800; color: var(--sale); }
 
 /* ── Footer ─────────────────────────────────────────────────── */
 .footer       { background: var(--black); color: rgba(255,255,255,0.65); padding: 60px 40px 32px; margin-top: 80px; }
@@ -185,23 +219,27 @@ body  {
 .footer-bottom { padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
 
 /* ── Responsive ─────────────────────────────────────────────── */
+/* Grid auto-fills columns; we only tune the min card width + gaps per breakpoint */
 @media (max-width: 1024px) {
-  .products-grid { grid-template-columns: repeat(3,1fr); }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 768px) {
   .section { padding: 40px 20px; }
   .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
-  .products-grid { grid-template-columns: repeat(2,1fr); gap: 14px; }
+  .products-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
   .footer-grid { grid-template-columns: 1fr; gap: 28px; }
   .footer { padding: 40px 20px 24px; margin-top: 40px; }
   .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
   .divider { margin: 0 20px; }
-  .btn-primary, .btn-secondary { padding: 12px 20px; font-size: 14px; }
+  .btn-primary, .btn-secondary, .btn-ink { padding: 12px 20px; font-size: 14px; }
+  .product-image-wrap { height: 200px; }
 }
 @media (max-width: 480px) {
-  .products-grid { grid-template-columns: 1fr; }
+  /* Two compact columns on phones — true SHEIN density, never a single stretched column */
+  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .section { padding: 28px 14px; }
   .section-title { font-size: 1.4rem; }
-  .product-image-wrap { height: 180px; }
+  .product-image-wrap { height: 150px; }
+  .product-info { padding: 10px; }
+  .product-price { font-size: 1.1rem; }
 }

@@ -186,7 +186,7 @@ namespace NooN
                     if (dr["old_price"] != DBNull.Value)
                     {
                         decimal old = Convert.ToDecimal(dr["old_price"]);
-                        litOldPrice.Text = $"<span class='detail-old-price'>{old:N0} ر.س</span>";
+                        litOldPrice.Text = $"<span class='detail-old-price'>{old:N0} {StoreConfig.Currency}</span>";
                     }
 
                     if (discPct > 0)
@@ -381,7 +381,8 @@ namespace NooN
             }
             catch (Exception ex)
             {
-                ShowMsg(lblReviewMsg, "حدث خطأ: " + ex.Message, isError: true);
+                System.Diagnostics.Trace.TraceError("Details.SubmitReview: " + ex);
+                ShowMsg(lblReviewMsg, "تعذّر إتمام العملية، يرجى المحاولة مجدداً.", isError: true);
             }
 
             ReloadAll();

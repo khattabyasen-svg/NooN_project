@@ -13,16 +13,27 @@ namespace NooN
         {
             if (!IsPostBack)
             {
+                // The report exposes customer PII (name, email, phone, address),
+                // so require an authenticated user before rendering anything.
+                if (Session["user_id"] == null)
+                {
+                    Response.Redirect("LoginUser.aspx");
+                    return;
+                }
+
                 LoadReport();
             }
         }
 
         private void LoadReport()
         {
-            // Step 1: Resolve the order id (from query string, otherwise latest order)
+            int userId = Convert.ToInt32(Session["user_id"]);
+
+            // Step 1: Resolve the requested order id from the query string.
             int orderId = GetOrderId();
 
-            // Step 2: Get data - order header (order + customer + shipping address)
+            // Step 2: Get data - order header (order + customer + shipping address).
+            // Scoped to the current user so a customer cannot read another's order.
             DataTable dtHeader = new DataTable();
             using (SqlConnection cn = new SqlConnection(connStr))
             using (SqlCommand cmd = new SqlCommand(@"
@@ -47,17 +58,26 @@ namespace NooN
                     FROM orders o
                     INNER JOIN users u ON u.user_id = o.user_id
                     LEFT JOIN addresses a ON a.address_id = o.address_id
-                    WHERE o.order_id = @order_id;
+                    WHERE o.order_id = @order_id AND o.user_id = @user_id;
                     ", cn))
             {
                 cmd.Parameters.AddWithValue("@order_id", orderId);
+                cmd.Parameters.AddWithValue("@user_id", userId);
                 using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                 {
                     da.Fill(dtHeader);
                 }
             }
 
-            // Order items with product names
+            // If the order does not exist or does not belong to this user, do not
+            // render another customer's data — send them back home.
+            if (dtHeader.Rows.Count == 0)
+            {
+                Response.Redirect("Default.aspx");
+                return;
+            }
+
+            // Order items with product names (ownership already verified above)
             DataTable dtItems = new DataTable();
             using (SqlConnection cn = new SqlConnection(connStr))
             using (SqlCommand cmd = new SqlCommand(@"
@@ -96,21 +116,10 @@ namespace NooN
 
         private int GetOrderId()
         {
+            // Require an explicit order id. No system-wide fallback: returning the
+            // "latest order" here would leak another customer's order on bad input.
             int orderId;
-            if (int.TryParse(Request.QueryString["id"], out orderId))
-            {
-                return orderId;
-            }
-
-            // Fallback: most recently placed order
-            using (SqlConnection cn = new SqlConnection(connStr))
-            using (SqlCommand cmd = new SqlCommand(
-                "SELECT TOP 1 order_id FROM orders ORDER BY placed_at DESC;", cn))
-            {
-                cn.Open();
-                object result = cmd.ExecuteScalar();
-                return result == null ? 0 : Convert.ToInt32(result);
-            }
+            return int.TryParse(Request.QueryString["id"], out orderId) ? orderId : 0;
         }
     }
 }

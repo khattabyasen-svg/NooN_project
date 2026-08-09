@@ -129,24 +129,35 @@ namespace NooN
                 decimal subtotal = 0;
                 foreach (var item in items) subtotal += item.LineTotal;
 
-                decimal discountRate = 0.10m;   // base discount before any coupon
-                decimal discount = subtotal * discountRate;
-                decimal tax = (subtotal - discount) * 0.15m;
-                decimal total = subtotal - discount + tax;
+                // Discount comes only from a valid coupon (handed off from the cart
+                // or applied on this page) — there is no unconditional base discount.
+                string couponCode = Session["CouponCode"] as string
+                                    ?? Session["CheckoutCoupon"] as string ?? "";
+                var coupon = CouponHelper.Resolve(couponCode, subtotal);
+                decimal discount = coupon.IsValid ? coupon.DiscountAmount : 0m;
 
-                // Store in Session
+                decimal afterDiscount = subtotal - discount;
+                decimal shipping = StoreConfig.ShippingFor(afterDiscount);
+                decimal tax = Math.Round(afterDiscount * StoreConfig.VatRate, 2);
+                decimal total = afterDiscount + shipping + tax;
+
+                // Store in Session (normalized coupon code for the place-order step)
                 Session["CartItems"] = items;
                 Session["Subtotal"] = subtotal;
-                Session["DiscountRate"] = discountRate;
+                Session["CouponCode"] = coupon.IsValid ? coupon.Code : "";
                 Session["Discount"] = discount;
+                Session["Shipping"] = shipping;
                 Session["Tax"] = tax;
                 Session["Total"] = total;
 
                 // Update the labels
-                lblSubtotal.Text = subtotal.ToString("N2") + " ر.س";
-                lblDiscount.Text = "- " + discount.ToString("N2") + " ر.س";
-                lblTax.Text = tax.ToString("N2") + " ر.س";
-                lblTotal.Text = total.ToString("N2") + " ر.س";
+                lblSubtotal.Text = subtotal.ToString("N2") + " " + StoreConfig.Currency;
+                lblDiscount.Text = "- " + discount.ToString("N2") + " " + StoreConfig.Currency;
+                lblShipping.Text = shipping == 0
+                    ? "مجاني ✓"
+                    : shipping.ToString("N2") + " " + StoreConfig.Currency;
+                lblTax.Text = tax.ToString("N2") + " " + StoreConfig.Currency;
+                lblTotal.Text = total.ToString("N2") + " " + StoreConfig.Currency;
             }
             catch (Exception ex)
             {
@@ -244,6 +255,31 @@ namespace NooN
                 string address = txtAddress.Text.Trim();
                 string paymentMethod = hfPaymentMethod.Value;
 
+                // Defense-in-depth: the card validators are toggled by a client-controlled
+                // hidden field, so re-verify server-side that card details are present.
+                if (paymentMethod == "card" &&
+                    (string.IsNullOrWhiteSpace(txtCardNumber.Text) ||
+                     string.IsNullOrWhiteSpace(txtExpiry.Text) ||
+                     string.IsNullOrWhiteSpace(txtCVV.Text) ||
+                     string.IsNullOrWhiteSpace(txtCardHolder.Text)))
+                {
+                    lblError.Text = "يرجى إدخال بيانات البطاقة كاملة.";
+                    lblError.Visible = true;
+                    return;
+                }
+
+                // Guard against NOT NULL / length (truncation) violations before the
+                // DB insert into users.phone and addresses.city/district/street.
+                if (string.IsNullOrWhiteSpace(phone)    || phone.Length    > 20 ||
+                    string.IsNullOrWhiteSpace(city)     || city.Length     > 80 ||
+                    string.IsNullOrWhiteSpace(district) || district.Length > 80 ||
+                    string.IsNullOrWhiteSpace(address)  || address.Length  > 150)
+                {
+                    lblError.Text = "يرجى التحقق من بيانات العنوان ورقم الهاتف.";
+                    lblError.Visible = true;
+                    return;
+                }
+
                 Session["FirstName"] = firstName;
                 Session["LastName"] = lastName;
                 Session["Phone"] = phone;
@@ -272,8 +308,11 @@ namespace NooN
                 System.Web.HttpContext.Current.Cache.Remove(
                     "cart_count_" + Session[SESSION_USER]);
 
-                // endResponse:false avoids a ThreadAbortException.
+                // endResponse:false avoids a ThreadAbortException; CompleteRequest
+                // stops the rest of the page lifecycle from running after the redirect.
                 Response.Redirect("Confirm.aspx", false);
+                Context.ApplicationInstance.CompleteRequest();
+                return;
             }
             catch (Exception ex)
             {
@@ -290,44 +329,36 @@ namespace NooN
         // ══════════════════════════════════════════════════════════════
         protected void btnApplyCoupon_Click(object sender, EventArgs e)
         {
-            string code = txtCoupon.Text.Trim().ToUpper();
+            decimal subtotal = Session["Subtotal"] != null
+                ? (decimal)Session["Subtotal"] : 0m;
 
-            if (string.IsNullOrEmpty(code))
-            {
-                lblCouponMsg.Text = "⚠️ يرجى إدخال كود الخصم";
-                lblCouponMsg.ForeColor = Color.Orange;
-                lblCouponMsg.Visible = true;
-                return;
-            }
+            // Resolve against the shared coupons table (same source as the cart).
+            var coupon = CouponHelper.Resolve(txtCoupon.Text.Trim(), subtotal);
 
-            if (code == "NOON20")
-            {
-                decimal subtotal = Session["Subtotal"] != null
-                    ? (decimal)Session["Subtotal"] : 0;
+            // Apply the resolved discount (0 when the code is invalid) and
+            // recompute shipping + tax so the summary stays consistent.
+            decimal discount = coupon.IsValid ? coupon.DiscountAmount : 0m;
+            decimal afterDiscount = subtotal - discount;
+            decimal shipping = StoreConfig.ShippingFor(afterDiscount);
+            decimal tax = Math.Round(afterDiscount * StoreConfig.VatRate, 2);
+            decimal total = afterDiscount + shipping + tax;
 
-                decimal discountRate = 0.20m;
-                decimal discount = subtotal * discountRate;
-                decimal tax = (subtotal - discount) * 0.15m;
-                decimal total = subtotal - discount + tax;
+            Session["CouponCode"] = coupon.IsValid ? coupon.Code : "";
+            Session["Discount"] = discount;
+            Session["Shipping"] = shipping;
+            Session["Tax"] = tax;
+            Session["Total"] = total;
 
-                Session["DiscountRate"] = discountRate;
-                Session["Discount"] = discount;
-                Session["Tax"] = tax;
-                Session["Total"] = total;
+            lblDiscount.Text = "- " + discount.ToString("N2") + " " + StoreConfig.Currency;
+            lblShipping.Text = shipping == 0
+                ? "مجاني ✓"
+                : shipping.ToString("N2") + " " + StoreConfig.Currency;
+            lblTax.Text = tax.ToString("N2") + " " + StoreConfig.Currency;
+            lblTotal.Text = total.ToString("N2") + " " + StoreConfig.Currency;
 
-                lblDiscount.Text = "- " + discount.ToString("N2") + " ر.س";
-                lblTax.Text = tax.ToString("N2") + " ر.س";
-                lblTotal.Text = total.ToString("N2") + " ر.س";
-                lblCouponMsg.Text = "✅ تم تطبيق الكوبون NOON20 — خصم 20%";
-                lblCouponMsg.ForeColor = Color.Green;
-                lblCouponMsg.Visible = true;
-            }
-            else
-            {
-                lblCouponMsg.Text = "❌ كود الخصم غير صحيح";
-                lblCouponMsg.ForeColor = Color.Red;
-                lblCouponMsg.Visible = true;
-            }
+            lblCouponMsg.Text = coupon.Message;
+            lblCouponMsg.ForeColor = coupon.IsValid ? Color.Green : Color.Red;
+            lblCouponMsg.Visible = true;
         }
 
         // ══════════════════════════════════════════════════════════════
@@ -394,12 +425,17 @@ namespace NooN
                             return 0;
                         }
 
-                        decimal discountRate = Session["DiscountRate"] != null
-                            ? (decimal)Session["DiscountRate"] : 0.10m;
-                        decimal discount = subtotal * discountRate;
-                        decimal shipping = 0;
-                        decimal tax = (subtotal - discount) * 0.15m;
-                        decimal total = subtotal - discount + tax;
+                        // Re-validate the coupon authoritatively against the DB (never
+                        // trust a session-cached rate). No valid coupon => no discount.
+                        string couponCode = Session["CouponCode"] as string ?? "";
+                        var coupon = CouponHelper.Resolve(couponCode, subtotal);
+                        decimal discount = coupon.IsValid ? coupon.DiscountAmount : 0m;
+                        int? couponId = coupon.IsValid ? coupon.CouponId : (int?)null;
+
+                        decimal afterDiscount = subtotal - discount;
+                        decimal shipping = StoreConfig.ShippingFor(afterDiscount);
+                        decimal tax = Math.Round(afterDiscount * StoreConfig.VatRate, 2);
+                        decimal total = afterDiscount + shipping + tax;
 
                         // 4. Unique order number (millisecond precision to avoid collisions).
                         string orderNumber = "ORD-" + DateTime.Now.ToString("yyyyMMdd-HHmmssfff");
@@ -412,7 +448,7 @@ namespace NooN
                                  status, subtotal, discount_amt, tax_amt,
                                  shipping_fee, total, notes, placed_at, updated_at)
                             VALUES
-                                (@uid, @aid, NULL, @orderNum,
+                                (@uid, @aid, @coupon, @orderNum,
                                  'pending', @sub, @disc, @tax,
                                  @ship, @total, NULL, GETDATE(), GETDATE());
                             SELECT SCOPE_IDENTITY();";
@@ -421,6 +457,7 @@ namespace NooN
                         {
                             cmd.Parameters.AddWithValue("@uid", userId);
                             cmd.Parameters.AddWithValue("@aid", addressId);
+                            cmd.Parameters.AddWithValue("@coupon", (object)couponId ?? DBNull.Value);
                             cmd.Parameters.AddWithValue("@orderNum", orderNumber);
                             cmd.Parameters.AddWithValue("@sub", subtotal);
                             cmd.Parameters.AddWithValue("@disc", discount);
@@ -568,8 +605,22 @@ namespace NooN
                             }
                         }
 
+                        // 11. Record coupon usage so usage limits are enforced.
+                        if (couponId.HasValue)
+                        {
+                            using (var cmd = new SqlCommand(
+                                "UPDATE coupons SET used_count = used_count + 1 WHERE coupon_id = @cid", conn, tx))
+                            {
+                                cmd.Parameters.AddWithValue("@cid", couponId.Value);
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+
                         // Commit only after every step succeeded.
                         tx.Commit();
+
+                        // The coupon has been consumed by this order; don't reapply it.
+                        Session["CouponCode"] = "";
 
                         // Persist the authoritative amounts + identifiers for the confirmation page.
                         Session["Subtotal"] = subtotal;
@@ -604,12 +655,18 @@ namespace NooN
             if (Session[SESSION_USER] != null)
                 return (int)Session[SESSION_USER];
 
+            // Guest checkout: if the email already belongs to a registered account,
+            // do NOT silently attach this order to it — require the owner to log in.
             using (var cmd = new SqlCommand(
                 "SELECT user_id FROM users WHERE email = @email", conn, tx))
             {
                 cmd.Parameters.AddWithValue("@email", email);
                 object res = cmd.ExecuteScalar();
-                if (res != null && res != DBNull.Value) return Convert.ToInt32(res);
+                if (res != null && res != DBNull.Value)
+                {
+                    _orderError = "هذا البريد الإلكتروني مسجّل بالفعل. يرجى تسجيل الدخول للمتابعة.";
+                    throw new InvalidOperationException("Guest checkout email already registered.");
+                }
             }
 
             string sqlInsert = @"

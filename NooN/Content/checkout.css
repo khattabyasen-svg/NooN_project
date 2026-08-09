@@ -1,62 +1,62 @@
-/* ==============================================
+﻿/* ==============================================
    checkout.css — NooN Store
    Styles for checkout.aspx
-   Jordan region | Black · White · Gold palette
+   Jordan region | SHEIN/Noon Coral Pop palette
    ============================================== */
 
 *, *::before, *::after { box-sizing: border-box; }
 
-body { background: #FAF8F5; font-family: 'Tajawal', 'Segoe UI', Tahoma, Arial, sans-serif; }
+body { background: #F7F7F8; font-family: 'Tajawal', 'Segoe UI', Tahoma, Arial, sans-serif; }
 
 /* ── Layout ── */
 .checkout-layout { display: grid; grid-template-columns: 1fr 360px; gap: 24px; max-width: 1100px; margin: 32px auto; padding: 0 16px; align-items: start; }
 
 /* ── Step bar ── */
-.checkout-step-bar { display: flex; align-items: center; justify-content: center; margin-bottom: 28px; background: #fff; border-radius: 12px; padding: 18px 24px; border: 1px solid #E5DDD2; }
+.checkout-step-bar { display: flex; align-items: center; justify-content: center; margin-bottom: 28px; background: #fff; border-radius: 12px; padding: 18px 24px; border: 1px solid #EAEAEC; }
 .checkout-step { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.step-circle { width: 36px; height: 36px; border-radius: 50%; border: 2px solid #E5DDD2; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #9B9590; background: #fff; transition: all .3s; }
-.step-label { font-size: 12px; color: #9B9590; font-weight: 600; font-family: 'Tajawal', sans-serif; }
-.checkout-step.active .step-circle { border-color: #C9A84C; background: #C9A84C; color: #1A1714; }
-.checkout-step.active .step-label { color: #A88A38; }
+.step-circle { width: 36px; height: 36px; border-radius: 50%; border: 2px solid #EAEAEC; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #9A99A2; background: #fff; transition: all .3s; }
+.step-label { font-size: 12px; color: #9A99A2; font-weight: 600; font-family: 'Tajawal', sans-serif; }
+.checkout-step.active .step-circle { border-color: #FF3B4A; background: #FF3B4A; color: #16151A; }
+.checkout-step.active .step-label { color: #E42233; }
 .checkout-step.done .step-circle { border-color: #2E7D52; background: #2E7D52; color: #fff; }
 .checkout-step.done .step-label { color: #2E7D52; }
-.step-line { flex: 1; height: 2px; background: #E5DDD2; min-width: 40px; margin: 0 4px 22px; }
+.step-line { flex: 1; height: 2px; background: #EAEAEC; min-width: 40px; margin: 0 4px 22px; }
 
 /* ── Form sections ── */
-.form-section { background: #fff; border: 1px solid #E5DDD2; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
-.form-section-title { font-size: 17px; font-weight: 700; color: #1A1714; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-family: 'Tajawal', sans-serif; }
-.form-section-num { width: 28px; height: 28px; border-radius: 50%; background: #C9A84C; color: #1A1714; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+.form-section { background: #fff; border: 1px solid #EAEAEC; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+.form-section-title { font-size: 17px; font-weight: 700; color: #16151A; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-family: 'Tajawal', sans-serif; }
+.form-section-num { width: 28px; height: 28px; border-radius: 50%; background: #FF3B4A; color: #16151A; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
 
 /* ── Form controls ── */
 .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .form-group { margin-bottom: 16px; }
-.form-label { display: block; font-size: 13px; font-weight: 600; color: #5C574F; margin-bottom: 6px; font-family: 'Tajawal', sans-serif; }
-.form-input, .form-select { width: 100%; padding: 11px 14px; border: 1.5px solid #E5DDD2; border-radius: 9px; font-size: 14px; color: #1A1714; background: #FAF8F5; transition: border-color .2s, box-shadow .2s; outline: none; font-family: 'Tajawal', sans-serif; }
-.form-input:focus, .form-select:focus { border-color: #C9A84C; box-shadow: 0 0 0 3px rgba(201,168,76,.10); background: #fff; }
-.form-input::placeholder { color: #9B9590; }
+.form-label { display: block; font-size: 13px; font-weight: 600; color: #5C5B63; margin-bottom: 6px; font-family: 'Tajawal', sans-serif; }
+.form-input, .form-select { width: 100%; padding: 11px 14px; border: 1.5px solid #EAEAEC; border-radius: 9px; font-size: 14px; color: #16151A; background: #F7F7F8; transition: border-color .2s, box-shadow .2s; outline: none; font-family: 'Tajawal', sans-serif; }
+.form-input:focus, .form-select:focus { border-color: #FF3B4A; box-shadow: 0 0 0 3px rgba(255,59,74,.10); background: #fff; }
+.form-input::placeholder { color: #9A99A2; }
 .validation-error { display: block; font-size: 12px; color: #C0392B; margin-top: 4px; font-weight: 500; }
 
 /* ── Payment methods ── */
 .payment-methods { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-.payment-option { display: flex; align-items: center; gap: 14px; border: 2px solid #E5DDD2; border-radius: 12px; padding: 14px 18px; cursor: pointer; transition: border-color .2s, background .2s; background: #FAF8F5; }
-.payment-option:hover { border-color: #C9A84C; background: rgba(201,168,76,0.04); }
-.payment-option.selected { border-color: #C9A84C; background: rgba(201,168,76,0.06); }
-.payment-radio { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #E5DDD2; flex-shrink: 0; transition: all .2s; }
-.payment-option.selected .payment-radio { border-color: #C9A84C; border-width: 5px; }
+.payment-option { display: flex; align-items: center; gap: 14px; border: 2px solid #EAEAEC; border-radius: 12px; padding: 14px 18px; cursor: pointer; transition: border-color .2s, background .2s; background: #F7F7F8; }
+.payment-option:hover { border-color: #FF3B4A; background: rgba(255,59,74,0.04); }
+.payment-option.selected { border-color: #FF3B4A; background: rgba(255,59,74,0.06); }
+.payment-radio { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #EAEAEC; flex-shrink: 0; transition: all .2s; }
+.payment-option.selected .payment-radio { border-color: #FF3B4A; border-width: 5px; }
 .payment-icon { font-size: 24px; }
-.payment-name { font-size: 14px; font-weight: 700; color: #1A1714; font-family: 'Tajawal', sans-serif; }
-.payment-desc { font-size: 12px; color: #9B9590; margin-top: 2px; }
+.payment-name { font-size: 14px; font-weight: 700; color: #16151A; font-family: 'Tajawal', sans-serif; }
+.payment-desc { font-size: 12px; color: #9A99A2; margin-top: 2px; }
 
 /* ── Card fields ── */
-.card-fields { background: #F4F1EC; border: 1px solid #E5DDD2; border-radius: 10px; padding: 18px; margin-bottom: 20px; }
+.card-fields { background: #F7F7F8; border: 1px solid #EAEAEC; border-radius: 10px; padding: 18px; margin-bottom: 20px; }
 .card-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
 /* ── Place order button ── */
 .checkout-place-btn {
     width: 100%;
-    background: #1A1714;
+    background: #FF3B4A;
     color: #fff;
-    border: 2px solid #1A1714;
+    border: 2px solid #FF3B4A;
     border-radius: 12px;
     padding: 16px;
     font-size: 17px;
@@ -67,44 +67,44 @@ body { background: #FAF8F5; font-family: 'Tajawal', 'Segoe UI', Tahoma, Arial, s
     font-family: 'Tajawal', sans-serif;
 }
 .checkout-place-btn:hover {
-    background: #C9A84C;
-    border-color: #C9A84C;
-    color: #1A1714;
+    background: #E42233;
+    border-color: #E42233;
+    color: #fff;
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(201,168,76,0.25);
+    box-shadow: 0 6px 20px rgba(255,59,74,0.30);
 }
 .checkout-place-btn:active { transform: translateY(0); }
 
 /* ── Order summary sidebar ── */
-.order-summary-sticky { background: #fff; border: 1px solid #E5DDD2; border-radius: 12px; padding: 22px; position: sticky; top: 90px; }
-.summary-title { font-size: 17px; font-weight: 700; color: #1A1714; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #EDE8E1; font-family: 'Tajawal', sans-serif; }
-.order-item-mini { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #F4F1EC; }
+.order-summary-sticky { background: #fff; border: 1px solid #EAEAEC; border-radius: 12px; padding: 22px; position: sticky; top: 90px; }
+.summary-title { font-size: 17px; font-weight: 700; color: #16151A; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #F0F0F2; font-family: 'Tajawal', sans-serif; }
+.order-item-mini { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #F7F7F8; }
 .order-item-mini:last-of-type { border-bottom: none; }
-.order-item-img { width: 44px; height: 44px; background: #F4F1EC; border-radius: 8px; overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.order-item-img { width: 44px; height: 44px; background: #F7F7F8; border-radius: 8px; overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
 .order-item-img img { width: 100%; height: 100%; object-fit: cover; }
-.order-item-name { font-size: 13px; font-weight: 600; color: #1A1714; font-family: 'Tajawal', sans-serif; }
-.order-item-qty { font-size: 12px; color: #9B9590; margin-top: 2px; }
+.order-item-name { font-size: 13px; font-weight: 600; color: #16151A; font-family: 'Tajawal', sans-serif; }
+.order-item-qty { font-size: 12px; color: #9A99A2; margin-top: 2px; }
 .order-item-price { margin-right: auto; font-size: 13px; font-weight: 700; white-space: nowrap; font-family: 'Playfair Display', serif; }
-.summary-divider { height: 1px; background: #EDE8E1; margin: 14px 0; }
-.summary-row { display: flex; justify-content: space-between; font-size: 13px; color: #5C574F; padding: 5px 0; }
-.summary-row-label { color: #9B9590; }
+.summary-divider { height: 1px; background: #F0F0F2; margin: 14px 0; }
+.summary-row { display: flex; justify-content: space-between; font-size: 13px; color: #5C5B63; padding: 5px 0; }
+.summary-row-label { color: #9A99A2; }
 .summary-row-value { font-weight: 600; }
 .summary-row-value.free { color: #2E7D52; }
 .summary-total { display: flex; justify-content: space-between; align-items: center; padding-top: 6px; }
-.summary-total > span:first-child { font-size: 16px; font-weight: 700; color: #1A1714; }
-.summary-total-value { font-size: 20px; font-weight: 800; color: #A88A38; font-family: 'Playfair Display', serif; }
+.summary-total > span:first-child { font-size: 16px; font-weight: 700; color: #16151A; }
+.summary-total-value { font-size: 20px; font-weight: 800; color: #E42233; font-family: 'Playfair Display', serif; }
 
 /* ── Coupon ── */
 .coupon-box { display: flex; gap: 8px; margin-bottom: 16px; }
-.coupon-btn { padding: 11px 18px; background: #1A1714; color: #fff; border: none; border-radius: 9px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; font-family: 'Tajawal', sans-serif; transition: background 0.2s; }
-.coupon-btn:hover { background: #A88A38; }
+.coupon-btn { padding: 11px 18px; background: #16151A; color: #fff; border: none; border-radius: 9px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; font-family: 'Tajawal', sans-serif; transition: background 0.2s; }
+.coupon-btn:hover { background: #E42233; }
 
 /* ── Security note ── */
-.secure-note { text-align: center; font-size: 12px; color: #9B9590; margin-top: 12px; }
+.secure-note { text-align: center; font-size: 12px; color: #9A99A2; margin-top: 12px; }
 .secure-note span { color: #2E7D52; font-weight: 600; }
 
 /* ── Empty cart ── */
-.empty-cart-msg { text-align: center; padding: 32px 16px; color: #9B9590; }
+.empty-cart-msg { text-align: center; padding: 32px 16px; color: #9A99A2; }
 .empty-cart-msg .empty-icon { font-size: 48px; margin-bottom: 12px; }
 .empty-cart-msg p { font-size: 15px; margin: 0; }
 

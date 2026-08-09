@@ -231,7 +231,7 @@ namespace NooN
                     WHERE  c.user_id = @uid", conn))
                 {
                     cnt.Parameters.AddWithValue("@uid", userId);
-                    cartCount = (int)cnt.ExecuteScalar();
+                    cartCount = Convert.ToInt32(cnt.ExecuteScalar() ?? 0);
                 }
 
                 string colorMsg = string.IsNullOrEmpty(color) ? "" : " | اللون: " + color;

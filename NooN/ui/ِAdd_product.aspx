@@ -133,7 +133,7 @@
                             <td><input type="checkbox" class="cb-custom row-cb" /></td>
                             <td><div class="product-cell"><div class="product-thumb">📱</div><div><div class="product-name">iPhone 15 Pro Max 256GB</div><div class="product-sku">APL-IPH15P-256</div></div></div></td>
                             <td><span class="cat-badge"><i class="fas fa-microchip" style="font-size:10px;"></i> تقنية</span></td>
-                            <td><span class="price-now">ر.س 3,999</span><span class="price-old">4,599</span></td>
+                            <td><span class="price-now">د.أ 3,999</span><span class="price-old">4,599</span></td>
                             <td><div class="stock-wrap"><div class="stock-label"><span>مخزون</span><span class="stock-num" style="color:#16a34a;">84 قطعة</span></div><div class="stock-bar"><div class="stock-fill fill-green" style="width:84%"></div></div></div></td>
                             <td><span class="status status-active"><span class="status-dot"></span> نشط</span></td>
                             <td><div class="actions-cell"><button type="button" class="action-btn edit" title="تعديل"><i class="fas fa-pen"></i></button><button type="button" class="action-btn del" title="حذف"><i class="fas fa-trash"></i></button></div></td>
@@ -142,7 +142,7 @@
                             <td><input type="checkbox" class="cb-custom row-cb" /></td>
                             <td><div class="product-cell"><div class="product-thumb">🎧</div><div><div class="product-name">Sony WH-1000XM5</div><div class="product-sku">SNY-WH1000XM5</div></div></div></td>
                             <td><span class="cat-badge"><i class="fas fa-microchip" style="font-size:10px;"></i> تقنية</span></td>
-                            <td><span class="price-now">ر.س 1,199</span><span class="price-old">1,499</span></td>
+                            <td><span class="price-now">د.أ 1,199</span><span class="price-old">1,499</span></td>
                             <td><div class="stock-wrap"><div class="stock-label"><span>منخفض</span><span class="stock-num" style="color:#c2410c;">12 متبقي</span></div><div class="stock-bar"><div class="stock-fill fill-orange" style="width:12%"></div></div></div></td>
                             <td><span class="status status-lowstock"><span class="status-dot"></span> منخفض</span></td>
                             <td><div class="actions-cell"><button type="button" class="action-btn edit"><i class="fas fa-pen"></i></button><button type="button" class="action-btn del"><i class="fas fa-trash"></i></button></div></td>
@@ -151,7 +151,7 @@
                             <td><input type="checkbox" class="cb-custom row-cb" /></td>
                             <td><div class="product-cell"><div class="product-thumb">👟</div><div><div class="product-name">Nike Air Max 270 React</div><div class="product-sku">NKE-AIRMAX270-43</div></div></div></td>
                             <td><span class="cat-badge"><i class="fas fa-futbol" style="font-size:10px;"></i> رياضة</span></td>
-                            <td><span class="price-now">ر.س 649</span><span class="price-old">739</span></td>
+                            <td><span class="price-now">د.أ 649</span><span class="price-old">739</span></td>
                             <td><div class="stock-wrap"><div class="stock-label"><span>نفد</span><span class="stock-num" style="color:#b91c1c;">0 نفد</span></div><div class="stock-bar"><div class="stock-fill fill-red" style="width:2%"></div></div></div></td>
                             <td><span class="status status-outstock"><span class="status-dot"></span> نفذ المخزون</span></td>
                             <td><div class="actions-cell"><button type="button" class="action-btn edit"><i class="fas fa-pen"></i></button><button type="button" class="action-btn del"><i class="fas fa-trash"></i></button></div></td>
@@ -160,7 +160,7 @@
                             <td><input type="checkbox" class="cb-custom row-cb" /></td>
                             <td><div class="product-cell"><div class="product-thumb">⌚</div><div><div class="product-name">Apple Watch Ultra 2</div><div class="product-sku">APL-WATCH-ULT2</div></div></div></td>
                             <td><span class="cat-badge"><i class="fas fa-microchip" style="font-size:10px;"></i> تقنية</span></td>
-                            <td><span class="price-now">ر.س 2,199</span><span class="price-old">2,599</span></td>
+                            <td><span class="price-now">د.أ 2,199</span><span class="price-old">2,599</span></td>
                             <td><div class="stock-wrap"><div class="stock-label"><span>مخزون</span><span class="stock-num" style="color:#16a34a;">56 قطعة</span></div><div class="stock-bar"><div class="stock-fill fill-green" style="width:56%"></div></div></div></td>
                             <td><span class="status status-inactive"><span class="status-dot"></span> غير نشط</span></td>
                             <td><div class="actions-cell"><button type="button" class="action-btn edit"><i class="fas fa-pen"></i></button><button type="button" class="action-btn del"><i class="fas fa-trash"></i></button></div></td>
@@ -169,7 +169,7 @@
                             <td><input type="checkbox" class="cb-custom row-cb" /></td>
                             <td><div class="product-cell"><div class="product-thumb">🛋️</div><div><div class="product-name">طقم أثاث غرفة المعيشة</div><div class="product-sku">HM-SOFA-CLX-5PC</div></div></div></td>
                             <td><span class="cat-badge"><i class="fas fa-couch" style="font-size:10px;"></i> منزل وديكور</span></td>
-                            <td><span class="price-now">ر.س 2,499</span><span class="price-old">3,200</span></td>
+                            <td><span class="price-now">د.أ 2,499</span><span class="price-old">3,200</span></td>
                             <td><div class="stock-wrap"><div class="stock-label"><span>منخفض</span><span class="stock-num" style="color:#c2410c;">7 متبقي</span></div><div class="stock-bar"><div class="stock-fill fill-orange" style="width:7%"></div></div></div></td>
                             <td><span class="status status-active"><span class="status-dot"></span> نشط</span></td>
                             <td><div class="actions-cell"><button type="button" class="action-btn edit"><i class="fas fa-pen"></i></button><button type="button" class="action-btn del"><i class="fas fa-trash"></i></button></div></td>

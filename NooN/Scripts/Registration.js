@@ -64,10 +64,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // 3. Phone format (Saudi: starts with 05, 10 digits)
             var phoneVal = phoneInput ? phoneInput.value.trim() : '';
-            if (phoneVal && !/^05\d{8}$/.test(phoneVal)) {
+            if (phoneVal && !/^07\d{8}$/.test(phoneVal)) {
                 e.preventDefault();
                 shake(phoneInput);
-                showFieldError(phoneInput, 'Phone must start with 05 and be 10 digits.');
+                showFieldError(phoneInput, 'Phone must start with 07 and be 10 digits.');
                 return false;
             }
 

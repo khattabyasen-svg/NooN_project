@@ -10,18 +10,9 @@ namespace NooN
 {
     public partial class Cart : Page
     {
-        // ===== ثوابت =====
-        private const decimal VAT_RATE = 0.15m;
-        private const decimal FREE_SHIP_THRESHOLD = 200m;
-        private const decimal SHIPPING_COST = 25m;
-
-        // كوبونات الخصم (يمكن نقلها لاحقاً لجدول في DB)
-        private static readonly Dictionary<string, decimal> Coupons = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase)
-        {
-            { "NOON20",  0.10m },  // 10% خصم
-            { "SAVE15",  0.15m },  // 15% خصم
-            { "WELCOME", 0.05m },  // 5%  خصم
-        };
+        // Pricing rules (VAT, shipping, currency) come from the shared StoreConfig,
+        // and coupons are resolved from the coupons DB table via CouponHelper — so
+        // the cart and checkout always agree.
 
         // ===== Connection String =====
         private string ConnStr => Db.ConnectionString;
@@ -133,7 +124,8 @@ namespace NooN
             }
             catch (Exception ex)
             {
-                ShowError("حدث خطأ أثناء تحميل السلة: " + ex.Message);
+                System.Diagnostics.Trace.TraceError("Cart.GetCartItems: " + ex);
+                ShowError("حدث خطأ أثناء تحميل السلة، يرجى المحاولة مجدداً.");
             }
 
             return dt;
@@ -148,14 +140,23 @@ namespace NooN
             foreach (DataRow row in dt.Rows)
                 subtotal += Convert.ToDecimal(row["item_total"]);
 
-            // خصم الكوبون
+            // خصم الكوبون — يُحل من جدول coupons عبر CouponHelper
             decimal discountAmount = 0;
-            if (!string.IsNullOrEmpty(AppliedCoupon) && Coupons.ContainsKey(AppliedCoupon))
+            if (!string.IsNullOrEmpty(AppliedCoupon))
             {
-                discountAmount = Math.Round(subtotal * Coupons[AppliedCoupon], 2);
-                pnlDiscountRow.Visible = true;
-                litCouponCode.Text = $"({AppliedCoupon})";
-                litDiscount.Text = FormatPrice(discountAmount);
+                var coupon = CouponHelper.Resolve(AppliedCoupon, subtotal);
+                if (coupon.IsValid)
+                {
+                    discountAmount = coupon.DiscountAmount;
+                    pnlDiscountRow.Visible = true;
+                    litCouponCode.Text = $"({AppliedCoupon})";
+                    litDiscount.Text = FormatPrice(discountAmount);
+                }
+                else
+                {
+                    // Coupon no longer valid (expired/deactivated/below min) — drop it.
+                    pnlDiscountRow.Visible = false;
+                }
             }
             else
             {
@@ -165,11 +166,11 @@ namespace NooN
             decimal afterDiscount = subtotal - discountAmount;
 
             // الشحن
-            decimal shipping = afterDiscount >= FREE_SHIP_THRESHOLD ? 0 : SHIPPING_COST;
-            litShipping.Text = shipping == 0 ? "مجاني ✓" : $"{shipping:N0} ر.س";
+            decimal shipping = StoreConfig.ShippingFor(afterDiscount);
+            litShipping.Text = shipping == 0 ? "مجاني ✓" : $"{shipping:N0} {StoreConfig.Currency}";
 
             // الضريبة
-            decimal vat = Math.Round(afterDiscount * VAT_RATE, 2);
+            decimal vat = Math.Round(afterDiscount * StoreConfig.VatRate, 2);
             decimal total = afterDiscount + shipping + vat;
 
             litSubtotal.Text = FormatPrice(subtotal);
@@ -193,7 +194,7 @@ namespace NooN
             }
 
             LoadCart();
-            (this.Master as NooN.SiteMaster)?.RefreshCartBadge();
+            (this.Master as NooN.ISiteMaster)?.RefreshCartBadge();
         }
 
         // ===========================================================
@@ -267,7 +268,8 @@ namespace NooN
             }
             catch (Exception ex)
             {
-                ShowError("خطأ في تحديث الكمية: " + ex.Message);
+                System.Diagnostics.Trace.TraceError("Cart.ChangeQuantity: " + ex);
+                ShowError("تعذّر تحديث الكمية، يرجى المحاولة مجدداً.");
             }
         }
 
@@ -296,7 +298,8 @@ namespace NooN
             }
             catch (Exception ex)
             {
-                ShowError("خطأ في حذف المنتج: " + ex.Message);
+                System.Diagnostics.Trace.TraceError("Cart.RemoveItem: " + ex);
+                ShowError("تعذّر حذف المنتج، يرجى المحاولة مجدداً.");
             }
         }
 
@@ -321,11 +324,12 @@ namespace NooN
                 }
                 AppliedCoupon = "";
                 ShowSuccess("تم إفراغ السلة بنجاح.");
-                (this.Master as NooN.SiteMaster)?.RefreshCartBadge();
+                (this.Master as NooN.ISiteMaster)?.RefreshCartBadge();
             }
             catch (Exception ex)
             {
-                ShowError("خطأ في إفراغ السلة: " + ex.Message);
+                System.Diagnostics.Trace.TraceError("Cart.ClearCart: " + ex);
+                ShowError("تعذّر إفراغ السلة، يرجى المحاولة مجدداً.");
             }
 
             LoadCart();
@@ -337,7 +341,7 @@ namespace NooN
         // ===========================================================
         protected void btnApplyCoupon_Click(object sender, EventArgs e)
         {
-            string code = txtCoupon.Text.Trim().ToUpper();
+            string code = txtCoupon.Text.Trim();
 
             if (string.IsNullOrEmpty(code))
             {
@@ -345,17 +349,17 @@ namespace NooN
                 return;
             }
 
-            if (Coupons.ContainsKey(code))
-            {
-                AppliedCoupon = code;
-                decimal pct = Coupons[code] * 100;
-                ShowCouponMsg($"✅ تم تطبيق الكود! خصم {pct:0}%", true);
-            }
-            else
-            {
-                AppliedCoupon = "";
-                ShowCouponMsg("❌ كود الخصم غير صالح.", false);
-            }
+            // Compute the current subtotal so the coupon's minimum-order rule can
+            // be checked, then resolve against the coupons DB table.
+            decimal subtotal = 0;
+            DataTable dt = GetCartItems(CurrentUserId);
+            if (dt != null)
+                foreach (DataRow r in dt.Rows)
+                    subtotal += Convert.ToDecimal(r["item_total"]);
+
+            var coupon = CouponHelper.Resolve(code, subtotal);
+            AppliedCoupon = coupon.IsValid ? coupon.Code : "";
+            ShowCouponMsg(coupon.Message, coupon.IsValid);
 
             LoadCart();
         }

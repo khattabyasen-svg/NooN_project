@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace NooN
 {
-    public partial class SiteMaster : MasterPage
+    public partial class SiteMaster : MasterPage, ISiteMaster
     {
         private static readonly string connStr = Db.ConnectionString;
 
@@ -18,57 +18,7 @@ namespace NooN
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-                //BindCategories();
-
             UpdateCartBadge();
-        }
-
-        // ══ Categories ══
-        //private void BindCategories()
-        //{
-        //    ddlCategories.DataSource = GetCategories();
-        //    ddlCategories.DataTextField = "name_ar";
-        //    ddlCategories.DataValueField = "category_id";
-        //    ddlCategories.DataBind();
-
-        //    ddlCategories.Items.Insert(0, new ListItem("🏷️ كل الفئات", "0"));
-        //}
-
-        // Categories rarely change, so cache the list for all users.
-        // This avoids a DB round-trip on every page load across the whole site.
-        private DataTable GetCategories()
-        {
-            DataTable dt = HttpContext.Current.Cache[CategoriesCacheKey] as DataTable;
-            if (dt != null)
-                return dt;
-
-            dt = new DataTable();
-            using (SqlConnection con = new SqlConnection(connStr))
-            using (SqlCommand cmd = new SqlCommand(@"
-                    SELECT category_id, name_ar
-                    FROM   product_categories
-                    WHERE  is_active = 1
-                    ORDER BY name_ar", con))
-            using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-            {
-                da.Fill(dt);
-            }
-
-            HttpContext.Current.Cache.Insert(
-                CategoriesCacheKey, dt, null,
-                DateTime.Now.AddMinutes(30),
-                System.Web.Caching.Cache.NoSlidingExpiration);
-
-            return dt;
-        }
-
-        protected void ddlCategories_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //string catId = ddlCategories.SelectedValue;
-            //Response.Redirect(catId != "0"
-            //    ? "~/Prouduct.aspx?category_id=" + catId
-            //    : "~/Prouduct.aspx");
         }
 
         // ══ بحث ══
@@ -135,15 +85,15 @@ namespace NooN
             try
             {
                 using (SqlConnection conn = new SqlConnection(connStr))
-                {
-                    SqlCommand cmd = new SqlCommand(@"
+                using (SqlCommand cmd = new SqlCommand(@"
                         SELECT ISNULL(SUM(ci.quantity), 0)
                         FROM   cart_items ci
                         INNER JOIN carts c ON ci.cart_id = c.cart_id
-                        WHERE  c.user_id = @uid", conn);
+                        WHERE  c.user_id = @uid", conn))
+                {
                     cmd.Parameters.AddWithValue("@uid", userId);
                     conn.Open();
-                    return (int)cmd.ExecuteScalar();
+                    return Convert.ToInt32(cmd.ExecuteScalar() ?? 0);
                 }
             }
             catch (Exception ex)

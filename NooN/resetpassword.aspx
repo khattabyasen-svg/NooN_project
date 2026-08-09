@@ -7,6 +7,7 @@
     <title>Reset Password</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 
+    <link href="Content/shared.css" rel="stylesheet" />
     <link href="Content/reset_pass.css" rel="stylesheet" />
 </head>
 <body>

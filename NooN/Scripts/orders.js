@@ -22,7 +22,7 @@ function closeDetail() {
 
 // ── STATUS CHANGE ────────────────────────────────────────────
 function changeStatus(status) {
-  showToast('✅ تم تغيير حالة الطلب إلى: ' + status);
+  ordersShowToast('✅ تم تغيير حالة الطلب إلى: ' + status);
 }
 
 // ── PAGINATION ──────────────────────────────────────────────
@@ -43,8 +43,9 @@ if (masterCheck) {
 }
 
 // ── TOAST ───────────────────────────────────────────────────
-function showToast(msg) {
+function ordersShowToast(msg) {
   const wrap = document.getElementById('toasts');
+  if (!wrap) return;
   const t    = document.createElement('div');
   t.className   = 'toast';
   t.textContent = msg;

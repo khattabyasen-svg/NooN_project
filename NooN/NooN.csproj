@@ -247,22 +247,6 @@
     </Content>
     <Content Include="ui\ِAdd_product.aspx" />
     <Content Include="Userprofile.aspx" />
-    <Content Include="WebForm1.aspx" />
-    <Content Include="WebForm2.aspx" />
-    <Content Include="noon_dpDataSet.xsc">
-      <DependentUpon>noon_dpDataSet.xsd</DependentUpon>
-    </Content>
-    <None Include="noon_dpDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>noon_dpDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="noon_dpDataSet.xss">
-      <DependentUpon>noon_dpDataSet.xsd</DependentUpon>
-    </Content>
-    <Content Include="noon_dpDataSet11.xsc">
-      <DependentUpon>noon_dpDataSet11.xsd</DependentUpon>
-    </Content>
     <Content Include="noon_dpDataSet1.xsc">
       <DependentUpon>noon_dpDataSet1.xsd</DependentUpon>
     </Content>
@@ -273,14 +257,6 @@
     </None>
     <Content Include="noon_dpDataSet1.xss">
       <DependentUpon>noon_dpDataSet1.xsd</DependentUpon>
-    </Content>
-    <None Include="noon_dpDataSet11.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>noon_dpDataSet11.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="noon_dpDataSet11.xss">
-      <DependentUpon>noon_dpDataSet11.xsd</DependentUpon>
     </Content>
     <Content Include="noon_dpDataSet2.xsc">
       <DependentUpon>noon_dpDataSet2.xsd</DependentUpon>
@@ -328,10 +304,8 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
-    <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
-    <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddnewItem.aspx.cs">
@@ -384,20 +358,10 @@
     <Compile Include="LoginUser.aspx.designer.cs">
       <DependentUpon>LoginUser.aspx</DependentUpon>
     </Compile>
-    <Compile Include="noon_dpDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>noon_dpDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="noon_dpDataSet1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>noon_dpDataSet1.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="noon_dpDataSet11.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>noon_dpDataSet11.xsd</DependentUpon>
     </Compile>
     <Compile Include="noon_dpDataSet2.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -468,6 +432,10 @@
     <Compile Include="Helpers\Db.cs" />
     <Compile Include="Helpers\PasswordHasher.cs" />
     <Compile Include="Helpers\ProductImage.cs" />
+    <Compile Include="Helpers\StoreConfig.cs" />
+    <Compile Include="Helpers\CouponHelper.cs" />
+    <Compile Include="Helpers\Validators.cs" />
+    <Compile Include="Helpers\ISiteMaster.cs" />
     <Compile Include="ShopService.ashx.cs">
       <DependentUpon>ShopService.ashx</DependentUpon>
     </Compile>
@@ -478,13 +446,6 @@
     <Compile Include="Site.Master.designer.cs">
       <DependentUpon>Site.Master</DependentUpon>
     </Compile>
-    <Compile Include="Site.Mobile.Master.cs">
-      <DependentUpon>Site.Mobile.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Site.Mobile.Master.designer.cs">
-      <DependentUpon>Site.Mobile.Master</DependentUpon>
-    </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Userprofile.aspx.cs">
       <DependentUpon>Userprofile.aspx</DependentUpon>
@@ -493,33 +454,12 @@
     <Compile Include="Userprofile.aspx.designer.cs">
       <DependentUpon>Userprofile.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ViewSwitcher.ascx.cs">
-      <DependentUpon>ViewSwitcher.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ViewSwitcher.ascx.designer.cs">
-      <DependentUpon>ViewSwitcher.ascx</DependentUpon>
-    </Compile>
     <Compile Include="ui\ِAdd_product.aspx.cs">
       <DependentUpon>ِAdd_product.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ui\ِAdd_product.aspx.designer.cs">
       <DependentUpon>ِAdd_product.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="WebForm1.aspx.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="WebForm1.aspx.designer.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="WebForm2.aspx.cs">
-      <DependentUpon>WebForm2.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="WebForm2.aspx.designer.cs">
-      <DependentUpon>WebForm2.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

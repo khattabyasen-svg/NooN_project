@@ -76,33 +76,31 @@ namespace NooN
         private void LoadOrdersSummary()
         {
             int userId = GetUserId();
-
             using (SqlConnection conn = new SqlConnection(connStr))
             {
+                // lblNewOrders label displays "تم التوصيل" (Delivered) in the markup
+                // lblCompletedOrders label displays "ملغاة" (Cancelled) in the markup
                 string query = @"
-                    SELECT
-                        SUM(CASE WHEN status = 'delivered'  THEN 1 ELSE 0 END) AS Delivered,
-                        SUM(CASE WHEN status = 'cancelled'  THEN 1 ELSE 0 END) AS Cancelled
-                    FROM orders
-                    WHERE user_id = @id";
-
+            SELECT
+                SUM(CASE WHEN status = 'delivered' THEN 1 ELSE 0 END) AS DeliveredCount,
+                SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) AS CancelledCount
+            FROM orders
+            WHERE user_id = @id";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@id", userId);
                     conn.Open();
-
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
                         if (dr.Read())
                         {
-                            lblNewOrders.Text       = dr["Delivered"] != DBNull.Value ? dr["Delivered"].ToString() : "0";
-                            lblCompletedOrders.Text = dr["Cancelled"] != DBNull.Value ? dr["Cancelled"].ToString() : "0";
+                            lblNewOrders.Text = dr["DeliveredCount"] != DBNull.Value ? dr["DeliveredCount"].ToString() : "0";
+                            lblCompletedOrders.Text = dr["CancelledCount"] != DBNull.Value ? dr["CancelledCount"].ToString() : "0";
                         }
                     }
                 }
             }
         }
-
         private void SetValidators(bool enabled)
         {
             RFV_FName.Enabled  = enabled;
@@ -159,15 +157,15 @@ namespace NooN
                 return;
             }
 
-            if (!Regex.IsMatch(em, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            if (!NooN.Validators.IsValidEmail(em))
             {
                 ShowStatus("❌ صيغة البريد الإلكتروني غير صحيحة.", false);
                 return;
             }
 
-            if (!Regex.IsMatch(ph, @"^05\d{8}$"))
+            if (!NooN.Validators.IsValidJordanPhone(ph))
             {
-                ShowStatus("❌ رقم الهاتف يجب أن يبدأ بـ 05 ويتكوّن من 10 أرقام.", false);
+                ShowStatus("❌ رقم الهاتف يجب أن يبدأ بـ 07 ويتكوّن من 10 أرقام.", false);
                 return;
             }
 

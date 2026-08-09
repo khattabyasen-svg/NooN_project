@@ -35,23 +35,23 @@ namespace NooN
             }
 
             // Email format
-            if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            if (!NooN.Validators.IsValidEmail(email))
             {
                 Laberor.Text = "❌ Enter a valid email address.";
                 Laberor.Visible = true;
                 return;
             }
 
-            // Phone format: Saudi mobile (05XXXXXXXX)
-            if (!Regex.IsMatch(phone, @"^05\d{8}$"))
+            // Phone format: Jordan mobile (07XXXXXXXX)
+            if (!NooN.Validators.IsValidJordanPhone(phone))
             {
-                Laberor.Text = "❌ Phone must start with 05 and be 10 digits.";
+                Laberor.Text = "❌ Phone must start with 07 and be 10 digits.";
                 Laberor.Visible = true;
                 return;
             }
 
             // Minimum password length
-            if (password_hash.Length < 8)
+            if (!NooN.Validators.IsValidPassword(password_hash))
             {
                 Laberor.Text = "❌ Password must be at least 8 characters.";
                 Laberor.Visible = true;
@@ -114,16 +114,6 @@ namespace NooN
                     }
                 }
             }
-        }
-
-        protected void TxtPass_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void TxtPass_TextChanged1(object sender, EventArgs e)
-        {
-
         }
     }
 }

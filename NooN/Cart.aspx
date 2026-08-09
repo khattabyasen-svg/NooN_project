@@ -68,7 +68,7 @@
                                                 </div>
                                             </div>
                                             <div class="price-col">
-                                                <div class="item-price"><%# FormatPrice(Eval("item_total")) %> <small>ر.س</small></div>
+                                                <div class="item-price"><%# FormatPrice(Eval("item_total")) %> <small>د.أ</small></div>
                                                 <asp:LinkButton ID="btnDelete" runat="server" CommandName="Remove" CommandArgument='<%# Eval("cart_item_id") %>' CssClass="btn-remove">حذف المنتج</asp:LinkButton>
                                             </div>
                                         </div>
@@ -93,12 +93,12 @@
                                 <div class="bill-details" style="margin-top:20px;">
                                     <div class="bill-row">
                                         <span>المجموع الفرعي</span>
-                                        <span><asp:Literal ID="litSubtotal" runat="server" /> ر.س</span>
+                                        <span><asp:Literal ID="litSubtotal" runat="server" /> د.أ</span>
                                     </div>
 
                                     <asp:Panel ID="pnlDiscountRow" runat="server" CssClass="bill-row discount-text" Visible="false">
                                         <span>خصم الكوبون <asp:Literal ID="litCouponCode" runat="server" /></span>
-                                        <span>- <asp:Literal ID="litDiscount" runat="server" /> ر.س</span>
+                                        <span>- <asp:Literal ID="litDiscount" runat="server" /> د.أ</span>
                                     </asp:Panel>
 
                                     <div class="bill-row">
@@ -106,12 +106,12 @@
                                         <span><asp:Literal ID="litShipping" runat="server" /></span>
                                     </div>
                                     <div class="bill-row">
-                                        <span>الضريبة (15%)</span>
-                                        <span><asp:Literal ID="litVat" runat="server" /> ر.س</span>
+                                        <span>الضريبة (16%)</span>
+                                        <span><asp:Literal ID="litVat" runat="server" /> د.أ</span>
                                     </div>
                                     <div class="bill-row total">
                                         <span>الإجمالي</span>
-                                        <span style="color:var(--dark);"><asp:Literal ID="litTotal" runat="server" /> ر.س</span>
+                                        <span style="color:var(--dark);"><asp:Literal ID="litTotal" runat="server" /> د.أ</span>
                                     </div>
                                 </div>
 

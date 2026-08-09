@@ -102,7 +102,7 @@
                             <label>رقم الهاتف *</label>
                             <asp:TextBox ID="txtPhone" runat="server"
                                 CssClass="asp-input" ReadOnly="true"
-                                TextMode="Phone" placeholder="05XXXXXXXX" />
+                                TextMode="Phone" placeholder="07XXXXXXXX" />
                             <asp:RequiredFieldValidator ID="RFV_Phone" runat="server"
                                 ControlToValidate="txtPhone"
                                 ErrorMessage="رقم الهاتف مطلوب"
@@ -110,8 +110,8 @@
                                 ValidationGroup="ProfileGroup" Enabled="false" />
                             <asp:RegularExpressionValidator ID="REV_Phone" runat="server"
                                 ControlToValidate="txtPhone"
-                                ErrorMessage="رقم الهاتف يجب أن يبدأ بـ 05 ويتكوّن من 10 أرقام"
-                                ValidationExpression="^05\d{8}$"
+                                ErrorMessage="رقم الهاتف يجب أن يبدأ بـ 07 ويتكوّن من 10 أرقام"
+                                ValidationExpression="^07\d{8}$"
                                 CssClass="field-error" Display="Dynamic"
                                 ValidationGroup="ProfileGroup" Enabled="false" />
                         </div>

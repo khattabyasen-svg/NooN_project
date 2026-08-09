@@ -83,7 +83,7 @@
                     <asp:TextBox ID="txtPhone" runat="server"
                         CssClass="form-input"
                         TextMode="Phone"
-                        placeholder="05XXXXXXXX" />
+                        placeholder="07XXXXXXXX" />
                     <asp:RequiredFieldValidator
                         ID="RFV_Phone" runat="server"
                         ControlToValidate="txtPhone"
@@ -93,8 +93,8 @@
                     <asp:RegularExpressionValidator
                         ID="REV_Phone" runat="server"
                         ControlToValidate="txtPhone"
-                        ErrorMessage="رقم الجوال يجب أن يبدأ بـ 05 ويتكوّن من 10 أرقام"
-                        ValidationExpression="^05\d{8}$"
+                        ErrorMessage="رقم الجوال يجب أن يبدأ بـ 07 ويتكوّن من 10 أرقام"
+                        ValidationExpression="^07\d{8}$"
                         CssClass="validation-error" Display="Dynamic"
                         ValidationGroup="OrderGroup" />
                 </div>
@@ -120,21 +120,27 @@
 
                 <div class="form-grid-2">
                     <div class="form-group">
-                        <label class="form-label">المدينة *</label>
+                        <label class="form-label">المحافظة *</label>
                         <asp:DropDownList ID="ddlCity" runat="server"
                             CssClass="form-select">
-                            <asp:ListItem Text="-- اختر المدينة --" Value="" />
-                            <asp:ListItem Text="الرياض" Value="Riyadh" />
-                            <asp:ListItem Text="جدة" Value="Jeddah" />
-                            <asp:ListItem Text="الدمام" Value="Dammam" />
-                            <asp:ListItem Text="مكة المكرمة" Value="Makkah" />
-                            <asp:ListItem Text="المدينة المنورة" Value="Medina" />
-                            <asp:ListItem Text="الطائف" Value="Taif" />
+                            <asp:ListItem Text="-- اختر المحافظة --" Value="" />
+                            <asp:ListItem Text="عمّان" Value="Amman" />
+                            <asp:ListItem Text="إربد" Value="Irbid" />
+                            <asp:ListItem Text="الزرقاء" Value="Zarqa" />
+                            <asp:ListItem Text="البلقاء" Value="Balqa" />
+                            <asp:ListItem Text="مادبا" Value="Madaba" />
+                            <asp:ListItem Text="المفرق" Value="Mafraq" />
+                            <asp:ListItem Text="جرش" Value="Jerash" />
+                            <asp:ListItem Text="عجلون" Value="Ajloun" />
+                            <asp:ListItem Text="الكرك" Value="Karak" />
+                            <asp:ListItem Text="الطفيلة" Value="Tafilah" />
+                            <asp:ListItem Text="معان" Value="Maan" />
+                            <asp:ListItem Text="العقبة" Value="Aqaba" />
                         </asp:DropDownList>
                         <asp:RequiredFieldValidator
                             ID="RFV_City" runat="server"
                             ControlToValidate="ddlCity" InitialValue=""
-                            ErrorMessage="يرجى اختيار المدينة"
+                            ErrorMessage="يرجى اختيار المحافظة"
                             CssClass="validation-error" Display="Dynamic"
                             ValidationGroup="OrderGroup" />
                     </div>
@@ -323,7 +329,7 @@
                         </div>
                         <div class="order-item-price">
                             <%# ((decimal)Eval("LineTotal")).ToString("N2") %>
-                        ر.س
+                        د.أ
                         </div>
                     </div>
                 </ItemTemplate>
@@ -358,13 +364,13 @@
             <div class="summary-row">
                 <span class="summary-row-label">المجموع الفرعي</span>
                 <asp:Label ID="lblSubtotal" runat="server"
-                    CssClass="summary-row-value" Text="0 ر.س" />
+                    CssClass="summary-row-value" Text="0 د.أ" />
             </div>
             <div class="summary-row">
                 <span class="summary-row-label">الخصم</span>
                 <asp:Label ID="lblDiscount" runat="server"
                     CssClass="summary-row-value"
-                    Style="color: #00b14f;" Text="- 0 ر.س" />
+                    Style="color: #00b14f;" Text="- 0 د.أ" />
             </div>
             <div class="summary-row">
                 <span class="summary-row-label">الشحن</span>
@@ -372,9 +378,9 @@
                     CssClass="summary-row-value free" Text="مجاني" />
             </div>
             <div class="summary-row">
-                <span class="summary-row-label">ضريبة القيمة المضافة (15%)</span>
+                <span class="summary-row-label">ضريبة القيمة المضافة (16%)</span>
                 <asp:Label ID="lblTax" runat="server"
-                    CssClass="summary-row-value" Text="0 ر.س" />
+                    CssClass="summary-row-value" Text="0 د.أ" />
             </div>
 
             <div class="summary-divider"></div>
@@ -382,7 +388,7 @@
             <div class="summary-total">
                 <span>الإجمالي</span>
                 <asp:Label ID="lblTotal" runat="server"
-                    CssClass="summary-total-value" Text="0 ر.س" />
+                    CssClass="summary-total-value" Text="0 د.أ" />
             </div>
         </div>
     </div>

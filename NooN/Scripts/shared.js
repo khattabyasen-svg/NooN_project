@@ -4,23 +4,7 @@
 
 window.NoonState = { cartCount: 3 };
 
-/* ── دالة التنقل الذكية ── */
-function showPage(pageId) {
-    console.log("محاولة الانتقال إلى: " + pageId);
-
-    // التحقق من الحالات الخاصة بالأسماء (Prouduct بالـ u)
-    let destination = pageId;
-    if (pageId.toLowerCase() === 'prouduct' || pageId.toLowerCase() === 'product') {
-        destination = 'Prouduct';
-    } else if (pageId.toLowerCase() === 'cart') {
-        destination = 'Cart';
-    }
-
-    // التحويل المباشر لصفحة الـ ASPX
-    window.location.href = destination + ".aspx";
-}
-
-// ربط الدوال
+// ربط الدوال (showPage معرّفة أدناه)
 window.showPage = showPage;
 window.navigateTo = function (page) { showPage(page); };
 
@@ -141,8 +125,5 @@ function placeOrder() {
 // التأكد من ربط الدوال لتعمل مع onclick في HTML
 window.showPage = showPage;
 window.navigateTo = function (page) { showPage(page); };
-function placeOrder() {
-    // الكود الخاص بك
-}
 
 window.placeOrder = placeOrder;

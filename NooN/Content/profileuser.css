@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    NOON — profileuser.css
    Styles for the User Profile page (Userprofile.aspx).
    Site.Master loads shared.css + master.css first; this file
@@ -9,15 +9,15 @@
    overriding global variables from shared/master CSS) */
 :root {
     --pf-font:       'Cairo', 'Tajawal', sans-serif;
-    --pf-gold:       #C9A84C;
-    --pf-gold-dark:  #A88A38;
+    --pf-gold:       #FF3B4A;
+    --pf-gold-dark:  #E42233;
     --pf-surface:    #ffffff;
-    --pf-bg:         #FAF8F5;
-    --pf-surface2:   #F4F1EC;
-    --pf-border:     #E5DDD2;
-    --pf-text:       #1A1714;
-    --pf-text2:      #5C574F;
-    --pf-text3:      #9B9590;
+    --pf-bg:         #F7F7F8;
+    --pf-surface2:   #F7F7F8;
+    --pf-border:     #EAEAEC;
+    --pf-text:       #16151A;
+    --pf-text2:      #5C5B63;
+    --pf-text3:      #9A99A2;
     --pf-radius:     12px;
     --pf-radius-sm:  8px;
 }
@@ -63,7 +63,7 @@
 }
 
 .sb-item.active {
-    background: rgba(201,168,76,0.10);
+    background: rgba(255,59,74,0.10);
     color: var(--pf-text);
     font-weight: 700;
     border: 1px solid var(--pf-gold);
@@ -226,7 +226,7 @@
 .asp-input:focus {
     border-color: var(--pf-gold);
     background: #fff;
-    box-shadow: 0 0 0 3px rgba(201,168,76,.10);
+    box-shadow: 0 0 0 3px rgba(255,59,74,.10);
 }
 
 .asp-input[readonly] {
@@ -266,22 +266,23 @@
 }
 
 .btn-profile-primary {
-    background: var(--pf-text);
+    background: var(--pf-gold);
     color: #fff;
-    border: 2px solid var(--pf-text);
+    border: 2px solid var(--pf-gold);
     padding: 10px 22px;
     border-radius: var(--pf-radius-sm);
     cursor: pointer;
     font-weight: 700;
     font-size: 14px;
     font-family: var(--pf-font);
-    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
 .btn-profile-primary:hover {
-    background: var(--pf-gold);
-    border-color: var(--pf-gold);
-    color: var(--pf-text);
+    background: var(--pf-gold-dark);
+    border-color: var(--pf-gold-dark);
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(255,59,74,0.30);
 }
 
 .btn-profile-secondary {

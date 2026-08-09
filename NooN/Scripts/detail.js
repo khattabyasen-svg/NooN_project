@@ -13,6 +13,7 @@ function changeQty(delta) {
     var display = document.getElementById('qtyDisplay');
     var hf     = document.getElementById(detailIds.hfQty);
     var hfMax  = document.getElementById(detailIds.hfMaxQty);
+    if (!hf || !display) return;
     var max = hfMax ? parseInt(hfMax.value) : 99;
     if (isNaN(max) || max < 1) max = 1;
     var v = parseInt(hf.value) + delta;
@@ -41,7 +42,8 @@ function pickSize(btn) {
 }
 
 function pickStar(val) {
-    document.getElementById(detailIds.hfRating).value = val;
+    var hf = document.getElementById(detailIds.hfRating);
+    if (hf) hf.value = val;
     document.querySelectorAll('.star-pick').forEach(function (s) {
         s.classList.toggle('active', parseInt(s.getAttribute('data-val')) <= val);
     });
@@ -58,7 +60,7 @@ function validateCart() {
                 grp.classList.add('invalid');
                 setTimeout(function () { grp.classList.remove('invalid'); }, 2000);
             }
-            showToast('⚠️ يرجى اختيار اللون أولاً');
+            detailShowToast('⚠️ يرجى اختيار اللون أولاً');
             ok = false;
         }
     }
@@ -71,7 +73,7 @@ function validateCart() {
                 grp2.classList.add('invalid');
                 setTimeout(function () { grp2.classList.remove('invalid'); }, 2000);
             }
-            showToast('⚠️ يرجى اختيار الحجم أولاً');
+            detailShowToast('⚠️ يرجى اختيار الحجم أولاً');
             ok = false;
         }
     }
@@ -93,8 +95,9 @@ function detailsAddToCart(btn) {
     });
 }
 
-function showToast(msg) {
+function detailShowToast(msg) {
     var t = document.getElementById('detailToast');
+    if (!t) return;
     t.innerText = msg;
     t.style.display = 'block';
     t.style.opacity = '1';
@@ -111,7 +114,7 @@ function showToast(msg) {
 
 window.addEventListener('load', function () {
     var r = document.getElementById(detailIds.lblReviewMsg);
-    if (r && r.innerText.trim() !== '') showToast(r.innerText.trim());
+    if (r && r.innerText.trim() !== '') detailShowToast(r.innerText.trim());
 
     var thumbs  = document.querySelectorAll('.gallery-thumb');
     var mainImg = document.getElementById('galleryMainImg');

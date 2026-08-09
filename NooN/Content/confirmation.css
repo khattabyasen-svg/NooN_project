@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    NOON — confirmation.css
    Styles for Confirm.aspx (order confirmation page)
    Uses shared.css tokens — gold palette.
@@ -15,8 +15,8 @@
 .confirm-icon {
   width: 96px; height: 96px;
   border-radius: 50%;
-  background: rgba(201,168,76,0.12);
-  border: 2px solid rgba(201,168,76,0.30);
+  background: rgba(255,59,74,0.12);
+  border: 2px solid rgba(255,59,74,0.30);
   display: flex; align-items: center; justify-content: center;
   font-size: 3rem;
   margin: 0 auto 28px;
@@ -33,14 +33,14 @@
 
 .confirm-order-num {
   display: inline-block;
-  background: var(--gold-light, #F5EDD5);
-  border: 1px solid var(--gold-border, #E0CC90);
+  background: var(--gold-light, #FFE7E9);
+  border: 1px solid var(--gold-border, #FFC7CC);
   border-radius: var(--radius);
   padding: 12px 24px;
   font-family: 'Playfair Display', serif;
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--gold-dark, #A88A38);
+  color: var(--gold-dark, #E42233);
   margin-bottom: 36px;
   letter-spacing: 1px;
 }
@@ -53,16 +53,16 @@
 .tracking-steps::before {
   content: ''; position: absolute;
   top: 20px; right: 10%; left: 10%;
-  height: 2px; background: var(--border, #E5DDD2);
+  height: 2px; background: var(--border, #EAEAEC);
 }
 .track-step  { display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; z-index: 1; }
-.track-icon  { width: 40px; height: 40px; border-radius: 50%; background: white; border: 2px solid var(--border, #E5DDD2); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: all 0.3s; }
+.track-icon  { width: 40px; height: 40px; border-radius: 50%; background: white; border: 2px solid var(--border, #EAEAEC); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: all 0.3s; }
 .track-step.done   .track-icon { background: var(--success, #2E7D52); border-color: var(--success, #2E7D52); color: white; font-size: 14px; }
-.track-step.active .track-icon { background: rgba(201,168,76,0.12); border-color: var(--gold, #C9A84C); }
-.track-label { font-size: 12px; color: var(--text-muted, #9B9590); text-align: center; max-width: 70px; font-family: 'Tajawal', sans-serif; }
+.track-step.active .track-icon { background: rgba(255,59,74,0.12); border-color: var(--gold, #FF3B4A); }
+.track-label { font-size: 12px; color: var(--text-muted, #9A99A2); text-align: center; max-width: 70px; font-family: 'Tajawal', sans-serif; }
 
 /* ── Delivery card ── */
-.delivery-card { background: var(--cream, #FAF8F5); border: 1.5px solid var(--border, #E5DDD2); border-radius: var(--radius-md, 8px); padding: 20px; margin-bottom: 32px; text-align: right; }
+.delivery-card { background: var(--cream, #F7F7F8); border: 1.5px solid var(--border, #EAEAEC); border-radius: var(--radius-md, 8px); padding: 20px; margin-bottom: 32px; text-align: right; }
 
 /* ── Actions ── */
 .confirm-actions { display: flex; gap: 12px; justify-content: center; }

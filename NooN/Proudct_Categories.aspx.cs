@@ -19,6 +19,13 @@ namespace NooN
         // ═══════════════════════════════════════════
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Admin-only page: block anonymous access (add/edit/delete categories).
+            if (Session["AdminID"] == null)
+            {
+                Response.Redirect("LoginAdmin.aspx");
+                return;
+            }
+
             if (!IsPostBack)
             {
                 LoadCategories();

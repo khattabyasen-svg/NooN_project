@@ -27,19 +27,25 @@ function toggleCardValidators(isCard) {
 
 function applyPaymentMethod(type) {
     var isCard = (type === 'card');
-    document.getElementById('cardSection').style.display = isCard ? 'block' : 'none';
+    var section = document.getElementById('cardSection');
+    if (section) section.style.display = isCard ? 'block' : 'none';
     toggleCardValidators(isCard);
 }
 
 function selectPayment(el, type) {
     document.querySelectorAll('.payment-option').forEach(function (o) { o.classList.remove('selected'); });
-    el.classList.add('selected');
-    document.getElementById(checkoutIds.hfPaymentMethod).value = type;
+    if (el) el.classList.add('selected');
+    if (typeof checkoutIds !== 'undefined') {
+        var hf = document.getElementById(checkoutIds.hfPaymentMethod);
+        if (hf) hf.value = type;
+    }
     applyPaymentMethod(type);
 }
 
 window.addEventListener('load', function () {
-    var method = document.getElementById(checkoutIds.hfPaymentMethod).value;
+    if (typeof checkoutIds === 'undefined') return;
+    var hfMethod = document.getElementById(checkoutIds.hfPaymentMethod);
+    var method = hfMethod ? hfMethod.value : '';
     applyPaymentMethod(method);
 
     var cardInput = document.getElementById(checkoutIds.txtCardNumber);

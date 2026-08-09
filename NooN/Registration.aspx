@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Account — NooN</title>
+    <link href="Content/shared.css" rel="stylesheet" />
     <link href="Content/Registration.css" rel="stylesheet" />
 
 </head>
@@ -58,7 +59,7 @@
             <%-- Phone --%>
             <div class="field-group">
                 <asp:Label ID="Label3" runat="server" Text="Phone Number" AssociatedControlID="TxtPhone"></asp:Label>
-                <asp:TextBox ID="TxtPhone" runat="server" TextMode="Phone" placeholder="05XXXXXXXX"></asp:TextBox>
+                <asp:TextBox ID="TxtPhone" runat="server" TextMode="Phone" placeholder="07XXXXXXXX"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RFV_Phone" runat="server"
                     ControlToValidate="TxtPhone"
                     ErrorMessage="Phone number is required."
@@ -66,8 +67,8 @@
                     ValidationGroup="RegGroup" />
                 <asp:RegularExpressionValidator ID="REV_Phone" runat="server"
                     ControlToValidate="TxtPhone"
-                    ErrorMessage="Phone must start with 05 and be 10 digits."
-                    ValidationExpression="^05\d{8}$"
+                    ErrorMessage="Phone must start with 07 and be 10 digits."
+                    ValidationExpression="^07\d{8}$"
                     CssClass="field-error" Display="Dynamic"
                     ValidationGroup="RegGroup" />
             </div>

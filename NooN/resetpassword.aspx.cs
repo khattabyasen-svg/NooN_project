@@ -9,9 +9,14 @@ namespace NooN
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Changing a password requires an authenticated user; gate the whole page.
+            if (Session["user_id"] == null)
+            {
+                Response.Redirect("~/LoginUser.aspx");
+                return;
+            }
         }
         // ── Connection string ─────────────────────────────────────────────────
-        // Change this to match your actual connection string (or pull from Web.config)
         string connStr = Db.ConnectionString;
 
         // ── Save button ───────────────────────────────────────────────────────
@@ -31,7 +36,7 @@ namespace NooN
             }
 
             // ── 2. New password minimum length ───────────────────────────────
-            if (newPassword.Length < 8)
+            if (!NooN.Validators.IsValidPassword(newPassword))
             {
                 ShowMessage("Password must be at least 8 characters long.", MessageType.Error);
                 return;

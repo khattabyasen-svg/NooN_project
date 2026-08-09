@@ -33,15 +33,6 @@ namespace NooN
         protected global::System.Web.UI.WebControls.Button btnDailyOffers;
 
         /// <summary>
-        /// btnTest control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnTest;
-
-        /// <summary>
         /// lnkAllCategories control.
         /// </summary>
         /// <remarks>
@@ -78,15 +69,6 @@ namespace NooN
         protected global::System.Web.UI.WebControls.HyperLink lnkAllProducts;
 
         /// <summary>
-        /// pnlNoProducts control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlNoProducts;
-
-        /// <summary>
         /// upProducts control.
         /// </summary>
         /// <remarks>
@@ -94,6 +76,15 @@ namespace NooN
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel upProducts;
+
+        /// <summary>
+        /// pnlNoProducts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlNoProducts;
 
         /// <summary>
         /// rptProducts control.

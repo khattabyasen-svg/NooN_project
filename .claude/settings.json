@@ -6,13 +6,17 @@
         "hooks": [
           {
             "type": "command",
-            "shell": "powershell",
             "command": "$j=$input|ConvertFrom-Json;if($j.tool_input.command -notmatch 'git\\s+push'){exit 0};Write-Host 'Validating build before git push...';$o=& 'C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe' 'D:\\NooN\\NooN.sln' /t:Build /p:Configuration=Debug /v:minimal 2>&1;$o|Write-Host;if($LASTEXITCODE-ne 0){@{continue=$false;stopReason='Build validation failed - fix compilation errors before pushing to GitHub.'}|ConvertTo-Json -Compress}else{Write-Host 'Build validation passed - proceeding with push.'}",
+            "shell": "powershell",
             "timeout": 120,
             "statusMessage": "Validating build before push..."
           }
         ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true,
+    "playwright@claude-plugins-official": false
   }
 }

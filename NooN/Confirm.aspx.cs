@@ -55,23 +55,40 @@ namespace NooN
             litDeliveryTo.Text = HttpUtility.HtmlEncode(location);
         }
 
-        // Builds a range like "2-4 مارس 2026" (uses the end date's month/year).
+        // Formats each date fully so the window is correct across month/year
+        // boundaries: same month -> "2 - 4 مارس 2026"; different month ->
+        // "30 يناير - 2 فبراير 2026"; different year adds each year.
         private static string FormatDeliveryRange(DateTime from, DateTime to)
         {
-            return from.Day + "-" + to.Day + " " + ArabicMonths[to.Month - 1] + " " + to.Year;
+            string fromMonth = ArabicMonths[from.Month - 1];
+            string toMonth = ArabicMonths[to.Month - 1];
+
+            if (from.Year == to.Year && from.Month == to.Month)
+                return $"{from.Day} - {to.Day} {toMonth} {to.Year}";
+
+            if (from.Year == to.Year)
+                return $"{from.Day} {fromMonth} - {to.Day} {toMonth} {to.Year}";
+
+            return $"{from.Day} {fromMonth} {from.Year} - {to.Day} {toMonth} {to.Year}";
         }
 
-        // Maps the stored city value (e.g. "Riyadh") to its Arabic display name.
+        // Maps the stored governorate value (e.g. "Amman") to its Arabic display name.
         private static string CityDisplayName(string value)
         {
             switch (value)
             {
-                case "Riyadh": return "الرياض";
-                case "Jeddah": return "جدة";
-                case "Dammam": return "الدمام";
-                case "Makkah": return "مكة المكرمة";
-                case "Medina": return "المدينة المنورة";
-                case "Taif": return "الطائف";
+                case "Amman": return "عمّان";
+                case "Irbid": return "إربد";
+                case "Zarqa": return "الزرقاء";
+                case "Balqa": return "البلقاء";
+                case "Madaba": return "مادبا";
+                case "Mafraq": return "المفرق";
+                case "Jerash": return "جرش";
+                case "Ajloun": return "عجلون";
+                case "Karak": return "الكرك";
+                case "Tafilah": return "الطفيلة";
+                case "Maan": return "معان";
+                case "Aqaba": return "العقبة";
                 default: return value ?? "";
             }
         }

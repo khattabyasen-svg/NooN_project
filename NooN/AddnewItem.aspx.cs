@@ -16,6 +16,13 @@ namespace NooN
         string connStr = Db.ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Admin-only page: block anonymous access (create products, upload files).
+            if (Session["AdminID"] == null)
+            {
+                Response.Redirect("LoginAdmin.aspx");
+                return;
+            }
+
             if (!IsPostBack)
             {
                 LoadCategories();
@@ -79,11 +86,15 @@ namespace NooN
                 if (sqlEx.Number == 2627 || sqlEx.Number == 2601)
                     ShowMessage("The product code (SKU) or alternative link (Slug) is already in use.", false);
                 else
-                    ShowMessage("Database error:" + sqlEx.Message, false);
+                {
+                    System.Diagnostics.Trace.TraceError("AddnewItem.Save (SQL): " + sqlEx);
+                    ShowMessage("A database error occurred. Please try again later.", false);
+                }
             }
             catch (Exception ex)
             {
-                ShowMessage("حدث خطأ: " + ex.Message, false);
+                System.Diagnostics.Trace.TraceError("AddnewItem.Save: " + ex);
+                ShowMessage("An unexpected error occurred. Please try again.", false);
             }
         }
 

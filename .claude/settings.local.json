@@ -34,7 +34,11 @@
       "Bash(grep -rn \"Scripts\\\\\\\\\\\\\\\\master.js\" \"D:/NooN/NooN/NooN.csproj\")",
       "PowerShell(& \"C:\\\\Windows\\\\Microsoft.NET\\\\Framework64\\\\v4.0.30319\\\\aspnet_compiler.exe\" -v /NooN -p \"D:\\\\NooN\\\\NooN\" -f \"$env:TEMP\\\\noon_precompile\" 2>$null; if \\($LASTEXITCODE -eq 0\\) { \"ASPX precompile OK\" } else { \"ASPX precompile failed with exit code $LASTEXITCODE\" })",
       "PowerShell(Remove-Item *)",
-      "PowerShell(& \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\MSBuild.exe\" D:\\\\NooN\\\\NooN\\\\NooN.csproj /nologo /v:m /p:Configuration=Debug)"
+      "PowerShell(& \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\MSBuild.exe\" D:\\\\NooN\\\\NooN\\\\NooN.csproj /nologo /v:m /p:Configuration=Debug)",
+      "PowerShell(powershell -NoProfile -ExecutionPolicy Bypass -File \"C:\\\\Users\\\\khatt\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--NooN\\\\d75052da-1b93-4b49-9bf3-211267a8479a\\\\scratchpad\\\\test-rdlc.ps1\")",
+      "Bash(rm -f \"Site.Mobile.Master\" \"Site.Mobile.Master.cs\" \"Site.Mobile.Master.designer.cs\" \"ViewSwitcher.ascx\" \"ViewSwitcher.ascx.cs\" \"ViewSwitcher.ascx.designer.cs\")",
+      "Bash(ls Site.Mobile.* ViewSwitcher.*)",
+      "PowerShell(& \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\amd64\\\\MSBuild.exe\" \"D:\\\\NooN\\\\NooN.sln\" /t:Build /p:Configuration=Debug /nologo /v:minimal /clp:ErrorsOnly 2>&1 | Select-Object -Last 40; \"EXITCODE=$LASTEXITCODE\")"
     ]
   }
 }
