@@ -72,7 +72,7 @@ namespace NooN
             {
                 conn.Open();
 
-                // ✅ التحقق إذا كان اليوزرنيم موجود مسبقاً
+                // ✅ Check whether the email already exists
                 string checkQuery = "SELECT COUNT(*) FROM users WHERE email = @email";
                 using (SqlCommand checkCmd = new SqlCommand(checkQuery, conn))
                 {
@@ -87,7 +87,7 @@ namespace NooN
                     }
                 }
 
-                // ✅ إدخال المستخدم الجديد
+                // ✅ Insert the new user
                 string insertQuery = "INSERT INTO Users (first_name,last_name, Email,phone, Password_hash) VALUES (@first_name,@last_name, @email,@phone,@password_hash)";
                 using (SqlCommand cmd = new SqlCommand(insertQuery, conn))
                 {
@@ -101,10 +101,10 @@ namespace NooN
 
                     if (rows > 0)
                     {
-                        // ✅ نجاح التسجيل
+                        // ✅ Registration succeeded
                         ClientScript.RegisterStartupScript(
                             this.GetType(), "msg",
-                            "alert('تم إنشاء حسابك! الرجاء تسجيل الدخول'); window.location='LoginUser.aspx';",
+                            "alert('Your account has been created! Please sign in'); window.location='LoginUser.aspx';",
                             true);
                     }
                     else

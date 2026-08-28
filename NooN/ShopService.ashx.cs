@@ -38,12 +38,12 @@ namespace NooN
                 if (!string.Equals(context.Request.HttpMethod, "POST", StringComparison.OrdinalIgnoreCase))
                 {
                     context.Response.StatusCode = 405;
-                    result = Fail("طريقة الطلب غير صحيحة.");
+                    result = Fail("Invalid request method.");
                 }
                 else if (context.Session["user_id"] == null)
                 {
                     // Auth is enforced server-side; the client only reacts to the flag.
-                    result = Fail("يرجى تسجيل الدخول أولاً.");
+                    result = Fail("Please sign in first.");
                     result.requireLogin = true;
                 }
                 else
@@ -55,7 +55,7 @@ namespace NooN
 
                     if (productId <= 0)
                     {
-                        result = Fail("منتج غير صالح.");
+                        result = Fail("Invalid product.");
                     }
                     else
                     {
@@ -69,7 +69,7 @@ namespace NooN
                                 result = ToggleFavorites(userId, productId);
                                 break;
                             default:
-                                result = Fail("إجراء غير معروف.");
+                                result = Fail("Unknown action.");
                                 break;
                         }
                     }
@@ -78,7 +78,7 @@ namespace NooN
             catch (Exception ex)
             {
                 System.Diagnostics.Trace.TraceError("ShopService Error: " + ex);
-                result = Fail("حدث خطأ غير متوقع. حاول مرة أخرى.");
+                result = Fail("An unexpected error occurred. Please try again.");
             }
 
             context.Response.ContentType = "application/json; charset=utf-8";
@@ -116,7 +116,7 @@ namespace NooN
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
                         if (!dr.Read())
-                            return Fail("المنتج غير موجود.");
+                            return Fail("Product not found.");
 
                         status = dr["status"].ToString().ToLower();
                         availColors = dr["available_colors"] != DBNull.Value ? dr["available_colors"].ToString().Trim() : "";
@@ -126,7 +126,7 @@ namespace NooN
                 }
 
                 if (status != "active" || stockQty <= 0)
-                    return Fail("عذراً، هذا المنتج غير متوفر حالياً.");
+                    return Fail("Sorry, this product is currently unavailable.");
 
                 // When no option is sent (quick-add from the products grid has
                 // no pickers), fall back to the product's first available
@@ -179,8 +179,8 @@ namespace NooN
                 {
                     int remaining = stockQty - inCartQty;
                     return Fail(remaining > 0
-                        ? "لا يوجد مخزون كافٍ — المتبقي " + remaining + " فقط ولديك " + inCartQty + " في السلة."
-                        : "لقد أضفت كامل الكمية المتوفرة من هذا المنتج إلى سلتك.");
+                        ? "Not enough stock — only " + remaining + " left and you already have " + inCartQty + " in your cart."
+                        : "You have already added all the available quantity of this product to your cart.");
                 }
 
                 // 3) Upsert the item — ISNULL so NULL color/size compare correctly.
@@ -234,13 +234,13 @@ namespace NooN
                     cartCount = Convert.ToInt32(cnt.ExecuteScalar() ?? 0);
                 }
 
-                string colorMsg = string.IsNullOrEmpty(color) ? "" : " | اللون: " + color;
-                string sizeMsg = string.IsNullOrEmpty(size) ? "" : " | الحجم: " + size;
+                string colorMsg = string.IsNullOrEmpty(color) ? "" : " | Color: " + color;
+                string sizeMsg = string.IsNullOrEmpty(size) ? "" : " | Size: " + size;
 
                 return new AjaxResult
                 {
                     success = true,
-                    message = "✅ تمت إضافة " + qty + " منتج" + colorMsg + sizeMsg + " إلى سلتك!",
+                    message = "✅ Added " + qty + " item(s)" + colorMsg + sizeMsg + " to your cart!",
                     cartCount = cartCount
                 };
             }
@@ -261,7 +261,7 @@ namespace NooN
                 {
                     chkProd.Parameters.AddWithValue("@pid", productId);
                     if ((int)chkProd.ExecuteScalar() == 0)
-                        return Fail("المنتج غير موجود.");
+                        return Fail("Product not found.");
                 }
 
                 bool exists;
@@ -285,7 +285,7 @@ namespace NooN
                         del.ExecuteNonQuery();
                     }
 
-                    return new AjaxResult { success = true, isFav = false, message = "💔 تم الحذف من المفضلة" };
+                    return new AjaxResult { success = true, isFav = false, message = "💔 Removed from favorites" };
                 }
 
                 using (SqlCommand ins = new SqlCommand(@"
@@ -297,7 +297,7 @@ namespace NooN
                     ins.ExecuteNonQuery();
                 }
 
-                return new AjaxResult { success = true, isFav = true, message = "❤️ تمت الإضافة إلى المفضلة" };
+                return new AjaxResult { success = true, isFav = true, message = "❤️ Added to favorites" };
             }
         }
 

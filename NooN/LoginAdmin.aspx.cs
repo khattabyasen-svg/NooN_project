@@ -7,17 +7,17 @@ namespace NooN
 {
     public partial class LoginAdmin : System.Web.UI.Page
     {
-        // جلب نص الاتصال من ملف الـ Web.config
+        // Read the connection string from Web.config
         string connStr = Db.ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            // يمكنك هنا إضافة كود لمنع الأدمن المسجل دخوله بالفعل من رؤية هذه الصفحة
+            // You can add code here to keep an already-signed-in admin off this page
         }
 
         protected void AdminButton_Click(object sender, EventArgs e)
         {
-            string email = TxtName.Text.Trim(); // نستخدم الايميل كـ Username
+            string email = TxtName.Text.Trim(); // Use the email as the username
             string password = TxtPas.Text.Trim();
 
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
@@ -87,12 +87,12 @@ namespace NooN
             }
             catch (Exception ex)
             {
-                // في حالة حدوث خطأ في قاعدة البيانات
+                // If a database error occurs
                 ShowMessage("Connection error: " + ex.Message, MessageType.Error);
             }
         }
 
-        // دالة لإظهار رسائل الخطأ (التي شرحناها سابقاً)
+        // Helper that displays feedback / error messages
         private void ShowMessage(string message, MessageType type)
         {
             string color = type == MessageType.Success ? "#3a7d5c" : "#b85c38";

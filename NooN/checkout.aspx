@@ -1,17 +1,17 @@
-﻿<%@ Page Title="الدفع" Language="C#"
+﻿<%@ Page Title="Checkout" Language="C#"
     MasterPageFile="~/Site.Master"
     AutoEventWireup="true"
     CodeBehind="checkout.aspx.cs"
     Inherits="NooN.checkout" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link href="Content/shared.css" rel="stylesheet" />
-    <link href="Content/checkout.css" rel="stylesheet" />
+    <link href="Content/shared.css?v=coral1" rel="stylesheet" />
+    <link href="Content/checkout.css?v=coral1" rel="stylesheet" />
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="checkout-layout" dir="rtl">
+    <div class="checkout-layout" dir="ltr">
 
         <%-- ════════ Left column — the form ════════ --%>
         <div>
@@ -20,22 +20,22 @@
             <div class="checkout-step-bar">
                 <div class="checkout-step done">
                     <div class="step-circle">✓</div>
-                    <div class="step-label">السلة</div>
+                    <div class="step-label">Cart</div>
                 </div>
                 <div class="step-line"></div>
                 <div class="checkout-step active">
                     <div class="step-circle">2</div>
-                    <div class="step-label">التوصيل</div>
+                    <div class="step-label">Delivery</div>
                 </div>
                 <div class="step-line"></div>
                 <div class="checkout-step">
                     <div class="step-circle">3</div>
-                    <div class="step-label">الدفع</div>
+                    <div class="step-label">Payment</div>
                 </div>
                 <div class="step-line"></div>
                 <div class="checkout-step">
                     <div class="step-circle">4</div>
-                    <div class="step-label">التأكيد</div>
+                    <div class="step-label">Confirmation</div>
                 </div>
             </div>
 
@@ -49,37 +49,37 @@
             <div class="form-section">
                 <div class="form-section-title">
                     <span class="form-section-num">1</span>
-                    معلومات التوصيل
+                    Delivery Information
                 </div>
                 <div class="form-grid-2">
                     <div class="form-group">
-                        <label class="form-label">الاسم الأول *</label>
+                        <label class="form-label">First Name *</label>
                         <asp:TextBox ID="txtFirstName" runat="server"
                             CssClass="form-input"
-                            placeholder="محمد" />
+                            placeholder="Mohammed" />
                         <asp:RequiredFieldValidator
                             ID="RFV_FirstName" runat="server"
                             ControlToValidate="txtFirstName"
-                            ErrorMessage="الاسم الأول مطلوب"
+                            ErrorMessage="First name is required"
                             CssClass="validation-error" Display="Dynamic"
                             ValidationGroup="OrderGroup" />
                     </div>
                     <div class="form-group">
-                        <label class="form-label">اسم العائلة *</label>
+                        <label class="form-label">Last Name *</label>
                         <asp:TextBox ID="txtLastName" runat="server"
                             CssClass="form-input"
-                            placeholder="الأحمد" />
+                            placeholder="Al-Ahmad" />
                         <asp:RequiredFieldValidator
                             ID="RFV_LastName" runat="server"
                             ControlToValidate="txtLastName"
-                            ErrorMessage="اسم العائلة مطلوب"
+                            ErrorMessage="Last name is required"
                             CssClass="validation-error" Display="Dynamic"
                             ValidationGroup="OrderGroup" />
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">رقم الجوال *</label>
+                    <label class="form-label">Mobile Number *</label>
                     <asp:TextBox ID="txtPhone" runat="server"
                         CssClass="form-input"
                         TextMode="Phone"
@@ -87,32 +87,32 @@
                     <asp:RequiredFieldValidator
                         ID="RFV_Phone" runat="server"
                         ControlToValidate="txtPhone"
-                        ErrorMessage="رقم الجوال مطلوب"
+                        ErrorMessage="Mobile number is required"
                         CssClass="validation-error" Display="Dynamic"
                         ValidationGroup="OrderGroup" />
                     <asp:RegularExpressionValidator
                         ID="REV_Phone" runat="server"
                         ControlToValidate="txtPhone"
-                        ErrorMessage="رقم الجوال يجب أن يبدأ بـ 07 ويتكوّن من 10 أرقام"
+                        ErrorMessage="Mobile number must start with 07 and be 10 digits"
                         ValidationExpression="^07\d{8}$"
                         CssClass="validation-error" Display="Dynamic"
                         ValidationGroup="OrderGroup" />
                 </div>
                 <div class="form-group">
-                    <label class="form-label">البريد الإلكتروني *</label>
+                    <label class="form-label">Email Address *</label>
                     <asp:TextBox ID="txtEmail" runat="server"
                         CssClass="form-input" TextMode="Email"
                         placeholder="example@mail.com" />
                     <asp:RequiredFieldValidator
                         ID="RFV_Email" runat="server"
                         ControlToValidate="txtEmail"
-                        ErrorMessage="البريد الإلكتروني مطلوب"
+                        ErrorMessage="Email address is required"
                         CssClass="validation-error" Display="Dynamic"
                         ValidationGroup="OrderGroup" />
                     <asp:RegularExpressionValidator
                         ID="REV_Email" runat="server"
                         ControlToValidate="txtEmail"
-                        ErrorMessage="صيغة البريد الإلكتروني غير صحيحة"
+                        ErrorMessage="Invalid email address format"
                         ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"
                         CssClass="validation-error" Display="Dynamic"
                         ValidationGroup="OrderGroup" />
@@ -120,52 +120,52 @@
 
                 <div class="form-grid-2">
                     <div class="form-group">
-                        <label class="form-label">المحافظة *</label>
+                        <label class="form-label">Governorate *</label>
                         <asp:DropDownList ID="ddlCity" runat="server"
                             CssClass="form-select">
-                            <asp:ListItem Text="-- اختر المحافظة --" Value="" />
-                            <asp:ListItem Text="عمّان" Value="Amman" />
-                            <asp:ListItem Text="إربد" Value="Irbid" />
-                            <asp:ListItem Text="الزرقاء" Value="Zarqa" />
-                            <asp:ListItem Text="البلقاء" Value="Balqa" />
-                            <asp:ListItem Text="مادبا" Value="Madaba" />
-                            <asp:ListItem Text="المفرق" Value="Mafraq" />
-                            <asp:ListItem Text="جرش" Value="Jerash" />
-                            <asp:ListItem Text="عجلون" Value="Ajloun" />
-                            <asp:ListItem Text="الكرك" Value="Karak" />
-                            <asp:ListItem Text="الطفيلة" Value="Tafilah" />
-                            <asp:ListItem Text="معان" Value="Maan" />
-                            <asp:ListItem Text="العقبة" Value="Aqaba" />
+                            <asp:ListItem Text="-- Select governorate --" Value="" />
+                            <asp:ListItem Text="Amman" Value="Amman" />
+                            <asp:ListItem Text="Irbid" Value="Irbid" />
+                            <asp:ListItem Text="Zarqa" Value="Zarqa" />
+                            <asp:ListItem Text="Balqa" Value="Balqa" />
+                            <asp:ListItem Text="Madaba" Value="Madaba" />
+                            <asp:ListItem Text="Mafraq" Value="Mafraq" />
+                            <asp:ListItem Text="Jerash" Value="Jerash" />
+                            <asp:ListItem Text="Ajloun" Value="Ajloun" />
+                            <asp:ListItem Text="Karak" Value="Karak" />
+                            <asp:ListItem Text="Tafilah" Value="Tafilah" />
+                            <asp:ListItem Text="Maan" Value="Maan" />
+                            <asp:ListItem Text="Aqaba" Value="Aqaba" />
                         </asp:DropDownList>
                         <asp:RequiredFieldValidator
                             ID="RFV_City" runat="server"
                             ControlToValidate="ddlCity" InitialValue=""
-                            ErrorMessage="يرجى اختيار المحافظة"
+                            ErrorMessage="Please select a governorate"
                             CssClass="validation-error" Display="Dynamic"
                             ValidationGroup="OrderGroup" />
                     </div>
                     <div class="form-group">
-                        <label class="form-label">الحي *</label>
+                        <label class="form-label">District *</label>
                         <asp:TextBox ID="txtDistrict" runat="server"
-                            CssClass="form-input" placeholder="حي النزهة" />
+                            CssClass="form-input" placeholder="Al-Nuzha District" />
                         <asp:RequiredFieldValidator
                             ID="RFV_District" runat="server"
                             ControlToValidate="txtDistrict"
-                            ErrorMessage="الحي مطلوب"
+                            ErrorMessage="District is required"
                             CssClass="validation-error" Display="Dynamic"
                             ValidationGroup="OrderGroup" />
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">العنوان التفصيلي *</label>
+                    <label class="form-label">Full Address *</label>
                     <asp:TextBox ID="txtAddress" runat="server"
                         CssClass="form-input"
-                        placeholder="اسم الشارع، رقم المبنى، الطابق..." />
+                        placeholder="Street name, building number, floor..." />
                     <asp:RequiredFieldValidator
                         ID="RFV_Address" runat="server"
                         ControlToValidate="txtAddress"
-                        ErrorMessage="العنوان التفصيلي مطلوب"
+                        ErrorMessage="Full address is required"
                         CssClass="validation-error" Display="Dynamic"
                         ValidationGroup="OrderGroup" />
                 </div>
@@ -175,7 +175,7 @@
             <div class="form-section">
                 <div class="form-section-title">
                     <span class="form-section-num">2</span>
-                    طريقة الدفع
+                    Payment Method
                 </div>
 
                 <div class="payment-methods">
@@ -184,7 +184,7 @@
                         <div class="payment-radio"></div>
                         <span class="payment-icon">💳</span>
                         <div>
-                            <div class="payment-name">بطاقة ائتمان / مدى</div>
+                            <div class="payment-name">Credit Card / Mada</div>
                             <div class="payment-desc">Visa · Mastercard · Mada</div>
                         </div>
                     </div>
@@ -194,7 +194,7 @@
                         <span class="payment-icon">📱</span>
                         <div>
                             <div class="payment-name">Apple Pay</div>
-                            <div class="payment-desc">الدفع السريع عبر Apple Pay</div>
+                            <div class="payment-desc">Fast checkout with Apple Pay</div>
                         </div>
                     </div>
                     <div class="payment-option"
@@ -202,8 +202,8 @@
                         <div class="payment-radio"></div>
                         <span class="payment-icon">💵</span>
                         <div>
-                            <div class="payment-name">الدفع عند الاستلام</div>
-                            <div class="payment-desc">ادفع نقداً عند وصول الطلب</div>
+                            <div class="payment-name">Cash on Delivery</div>
+                            <div class="payment-desc">Pay in cash when your order arrives</div>
                         </div>
                     </div>
                 </div>
@@ -213,7 +213,7 @@
                 <%-- Card fields --%>
                 <div class="card-fields" id="cardSection">
                     <div class="form-group">
-                        <label class="form-label">رقم البطاقة</label>
+                        <label class="form-label">Card Number</label>
                         <asp:TextBox ID="txtCardNumber" runat="server"
                             CssClass="form-input"
                             placeholder="•••• •••• •••• ••••"
@@ -221,33 +221,33 @@
                         <asp:RequiredFieldValidator
                             ID="RFV_Card" runat="server"
                             ControlToValidate="txtCardNumber"
-                            ErrorMessage="رقم البطاقة مطلوب"
+                            ErrorMessage="Card number is required"
                             CssClass="validation-error" Display="Dynamic"
                             ValidationGroup="OrderGroup" />
                         <asp:RegularExpressionValidator
                             ID="REV_Card" runat="server"
                             ControlToValidate="txtCardNumber"
-                            ErrorMessage="رقم البطاقة يجب أن يتكوّن من 16 إلى 19 رقماً"
+                            ErrorMessage="Card number must be 16 to 19 digits"
                             ValidationExpression="^[\d\s]{16,19}$"
                             CssClass="validation-error" Display="Dynamic"
                             ValidationGroup="OrderGroup" />
                     </div>
                     <div class="card-field-row">
                         <div class="form-group">
-                            <label class="form-label">تاريخ الانتهاء</label>
+                            <label class="form-label">Expiry Date</label>
                             <asp:TextBox ID="txtExpiry" runat="server"
                                 CssClass="form-input"
                                 placeholder="MM/YY" MaxLength="5" />
                             <asp:RequiredFieldValidator
                                 ID="RFV_Expiry" runat="server"
                                 ControlToValidate="txtExpiry"
-                                ErrorMessage="مطلوب"
+                                ErrorMessage="Required"
                                 CssClass="validation-error" Display="Dynamic"
                                 ValidationGroup="OrderGroup" />
                             <asp:RegularExpressionValidator
                                 ID="REV_Expiry" runat="server"
                                 ControlToValidate="txtExpiry"
-                                ErrorMessage="الصيغة الصحيحة MM/YY"
+                                ErrorMessage="Correct format is MM/YY"
                                 ValidationExpression="^(0[1-9]|1[0-2])\/\d{2}$"
                                 CssClass="validation-error" Display="Dynamic"
                                 ValidationGroup="OrderGroup" />
@@ -261,47 +261,47 @@
                             <asp:RequiredFieldValidator
                                 ID="RFV_CVV" runat="server"
                                 ControlToValidate="txtCVV"
-                                ErrorMessage="مطلوب"
+                                ErrorMessage="Required"
                                 CssClass="validation-error" Display="Dynamic"
                                 ValidationGroup="OrderGroup" />
                             <asp:RegularExpressionValidator
                                 ID="REV_CVV" runat="server"
                                 ControlToValidate="txtCVV"
-                                ErrorMessage="CVV يجب أن يتكوّن من 3 أو 4 أرقام"
+                                ErrorMessage="CVV must be 3 or 4 digits"
                                 ValidationExpression="^\d{3,4}$"
                                 CssClass="validation-error" Display="Dynamic"
                                 ValidationGroup="OrderGroup" />
                         </div>
                     </div>
                     <div class="form-group" style="margin-bottom: 0;">
-                        <label class="form-label">الاسم على البطاقة</label>
+                        <label class="form-label">Name on Card</label>
                         <asp:TextBox ID="txtCardHolder" runat="server"
                             CssClass="form-input"
                             placeholder="MOHAMMED AL-AHMAD" />
                         <asp:RequiredFieldValidator
                             ID="RFV_CardHolder" runat="server"
                             ControlToValidate="txtCardHolder"
-                            ErrorMessage="اسم حامل البطاقة مطلوب"
+                            ErrorMessage="Cardholder name is required"
                             CssClass="validation-error" Display="Dynamic"
                             ValidationGroup="OrderGroup" />
                     </div>
                 </div>
 
                 <asp:Button ID="btnPlaceOrder" runat="server"
-                    Text="🔒 تأكيد الطلب"
+                    Text="🔒 Place Order"
                     CssClass="checkout-place-btn"
                     ValidationGroup="OrderGroup"
                     OnClick="btnPlaceOrder_Click" />
 
                 <p class="secure-note">
-                    محمي بتشفير <span>SSL 256-bit</span> | بياناتك آمنة تماماً 🔐
+                    Protected by <span>SSL 256-bit</span> encryption | Your data is completely secure 🔐
                 </p>
             </div>
         </div>
 
         <%-- ════════ Right column — order summary ════════ --%>
         <div class="order-summary-sticky">
-            <div class="summary-title">🛍 ملخص الطلب</div>
+            <div class="summary-title">🛍 Order Summary</div>
 
             <%-- Cart items repeater --%>
             <asp:Repeater ID="rptCartItems" runat="server">
@@ -329,7 +329,7 @@
                         </div>
                         <div class="order-item-price">
                             <%# ((decimal)Eval("LineTotal")).ToString("N2") %>
-                        د.أ
+                        JD
                         </div>
                     </div>
                 </ItemTemplate>
@@ -339,7 +339,7 @@
             <asp:Panel ID="pnlEmptyCart" runat="server" Visible="false">
                 <div class="empty-cart-msg">
                     <div class="empty-icon">🛒</div>
-                    <p>سلتك فارغة</p>
+                    <p>Your cart is empty</p>
                 </div>
             </asp:Panel>
 
@@ -348,10 +348,10 @@
             <div class="coupon-box">
                 <asp:TextBox ID="txtCoupon" runat="server"
                     CssClass="form-input"
-                    placeholder="كود الخصم"
+                    placeholder="Coupon code"
                     Style="margin-bottom: 0;" />
                 <asp:Button ID="btnApplyCoupon" runat="server"
-                    Text="تطبيق" CssClass="coupon-btn"
+                    Text="Apply" CssClass="coupon-btn"
                     CausesValidation="false"
                     OnClick="btnApplyCoupon_Click" />
             </div>
@@ -362,33 +362,33 @@
             <div class="summary-divider"></div>
 
             <div class="summary-row">
-                <span class="summary-row-label">المجموع الفرعي</span>
+                <span class="summary-row-label">Subtotal</span>
                 <asp:Label ID="lblSubtotal" runat="server"
-                    CssClass="summary-row-value" Text="0 د.أ" />
+                    CssClass="summary-row-value" Text="0 JD" />
             </div>
             <div class="summary-row">
-                <span class="summary-row-label">الخصم</span>
+                <span class="summary-row-label">Discount</span>
                 <asp:Label ID="lblDiscount" runat="server"
                     CssClass="summary-row-value"
-                    Style="color: #00b14f;" Text="- 0 د.أ" />
+                    Style="color: #00b14f;" Text="- 0 JD" />
             </div>
             <div class="summary-row">
-                <span class="summary-row-label">الشحن</span>
+                <span class="summary-row-label">Shipping</span>
                 <asp:Label ID="lblShipping" runat="server"
-                    CssClass="summary-row-value free" Text="مجاني" />
+                    CssClass="summary-row-value free" Text="Free" />
             </div>
             <div class="summary-row">
-                <span class="summary-row-label">ضريبة القيمة المضافة (16%)</span>
+                <span class="summary-row-label">VAT (16%)</span>
                 <asp:Label ID="lblTax" runat="server"
-                    CssClass="summary-row-value" Text="0 د.أ" />
+                    CssClass="summary-row-value" Text="0 JD" />
             </div>
 
             <div class="summary-divider"></div>
 
             <div class="summary-total">
-                <span>الإجمالي</span>
+                <span>Total</span>
                 <asp:Label ID="lblTotal" runat="server"
-                    CssClass="summary-total-value" Text="0 د.أ" />
+                    CssClass="summary-total-value" Text="0 JD" />
             </div>
         </div>
     </div>

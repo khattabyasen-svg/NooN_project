@@ -4,55 +4,55 @@
 
 window.NoonState = { cartCount: 3 };
 
-// ربط الدوال (showPage معرّفة أدناه)
+// Bind the functions (showPage is defined below)
 window.showPage = showPage;
 window.navigateTo = function (page) { showPage(page); };
 
-/* ── دالة التنبيه (Toast) الاحترافية ── */
+/* ── Professional toast function ── */
 function showToast(msg) {
-    // إنشاء عنصر التنبيه برمجياً إذا لم يكن موجوداً
+    // Create the toast element programmatically if it does not exist
     let toast = document.getElementById('custom-toast');
     if (!toast) {
         toast = document.createElement('div');
         toast.id = 'custom-toast';
-        toast.style.cssText = "position:fixed; bottom:20px; right:20px; background:#333; color:#fff; padding:12px 25px; border-radius:8px; z-index:9999; display:none; box-shadow:0 4px 12px rgba(0,0,0,0.2); font-family:sans-serif; direction:rtl;";
+        toast.style.cssText = "position:fixed; bottom:20px; right:20px; background:#333; color:#fff; padding:12px 25px; border-radius:8px; z-index:9999; display:none; box-shadow:0 4px 12px rgba(0,0,0,0.2); font-family:sans-serif; direction:ltr;";
         document.body.appendChild(toast);
     }
 
     toast.textContent = msg;
     toast.style.display = 'block';
 
-    // إخفاء التنبيه بعد 3 ثواني
+    // Hide the toast after 3 seconds
     setTimeout(() => { toast.style.display = 'none'; }, 3000);
 }
 
-/* ── تحديث عداد السلة ── */
+/* ── Update the cart badge ── */
 function updateCartBadge(count) {
-    // نبحث عن العداد باستخدام الـ ID أو الـ Class
+    // Look up the badge by its ID or Class
     const badge = document.getElementById('cartBadge') || document.querySelector('.cart-badge');
     if (badge) {
         badge.textContent = count;
-        // تأثير نبض بسيط عند الإضافة
+        // Small pulse effect when an item is added
         badge.style.transform = "scale(1.3)";
         setTimeout(() => { badge.style.transform = "scale(1)"; }, 200);
     }
 }
 
-/* ── إضافة للسلة ── */
+/* ── Add to cart ── */
 function addToCart(e, name) {
-    if (e) e.stopPropagation(); // منع الانتقال لصفحة التفاصيل
+    if (e) e.stopPropagation(); // Prevent navigating to the details page
     window.NoonState.cartCount++;
     updateCartBadge(window.NoonState.cartCount);
-    showToast(`✅ تمت إضافة "${name}" للسلة`);
+    showToast(`✅ "${name}" added to the cart`);
 }
 
-/* ── المفضلة ── */
+/* ── Favorites ── */
 function toggleFav(e, btn) {
     if (e) e.stopPropagation();
     if (btn.textContent.includes('🤍')) {
         btn.innerHTML = '❤️';
         btn.classList.add('active');
-        showToast('❤️ تمت الإضافة للمفضلة');
+        showToast('❤️ Added to favorites');
     } else {
         btn.innerHTML = '🤍';
         btn.classList.remove('active');
@@ -63,20 +63,20 @@ function toggleFilter(el) {
     el.classList.toggle('checked');
 }
 
-/* ── دالة التنقل الذكية المحدثة ── */
+/* ── Updated smart navigation function ── */
 function showPage(pageId) {
-    console.log("محاولة الانتقال إلى: " + pageId);
+    console.log("Attempting to navigate to: " + pageId);
 
-    // 1. منطق التحقق عند التوجه للدفع (Checkout)
+    // 1. Validation logic when heading to Checkout
     if (pageId.toLowerCase() === 'checkout') {
-        // نتحقق من عداد السلة الموجود في NoonState
+        // Check the cart count stored in NoonState
         if (window.NoonState.cartCount === 0) {
-            showToast("⚠️ سلتك فارغة! أضف منتجات أولاً للمتابعة.");
-            return; // إلغاء عملية الانتقال
+            showToast("⚠️ Your cart is empty! Add products first to continue.");
+            return; // Cancel the navigation
         }
     }
 
-    // 2. معالجة أسماء الصفحات (Case Sensitivity)
+    // 2. Handle page names (case sensitivity)
     let destination = pageId;
     const lowerId = pageId.toLowerCase();
 
@@ -85,44 +85,44 @@ function showPage(pageId) {
     } else if (lowerId === 'cart') {
         destination = 'Cart';
     } else if (lowerId === 'checkout') {
-        destination = 'checkout'; // تأكد أن اسم الملف هو checkout.aspx
+        destination = 'checkout'; // Make sure the file name is checkout.aspx
     }
 
-    // 3. التحويل الفعلي
+    // 3. Actual redirect
     window.location.href = destination + ".aspx";
 }
 
 function placeOrder() {
-    console.log("بدء عملية تأكيد الطلب...");
+    console.log("Starting the order confirmation process...");
 
-    // 1. إظهار تأثير "تحميل" بسيط لإعطاء انطباع بالاحترافية
+    // 1. Show a small "loading" effect to feel professional
     const btn = document.querySelector('.checkout-place-btn');
     const originalText = btn.innerHTML;
-    btn.innerHTML = "جاري معالجة الطلب... 🔄";
+    btn.innerHTML = "Processing your order... 🔄";
     btn.disabled = true;
 
-    // 2. محاكاة عملية "التشيك" (Check) - ه
+    // 2. Simulate the "check" process
     setTimeout(() => {
-        let isSuccess = true; // افترضنا أن الفحص نجح
+        let isSuccess = true; // Assume the check succeeded
 
         if (isSuccess) {
-            // 3. إظهار رسالة نجاح للمستخدم
-            showToast("✅ تم تأكيد طلبك بنجاح!");
+            // 3. Show a success message to the user
+            showToast("✅ Your order has been confirmed successfully!");
 
-         
+
             setTimeout(() => {
                 window.location.href = "Confirm.aspx";
             }, 1000);
         } else {
-            // في حال فشل الفحص
-            showToast("❌ حدث خطأ أثناء تأكيد الطلب.");
+            // If the check fails
+            showToast("❌ An error occurred while confirming the order.");
             btn.innerHTML = originalText;
             btn.disabled = false;
         }
-    }, 1500); // تأخير لمدة ثانية ونصف لمحاكاة المعالجة
+    }, 1500); // 1.5-second delay to simulate processing
 }
 
-// التأكد من ربط الدوال لتعمل مع onclick في HTML
+// Ensure the functions are bound so they work with onclick in HTML
 window.showPage = showPage;
 window.navigateTo = function (page) { showPage(page); };
 

@@ -5,8 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Account — NooN</title>
-    <link href="Content/shared.css" rel="stylesheet" />
-    <link href="Content/Registration.css" rel="stylesheet" />
+    <link href="Content/shared.css?v=coral1" rel="stylesheet" />
+    <link href="Content/Registration.css?v=coral1" rel="stylesheet" />
 
 </head>
 <body>
@@ -81,7 +81,7 @@
                 <div class="field-group">
                     <asp:Label ID="LabPas" runat="server" Text="Password" AssociatedControlID="TxtPass"></asp:Label>
                     <asp:TextBox ID="TxtPass" runat="server" TextMode="Password" placeholder="••••••••••"></asp:TextBox>
-                    <ajaxToolkit:PasswordStrength ID="PasswordStrength1" runat="server" TargetControlID="TxtPass" MinimumLowerCaseCharacters="1" MinimumNumericCharacters="1" MinimumSymbolCharacters="1" MinimumUpperCaseCharacters="1" PreferredPasswordLength="8" BarBorderCssClass="" BarIndicatorCssClass="" DisplayPosition="BelowLeft" RequiresUpperAndLowerCaseCharacters="True" TextStrengthDescriptions="ضعيفة جداً;ضعيفة;متوسطة;قوية;قوية جداً"/>
+                    <ajaxToolkit:PasswordStrength ID="PasswordStrength1" runat="server" TargetControlID="TxtPass" MinimumLowerCaseCharacters="1" MinimumNumericCharacters="1" MinimumSymbolCharacters="1" MinimumUpperCaseCharacters="1" PreferredPasswordLength="8" BarBorderCssClass="" BarIndicatorCssClass="" DisplayPosition="BelowLeft" RequiresUpperAndLowerCaseCharacters="True" TextStrengthDescriptions="Very Weak;Weak;Medium;Strong;Very Strong"/>
                     <asp:RequiredFieldValidator ID="RFV_Pass" runat="server"
                         ControlToValidate="TxtPass"
                         ErrorMessage="Password is required."

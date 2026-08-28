@@ -1,14 +1,14 @@
-<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="NooN.SiteMaster" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="NooN.SiteMaster" %>
 
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - Noon — متجر الكل</title>
+    <title><%: Page.Title %> - Noon — Everything Store</title>
 
-    <link href="Content/shared.css" rel="stylesheet" />
-    <link href="Content/master.css" rel="stylesheet" />
+    <link href="Content/shared.css?v=coral1" rel="stylesheet" />
+    <link href="Content/master.css?v=coral1" rel="stylesheet" />
     <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
 
 </head>
@@ -34,12 +34,12 @@
                         <span class="nav-search-icon"
                             onclick="document.getElementById('<%= btnSearch.ClientID %>').click();">🔍</span>
                         <asp:TextBox ID="txtSearch" runat="server"
-                            placeholder="searh to prouduct....."
+                            placeholder="Search for products..."
                             CssClass="search-input" />
                         <asp:Button ID="btnSearch" runat="server"
                             CssClass="btn-search-hidden"
                             OnClick="btnSearch_Click"
-                            Text="بحث" />
+                            Text="Search" />
                     </div>
                 </ContentTemplate>
                 <Triggers>
@@ -56,14 +56,14 @@
 
             <div class="nav-actions">
                 <a href="Default.aspx" class="nav-btn">
-                    🏠 <span class="label">الرئيسية</span>
+                    🏠 <span class="label">Home</span>
                 </a>
                 <a href="Prouduct.aspx" class="nav-btn">
-                    🛍️ <span class="label">المنتجات</span>
+                    🛍️ <span class="label">Products</span>
                 </a>
                 <asp:HyperLink ID="btnProfile" runat="server"
                     NavigateUrl="~/Userprofile.aspx" CssClass="nav-btn">
-                    👤 <span class="label">حسابي</span>
+                    👤 <span class="label">My Account</span>
                 </asp:HyperLink>
 
                 <%-- ✅ Cart — UpdatePanel Conditional only --%>
@@ -71,7 +71,7 @@
                     UpdateMode="Conditional" ChildrenAsTriggers="false">
                     <ContentTemplate>
                         <a href="Cart.aspx" class="nav-btn cart-btn">
-                            🛒 <span class="label">السلة</span>
+                            🛒 <span class="label">Cart</span>
                             <asp:Label ID="lblCartBadge" runat="server"
                                 CssClass="cart-badge" />
                         </a>

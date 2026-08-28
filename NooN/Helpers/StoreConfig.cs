@@ -14,7 +14,7 @@ namespace NooN
         public const decimal ShippingCost = 25m;
 
         // Currency suffix shown next to prices (Jordanian Dinar).
-        public const string Currency = "د.أ";
+        public const string Currency = "JD";
 
         /// <summary>Shipping fee for a given post-discount amount.</summary>
         public static decimal ShippingFor(decimal afterDiscount)

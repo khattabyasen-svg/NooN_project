@@ -17,18 +17,18 @@ namespace NooN
         // ===== Connection String =====
         private string ConnStr => Db.ConnectionString;
 
-        // ===== معرف المستخدم من الـ Session (يُستبدل بالـ Auth الحقيقي لاحقاً) =====
+        // ===== User id from the Session (to be replaced with real Auth later) =====
         private int CurrentUserId
         {
             get
             {
                 if (Session["user_id"] != null && int.TryParse(Session["user_id"].ToString(), out int uid))
                     return uid;
-                return 0; // 0 = غير مسجل دخول
+                return 0; // 0 = not logged in
             }
         }
 
-        // ===== كود الخصم المطبق في الـ Session =====
+        // ===== Coupon code applied in the Session =====
         private string AppliedCoupon
         {
             get => Session["AppliedCoupon"]?.ToString() ?? "";
@@ -42,7 +42,7 @@ namespace NooN
         {
             if (!IsPostBack)
             {
-                // استعادة الكوبون المطبق إن وجد
+                // Restore the applied coupon if present
                 if (!string.IsNullOrEmpty(AppliedCoupon))
                     txtCoupon.Text = AppliedCoupon;
 
@@ -51,7 +51,7 @@ namespace NooN
         }
 
         // ===========================================================
-        // تحميل السلة من قاعدة البيانات
+        // Load the cart from the database
         // ===========================================================
         private void LoadCart()
         {
@@ -70,22 +70,22 @@ namespace NooN
                 return;
             }
 
-            // عرض السلة
+            // Show the cart
             pnlEmptyCart.Visible = false;
             pnlCart.Visible = true;
 
             rptCartItems.DataSource = dt;
             rptCartItems.DataBind();
 
-            // حساب الإجماليات
+            // Calculate the totals
             CalculateTotals(dt);
 
-            // عدد المنتجات
+            // Item count
             litItemCount.Text = dt.Rows.Count.ToString();
         }
 
         // ===========================================================
-        // استعلام DB – جلب عناصر السلة مع تفاصيل المنتجات
+        // DB query - fetch cart items with product details
         // ===========================================================
         private DataTable GetCartItems(int userId)
         {
@@ -125,14 +125,14 @@ namespace NooN
             catch (Exception ex)
             {
                 System.Diagnostics.Trace.TraceError("Cart.GetCartItems: " + ex);
-                ShowError("حدث خطأ أثناء تحميل السلة، يرجى المحاولة مجدداً.");
+                ShowError("An error occurred while loading the cart, please try again.");
             }
 
             return dt;
         }
 
         // ===========================================================
-        // حساب الإجماليات
+        // Calculate the totals
         // ===========================================================
         private void CalculateTotals(DataTable dt)
         {
@@ -140,7 +140,7 @@ namespace NooN
             foreach (DataRow row in dt.Rows)
                 subtotal += Convert.ToDecimal(row["item_total"]);
 
-            // خصم الكوبون — يُحل من جدول coupons عبر CouponHelper
+            // Coupon discount — resolved from the coupons table via CouponHelper
             decimal discountAmount = 0;
             if (!string.IsNullOrEmpty(AppliedCoupon))
             {
@@ -165,11 +165,11 @@ namespace NooN
 
             decimal afterDiscount = subtotal - discountAmount;
 
-            // الشحن
+            // Shipping
             decimal shipping = StoreConfig.ShippingFor(afterDiscount);
-            litShipping.Text = shipping == 0 ? "مجاني ✓" : $"{shipping:N0} {StoreConfig.Currency}";
+            litShipping.Text = shipping == 0 ? "Free ✓" : $"{shipping:N0} {StoreConfig.Currency}";
 
-            // الضريبة
+            // Tax
             decimal vat = Math.Round(afterDiscount * StoreConfig.VatRate, 2);
             decimal total = afterDiscount + shipping + vat;
 
@@ -179,7 +179,7 @@ namespace NooN
         }
 
         // ===========================================================
-        // Repeater – أوامر (زيادة / نقص / حذف)
+        // Repeater - commands (increase / decrease / remove)
         // ===========================================================
         protected void rptCartItems_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
@@ -198,11 +198,11 @@ namespace NooN
         }
 
         // ===========================================================
-        // تغيير الكمية
+        // Change the quantity
         // ===========================================================
         private void ChangeQuantity(int cartItemId, int delta)
         {
-            // احصل على الكمية الحالية والمخزون
+            // Get the current quantity and stock
             string selectSql = @"
                SELECT ci.quantity, ISNULL(i.available_qty, 0) AS stock_quantity
         FROM cart_items ci
@@ -232,7 +232,7 @@ namespace NooN
                                 currentQty = Convert.ToInt32(rdr["quantity"]);
                                 stock = Convert.ToInt32(rdr["stock_quantity"]);
                             }
-                            else return; // المنتج ليس للمستخدم الحالي
+                            else return; // The item does not belong to the current user
                         }
                     }
 
@@ -240,14 +240,14 @@ namespace NooN
 
                     if (newQty <= 0)
                     {
-                        // الكمية أصبحت صفر → احذف العنصر
+                        // Quantity reached zero -> remove the item
                         RemoveItem(cartItemId);
                         return;
                     }
 
                     if (newQty > stock)
                     {
-                        ShowError("لا يوجد مخزون كافٍ لهذا المنتج.");
+                        ShowError("Not enough stock for this product.");
                         return;
                     }
 
@@ -262,19 +262,19 @@ namespace NooN
                         cmd2.ExecuteNonQuery();
                     }
 
-                    // تحديث updated_at في carts
+                    // Update updated_at in carts
                     UpdateCartTimestamp(con);
                 }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Trace.TraceError("Cart.ChangeQuantity: " + ex);
-                ShowError("تعذّر تحديث الكمية، يرجى المحاولة مجدداً.");
+                ShowError("Could not update the quantity, please try again.");
             }
         }
 
         // ===========================================================
-        // حذف عنصر
+        // Remove an item
         // ===========================================================
         private void RemoveItem(int cartItemId)
         {
@@ -294,17 +294,17 @@ namespace NooN
                     cmd.ExecuteNonQuery();
                     UpdateCartTimestamp(con);
                 }
-                ShowSuccess("تم حذف المنتج من السلة.");
+                ShowSuccess("Product removed from the cart.");
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Trace.TraceError("Cart.RemoveItem: " + ex);
-                ShowError("تعذّر حذف المنتج، يرجى المحاولة مجدداً.");
+                ShowError("Could not remove the product, please try again.");
             }
         }
 
         // ===========================================================
-        // إفراغ السلة
+        // Empty the cart
         // ===========================================================
         protected void btnClearCart_Click(object sender, EventArgs e)
         {
@@ -323,13 +323,13 @@ namespace NooN
                     cmd.ExecuteNonQuery();
                 }
                 AppliedCoupon = "";
-                ShowSuccess("تم إفراغ السلة بنجاح.");
+                ShowSuccess("Cart cleared successfully.");
                 (this.Master as NooN.ISiteMaster)?.RefreshCartBadge();
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Trace.TraceError("Cart.ClearCart: " + ex);
-                ShowError("تعذّر إفراغ السلة، يرجى المحاولة مجدداً.");
+                ShowError("Could not clear the cart, please try again.");
             }
 
             LoadCart();
@@ -337,7 +337,7 @@ namespace NooN
         }
 
         // ===========================================================
-        // تطبيق كود الخصم
+        // Apply the coupon code
         // ===========================================================
         protected void btnApplyCoupon_Click(object sender, EventArgs e)
         {
@@ -345,7 +345,7 @@ namespace NooN
 
             if (string.IsNullOrEmpty(code))
             {
-                ShowCouponMsg("⚠️ أدخل كود الخصم أولاً.", false);
+                ShowCouponMsg("⚠️ Enter a coupon code first.", false);
                 return;
             }
 
@@ -365,7 +365,7 @@ namespace NooN
         }
 
         // ===========================================================
-        // متابعة للدفع
+        // Proceed to checkout
         // ===========================================================
         protected void btnCheckout_Click(object sender, EventArgs e)
         {
@@ -375,13 +375,13 @@ namespace NooN
                 return;
             }
 
-            // تمرير الكوبون المطبق للـ Session ليستخدمه checkout.aspx
+            // Pass the applied coupon into the Session for checkout.aspx to use
             Session["CheckoutCoupon"] = AppliedCoupon;
             Response.Redirect("checkout.aspx");
         }
 
         // ===========================================================
-        // دوال مساعدة
+        // Helper methods
         // ===========================================================
 
         private void UpdateCartTimestamp(SqlConnection openCon)
@@ -428,14 +428,14 @@ namespace NooN
             litCouponMsg.Text = $"<div class=\"alert {(success ? "alert-success" : "alert-danger")}\" style=\"margin-top:8px;\">{msg}</div>";
         }
 
-        // يُستخدم في الـ Repeater لتنسيق الأسعار
+        // Used in the Repeater to format prices
         protected string FormatPrice(object val)
         {
             if (val == null || val == DBNull.Value) return "0";
             return Convert.ToDecimal(val).ToString("N2");
         }
 
-        // يُستخدم في الـ Repeater لصورة المنتج
+        // Used in the Repeater for the product image
         protected string GetProductImage(object imageUrl)
         {
             string url = imageUrl?.ToString();

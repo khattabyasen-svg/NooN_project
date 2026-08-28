@@ -11,7 +11,7 @@ function changeCartQty(btn, d) {
   numEl.textContent = qty;
 }
 function navigateTo(page) {
-    // تقوم بتغيير رابط المتصفح إلى صفحة الـ checkout
+    // Changes the browser URL to the checkout page
     window.location.href = page + ".aspx";
 }
 /* ── Remove a cart item with slide-out animation ── */
@@ -25,6 +25,6 @@ function removeCartItem(el) {
     item.remove();
     NoonState.cartCount = Math.max(0, NoonState.cartCount - 1);
     updateCartBadge(NoonState.cartCount);
-    showToast('🗑️ تم حذف المنتج من السلة');
+    showToast('🗑️ Product removed from the cart');
   }, 300);
 }

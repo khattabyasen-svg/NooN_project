@@ -154,14 +154,14 @@ namespace NooN
                 lblSubtotal.Text = subtotal.ToString("N2") + " " + StoreConfig.Currency;
                 lblDiscount.Text = "- " + discount.ToString("N2") + " " + StoreConfig.Currency;
                 lblShipping.Text = shipping == 0
-                    ? "مجاني ✓"
+                    ? "Free ✓"
                     : shipping.ToString("N2") + " " + StoreConfig.Currency;
                 lblTax.Text = tax.ToString("N2") + " " + StoreConfig.Currency;
                 lblTotal.Text = total.ToString("N2") + " " + StoreConfig.Currency;
             }
             catch (Exception ex)
             {
-                lblError.Text = "تعذّر تحميل السلة، يرجى المحاولة مجدداً.";
+                lblError.Text = "Could not load the cart, please try again.";
                 lblError.Visible = true;
                 System.Diagnostics.Debug.WriteLine("LoadCartItems: " + ex.Message);
             }
@@ -263,7 +263,7 @@ namespace NooN
                      string.IsNullOrWhiteSpace(txtCVV.Text) ||
                      string.IsNullOrWhiteSpace(txtCardHolder.Text)))
                 {
-                    lblError.Text = "يرجى إدخال بيانات البطاقة كاملة.";
+                    lblError.Text = "Please enter the complete card details.";
                     lblError.Visible = true;
                     return;
                 }
@@ -275,7 +275,7 @@ namespace NooN
                     string.IsNullOrWhiteSpace(district) || district.Length > 80 ||
                     string.IsNullOrWhiteSpace(address)  || address.Length  > 150)
                 {
-                    lblError.Text = "يرجى التحقق من بيانات العنوان ورقم الهاتف.";
+                    lblError.Text = "Please verify the address details and phone number.";
                     lblError.Visible = true;
                     return;
                 }
@@ -296,7 +296,7 @@ namespace NooN
                 // Only proceed to confirmation if the order actually saved.
                 if (orderId <= 0)
                 {
-                    lblError.Text = _orderError ?? "تعذّر إتمام الطلب، يرجى المحاولة مجدداً.";
+                    lblError.Text = _orderError ?? "Could not complete the order, please try again.";
                     lblError.Visible = true;
                     return;
                 }
@@ -319,7 +319,7 @@ namespace NooN
                 // Log full detail server-side; show the user a generic message
                 // so internal errors (SQL, schema, etc.) aren't leaked.
                 System.Diagnostics.Debug.WriteLine("PlaceOrder: " + ex);
-                lblError.Text = "تعذّر إتمام الطلب، يرجى المحاولة مجدداً.";
+                lblError.Text = "Could not complete the order, please try again.";
                 lblError.Visible = true;
             }
         }
@@ -351,7 +351,7 @@ namespace NooN
 
             lblDiscount.Text = "- " + discount.ToString("N2") + " " + StoreConfig.Currency;
             lblShipping.Text = shipping == 0
-                ? "مجاني ✓"
+                ? "Free ✓"
                 : shipping.ToString("N2") + " " + StoreConfig.Currency;
             lblTax.Text = tax.ToString("N2") + " " + StoreConfig.Currency;
             lblTotal.Text = total.ToString("N2") + " " + StoreConfig.Currency;
@@ -532,7 +532,7 @@ namespace NooN
                                 {
                                     // Not enough stock (or no inventory row) — abort the order.
                                     tx.Rollback();
-                                    _orderError = "عذراً، الكمية المطلوبة لم تعد متوفرة في المخزون لأحد المنتجات. يرجى مراجعة سلتك.";
+                                    _orderError = "Sorry, the requested quantity is no longer in stock for one of the products. Please review your cart.";
                                     return 0;
                                 }
                             }
@@ -664,7 +664,7 @@ namespace NooN
                 object res = cmd.ExecuteScalar();
                 if (res != null && res != DBNull.Value)
                 {
-                    _orderError = "هذا البريد الإلكتروني مسجّل بالفعل. يرجى تسجيل الدخول للمتابعة.";
+                    _orderError = "This email is already registered. Please sign in to continue.";
                     throw new InvalidOperationException("Guest checkout email already registered.");
                 }
             }

@@ -85,7 +85,6 @@ namespace NooN
             const string sql = @"
                 SELECT TOP 8
                     category_id,
-                    name_ar,
                     name_en
                 FROM product_categories
                 WHERE is_active = 1
@@ -141,7 +140,7 @@ namespace NooN
             p.rating_avg,
             p.rating_count,
             p.images,
-            c.name_ar AS category_name
+            c.name_en AS category_name
         FROM wishlist_items w
         INNER JOIN products p ON w.product_id = p.product_id
         INNER JOIN product_categories c ON p.category_id = c.category_id
@@ -205,7 +204,7 @@ namespace NooN
             // Shared resolver returns a usable URL (or an inline placeholder).
             // Double-quote the src so the placeholder data URI is always valid.
             string url = ProductImage.FirstUrl(imagesObj);
-            return $"<img src=\"{url}\" alt='منتج' class='product-img' loading='lazy' />";
+            return $"<img src=\"{url}\" alt='product' class='product-img' loading='lazy' />";
         }
 
         /// <summary>

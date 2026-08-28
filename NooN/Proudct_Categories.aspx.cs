@@ -10,12 +10,12 @@ namespace NooN
     public partial class Proudct_Categories : Page
     {
         // ═══════════════════════════════════════════
-        // سلسلة الاتصال من Web.config
+        // Connection string from Web.config
         // ═══════════════════════════════════════════
         private string connStr = Db.ConnectionString;
 
         // ═══════════════════════════════════════════
-        // تحميل الصفحة
+        // Page load
         // ═══════════════════════════════════════════
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -33,7 +33,7 @@ namespace NooN
         }
 
         // ═══════════════════════════════════════════
-        // جلب البيانات وربطها بالـ GridView
+        // Fetch the data and bind it to the GridView
         // ═══════════════════════════════════════════
         private void LoadCategories()
         {
@@ -53,7 +53,7 @@ namespace NooN
         }
 
         // ═══════════════════════════════════════════
-        // إضافة فئة جديدة
+        // Add a new category
         // ═══════════════════════════════════════════
         protected void btnAdd_Click(object sender, EventArgs e)
         {
@@ -61,10 +61,10 @@ namespace NooN
             string nameEn = txtNameEn.Text.Trim();
             int isActive = int.Parse(ddlStatus.SelectedValue);
 
-            // ── التحقق من الإدخال ──
+            // ── Input validation ──
             if (string.IsNullOrEmpty(nameAr) || string.IsNullOrEmpty(nameEn))
             {
-                ShowAlert("يرجى إدخال الاسمين العربي والإنجليزي.", "alert-danger");
+                ShowAlert("Please enter both the Arabic and English names.", "alert-danger");
                 return;
             }
 
@@ -86,17 +86,17 @@ namespace NooN
 
             InvalidateCategoriesCache();
 
-            // ── تنظيف الحقول بعد الإضافة ──
+            // ── Clear the fields after adding ──
             txtNameAr.Text = "";
             txtNameEn.Text = "";
             ddlStatus.SelectedIndex = 0;
 
-            ShowAlert("✅ تمت إضافة الفئة بنجاح.", "alert-success");
+            ShowAlert("✅ Category added successfully.", "alert-success");
             LoadCategories();
         }
 
         // ═══════════════════════════════════════════
-        // تفعيل وضع التعديل في الصف
+        // Enter edit mode for the row
         // ═══════════════════════════════════════════
         protected void gvCategories_RowEditing(object sender, GridViewEditEventArgs e)
         {
@@ -105,7 +105,7 @@ namespace NooN
         }
 
         // ═══════════════════════════════════════════
-        // إلغاء التعديل
+        // Cancel editing
         // ═══════════════════════════════════════════
         protected void gvCategories_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
@@ -114,14 +114,14 @@ namespace NooN
         }
 
         // ═══════════════════════════════════════════
-        // حفظ التعديلات على صف معين
+        // Save the edits for a given row
         // ═══════════════════════════════════════════
         protected void gvCategories_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-            // ── جلب الـ ID من DataKeys ──
+            // ── Get the ID from DataKeys ──
             int categoryId = (int)gvCategories.DataKeys[e.RowIndex].Value;
 
-            // ── جلب قيم الحقول من الصف ──
+            // ── Get the field values from the row ──
             GridViewRow row = gvCategories.Rows[e.RowIndex];
 
             string nameAr = ((TextBox)row.FindControl("txtNameAr")).Text.Trim();
@@ -131,7 +131,7 @@ namespace NooN
 
             if (string.IsNullOrEmpty(nameAr) || string.IsNullOrEmpty(nameEn))
             {
-                ShowAlert("يرجى إدخال الاسمين العربي والإنجليزي.", "alert-danger");
+                ShowAlert("Please enter both the Arabic and English names.", "alert-danger");
                 return;
             }
 
@@ -157,12 +157,12 @@ namespace NooN
             InvalidateCategoriesCache();
 
             gvCategories.EditIndex = -1;
-            ShowAlert("✅ تم تحديث الفئة بنجاح.", "alert-success");
+            ShowAlert("✅ Category updated successfully.", "alert-success");
             LoadCategories();
         }
 
         // ═══════════════════════════════════════════
-        // حذف فئة
+        // Delete a category
         // ═══════════════════════════════════════════
         protected void gvCategories_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
@@ -183,12 +183,12 @@ namespace NooN
 
             InvalidateCategoriesCache();
 
-            ShowAlert("🗑️ تم حذف الفئة بنجاح.", "alert-success");
+            ShowAlert("🗑️ Category deleted successfully.", "alert-success");
             LoadCategories();
         }
 
         // ═══════════════════════════════════════════
-        // حدث غير مستخدم (مطلوب بسبب الـ ASPX)
+        // Unused event (required by the ASPX)
         // ═══════════════════════════════════════════
         protected void gvCategories_SelectedIndexChanged(object sender, EventArgs e) { }
 
@@ -204,7 +204,7 @@ namespace NooN
         }
 
         // ═══════════════════════════════════════════
-        // دالة مساعدة: إظهار رسالة تنبيه
+        // Helper: display an alert message
         // ═══════════════════════════════════════════
         private void ShowAlert(string message, string cssClass)
         {

@@ -6,8 +6,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign In — NooN</title>
-<link href="Content/shared.css" rel="stylesheet" />
-<link href="Content/LoginUser.css" rel="stylesheet" />
+<link href="Content/shared.css?v=coral1" rel="stylesheet" />
+<link href="Content/LoginUser.css?v=coral1" rel="stylesheet" />
   
 </head>
 <body>

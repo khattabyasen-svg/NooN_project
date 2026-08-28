@@ -21,7 +21,7 @@ namespace NooN
             UpdateCartBadge();
         }
 
-        // ══ بحث ══
+        // ══ Search ══
         protected void btnSearch_Click(object sender, EventArgs e)
         {
             string q = txtSearch.Text.Trim();
@@ -29,16 +29,16 @@ namespace NooN
                 Response.Redirect("~/Prouduct.aspx?search=" + Server.UrlEncode(q));
         }
 
-        // ══ زر السلة في Nav ══
+        // ══ Cart button in the Nav ══
         //protected void lnkCart_Click(object sender, EventArgs e)
         //{
         //    Response.Redirect("~/Cart.aspx");
         //}
 
-        // ══ عداد السلة ══
+        // ══ Cart badge ══
 
         /// <summary>
-        /// استدعيها من أي صفحة بعد الإضافة للسلة
+        /// Call this from any page after adding to the cart
         /// </summary>
         public void RefreshCartBadge()
         {

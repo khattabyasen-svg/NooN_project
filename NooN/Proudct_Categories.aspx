@@ -1,19 +1,19 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Proudct_Categories.aspx.cs" Inherits="NooN.Proudct_Categories" %>
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" dir="rtl">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
 <head runat="server">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>إدارة الفئات - NooN</title>
+    <title>Category Management - NooN</title>
     <link href="Content/Proudct_categories.css" rel="stylesheet" />
 </head>
 <body>
     <form id="form2" runat="server">
 
         <div class="page-header">
-            <h1>إدارة الفئات</h1>
-            <p>إضافة وتعديل وحذف فئات المنتجات</p>
+            <h1>Category Management</h1>
+            <p>Add, edit, and delete product categories</p>
         </div>
 
         <asp:Panel ID="pnlAlert" runat="server" Visible="false" CssClass="alert">
@@ -21,24 +21,24 @@
         </asp:Panel>
 
         <div class="add-card">
-            <h2>إضافة فئة جديدة</h2>
+            <h2>Add New Category</h2>
             <div class="form-row">
                 <div class="form-group">
-                    <label>الاسم العربي</label>
-                    <asp:TextBox ID="txtNameAr" runat="server" placeholder="أدخل الاسم العربي"></asp:TextBox>
+                    <label>Arabic Name</label>
+                    <asp:TextBox ID="txtNameAr" runat="server" placeholder="Enter Arabic name"></asp:TextBox>
                 </div>
                 <div class="form-group">
-                    <label>الاسم الإنجليزي</label>
+                    <label>English Name</label>
                     <asp:TextBox ID="txtNameEn" runat="server" placeholder="Enter English name"></asp:TextBox>
                 </div>
                 <div class="form-group status-group">
-                    <label>الحالة</label>
+                    <label>Status</label>
                     <asp:DropDownList ID="ddlStatus" runat="server">
-                        <asp:ListItem Value="1">فعالة</asp:ListItem>
-                        <asp:ListItem Value="0">غير فعالة</asp:ListItem>
+                        <asp:ListItem Value="1">Active</asp:ListItem>
+                        <asp:ListItem Value="0">Inactive</asp:ListItem>
                     </asp:DropDownList>
                 </div>
-                <asp:Button ID="btnAdd" runat="server" Text="+ إضافة" CssClass="btn btn-add" OnClick="btnAdd_Click" />
+                <asp:Button ID="btnAdd" runat="server" Text="+ Add" CssClass="btn btn-add" OnClick="btnAdd_Click" />
             </div>
         </div>
 
@@ -51,7 +51,7 @@
                 OnRowDeleting="gvCategories_RowDeleting">
 
                 <EmptyDataTemplate>
-                    <div class="empty">لا توجد فئات — أضف فئة من الأعلى.</div>
+                    <div class="empty">No categories — add one from above.</div>
                 </EmptyDataTemplate>
                 <Columns>
     <asp:TemplateField HeaderText="#">
@@ -60,7 +60,7 @@
         </ItemTemplate>
     </asp:TemplateField>
 
-    <asp:TemplateField HeaderText="الاسم العربي">
+    <asp:TemplateField HeaderText="Arabic Name">
         <ItemTemplate>
             <asp:TextBox ID="txtNameAr" runat="server"
                          Text='<%# Eval("name_ar") %>'
@@ -73,7 +73,7 @@
         </EditItemTemplate>
     </asp:TemplateField>
 
-    <asp:TemplateField HeaderText="الاسم الإنجليزي">
+    <asp:TemplateField HeaderText="English Name">
         <ItemTemplate>
             <asp:TextBox ID="txtNameEn" runat="server"
                          Text='<%# Eval("name_en") %>'
@@ -86,31 +86,31 @@
         </EditItemTemplate>
     </asp:TemplateField>
 
-    <asp:TemplateField HeaderText="الحالة">
+    <asp:TemplateField HeaderText="Status">
         <ItemTemplate>
-            <%# Convert.ToInt32(Eval("is_active") ?? 0) == 1 ? "فعالة" : "غير فعالة" %>
+            <%# Convert.ToInt32(Eval("is_active") ?? 0) == 1 ? "Active" : "Inactive" %>
         </ItemTemplate>
         <EditItemTemplate>
             <asp:DropDownList ID="ddlStatus" runat="server">
-                <asp:ListItem Value="1">فعالة</asp:ListItem>
-                <asp:ListItem Value="0">غير فعالة</asp:ListItem>
+                <asp:ListItem Value="1">Active</asp:ListItem>
+                <asp:ListItem Value="0">Inactive</asp:ListItem>
             </asp:DropDownList>
         </EditItemTemplate>
     </asp:TemplateField>
 
-    <asp:TemplateField HeaderText="الإجراءات">
+    <asp:TemplateField HeaderText="Actions">
         <ItemTemplate>
             <asp:LinkButton runat="server" CommandName="Edit"
-                            CssClass="btn btn-edit">تعديل</asp:LinkButton>
+                            CssClass="btn btn-edit">Edit</asp:LinkButton>
             <asp:LinkButton runat="server" CommandName="Delete"
                             CssClass="btn btn-del"
-                            OnClientClick="return confirm('هل أنت متأكد من الحذف؟');">حذف</asp:LinkButton>
+                            OnClientClick="return confirm('Are you sure you want to delete this?');">Delete</asp:LinkButton>
         </ItemTemplate>
         <EditItemTemplate>
             <asp:LinkButton runat="server" CommandName="Update"
-                            CssClass="btn btn-save">حفظ</asp:LinkButton>
+                            CssClass="btn btn-save">Save</asp:LinkButton>
             <asp:LinkButton runat="server" CommandName="Cancel"
-                            CssClass="btn btn-cancel">إلغاء</asp:LinkButton>
+                            CssClass="btn btn-cancel">Cancel</asp:LinkButton>
         </EditItemTemplate>
     </asp:TemplateField>
 </Columns>

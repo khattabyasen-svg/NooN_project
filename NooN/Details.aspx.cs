@@ -35,7 +35,7 @@ namespace NooN
         }
 
         // ═══════════════════════════════════════════
-        // تحميل بيانات المنتج
+        // Load product data
         // ═══════════════════════════════════════════
         private void LoadProduct()
         {
@@ -48,7 +48,7 @@ namespace NooN
                 p.brand, p.sku, p.rating_avg, p.rating_count,
                 p.status, p.available_colors, p.available_sizes, p.images,
                 ISNULL(i.available_qty, 0) AS stock_quantity,
-                ISNULL(c.name_ar, N'بدون فئة') AS category_name
+                ISNULL(c.name_en, N'Uncategorized') AS category_name
             FROM products p
             LEFT JOIN product_categories c ON p.category_id = c.category_id
             LEFT JOIN inventory i ON i.product_id = p.product_id
@@ -67,11 +67,11 @@ namespace NooN
                         return;
                     }
 
-                    // ─────────────── المنتج الأساسي ───────────────
+                    // ─────────────── Core product ───────────────
                     ViewState["productId"] = _productId;
                     hfProductId.Value = _productId.ToString();
 
-                    // ── المفضلة (Wishlist) ──
+                    // ── Wishlist ──
                     bool isFav = false;
 
                     if (Session["user_id"] != null)
@@ -155,18 +155,18 @@ namespace NooN
                     if (canBuy)
                     {
                         litStockStatus.Text = stockQty <= 5
-                            ? $"<span class='out-stock'>⚠ باقي {stockQty} فقط في المخزن</span>"
-                            : "<span class='in-stock'>✓ متوفر في المخزن</span>";
+                            ? $"<span class='out-stock'>⚠ Only {stockQty} left in stock</span>"
+                            : "<span class='in-stock'>✓ In stock</span>";
                     }
                     else if (status == "active" || status == "out_of_stock")
-                        litStockStatus.Text = "<span class='out-stock'>✗ غير متوفر</span>";
+                        litStockStatus.Text = "<span class='out-stock'>✗ Out of stock</span>";
                     else
-                        litStockStatus.Text = "<span style='color:var(--muted)'>غير نشط</span>";
+                        litStockStatus.Text = "<span style='color:var(--muted)'>Inactive</span>";
 
                     if (canBuy)
-                        litStatusBadge.Text = "<span class='gallery-status status-active'>متوفر ✓</span>";
+                        litStatusBadge.Text = "<span class='gallery-status status-active'>Available ✓</span>";
                     else if (status == "active" || status == "out_of_stock")
-                        litStatusBadge.Text = "<span class='gallery-status status-out_of_stock'>غير متوفر</span>";
+                        litStatusBadge.Text = "<span class='gallery-status status-out_of_stock'>Unavailable</span>";
 
                     btnAddToCart.Disabled = !canBuy;
                     btnAddToCart.Attributes["data-pid"] = _productId.ToString();
@@ -196,7 +196,7 @@ namespace NooN
                     string desc = dr["description"] != DBNull.Value ? dr["description"].ToString() : "";
                     litDesc.Text = !string.IsNullOrEmpty(desc)
                         ? desc
-                        : "منتج عالي الجودة بتصميم أنيق ومواصفات رائدة.";
+                        : "A high-quality product with an elegant design and leading specifications.";
 
                     // ── Colors ──
                     string availColors = dr["available_colors"] != DBNull.Value
@@ -243,13 +243,13 @@ namespace NooN
                 }
             }
 
-            // ── إظهار الصفحة ──
+            // ── Show the page ──
             pnlDetail.Visible = true;
             pnlNotFound.Visible = false;
         }
 
         // ═══════════════════════════════════════════
-        // تحميل التقييمات
+        // Load the reviews
         // ═══════════════════════════════════════════
         private void LoadReviews()
         {
@@ -307,7 +307,7 @@ namespace NooN
         // fetch() against ShopService.ashx (see Scripts/noon-shop.js).
 
         // ═══════════════════════════════════════════
-        // إرسال تقييم
+        // Submit a review
         // ═══════════════════════════════════════════
         protected void btnSubmitReview_Click(object sender, EventArgs e)
         {
@@ -315,7 +315,7 @@ namespace NooN
 
             if (Session["user_id"] == null)
             {
-                ShowMsg(lblReviewMsg, "يرجى تسجيل الدخول لإضافة تقييم.", isError: true);
+                ShowMsg(lblReviewMsg, "Please sign in to add a review.", isError: true);
                 ReloadAll(); return;
             }
 
@@ -323,7 +323,7 @@ namespace NooN
 
             if (!int.TryParse(hfRating.Value, out int rating) || rating < 1 || rating > 5)
             {
-                ShowMsg(lblReviewMsg, "يرجى اختيار تقييم من 1 إلى 5 نجوم.", isError: true);
+                ShowMsg(lblReviewMsg, "Please select a rating from 1 to 5 stars.", isError: true);
                 ReloadAll(); return;
             }
 
@@ -335,7 +335,7 @@ namespace NooN
                 {
                     conn.Open();
 
-                    // تحقق إن المستخدم لم يقيّم سابقاً
+                    // Check that the user has not reviewed before
                     using (SqlCommand chk = new SqlCommand(@"
                         SELECT COUNT(1) FROM reviews
                         WHERE user_id = @uid AND product_id = @pid", conn))
@@ -344,7 +344,7 @@ namespace NooN
                         chk.Parameters.AddWithValue("@pid", _productId);
                         if ((int)chk.ExecuteScalar() > 0)
                         {
-                            ShowMsg(lblReviewMsg, "لقد قيّمت هذا المنتج سابقاً.", isError: true);
+                            ShowMsg(lblReviewMsg, "You have already reviewed this product.", isError: true);
                             ReloadAll(); return;
                         }
                     }
@@ -361,7 +361,7 @@ namespace NooN
                         ins.ExecuteNonQuery();
                     }
 
-                    // حدّث rating_avg و rating_count
+                    // Update rating_avg and rating_count
                     using (SqlCommand upd = new SqlCommand(@"
                         UPDATE products
                            SET rating_avg   = (SELECT AVG(CAST(rating AS decimal(3,2)))
@@ -375,21 +375,21 @@ namespace NooN
                     }
                 }
 
-                ShowMsg(lblReviewMsg, "✅ شكراً! تم إرسال تقييمك بنجاح.", isError: false);
+                ShowMsg(lblReviewMsg, "✅ Thank you! Your review has been submitted successfully.", isError: false);
                 txtComment.Text = "";
                 hfRating.Value = "0";
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Trace.TraceError("Details.SubmitReview: " + ex);
-                ShowMsg(lblReviewMsg, "تعذّر إتمام العملية، يرجى المحاولة مجدداً.", isError: true);
+                ShowMsg(lblReviewMsg, "Could not complete the operation, please try again.", isError: true);
             }
 
             ReloadAll();
         }
 
         // ═══════════════════════════════════════════
-        // دوال مساعدة
+        // Helper methods
         // ═══════════════════════════════════════════
         private void ShowNotFound()
         {

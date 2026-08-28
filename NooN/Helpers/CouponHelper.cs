@@ -26,7 +26,7 @@ namespace NooN
 
             if (string.IsNullOrWhiteSpace(code))
             {
-                result.Message = "⚠️ يرجى إدخال كود الخصم";
+                result.Message = "⚠️ Please enter a coupon code";
                 return result;
             }
 
@@ -47,7 +47,7 @@ namespace NooN
                 {
                     if (!dr.Read())
                     {
-                        result.Message = "❌ كود الخصم غير صحيح";
+                        result.Message = "❌ Invalid coupon code";
                         return result;
                     }
 
@@ -63,22 +63,22 @@ namespace NooN
 
                     if (!isActive)
                     {
-                        result.Message = "❌ كود الخصم غير صالح";
+                        result.Message = "❌ This coupon code is not valid";
                         return result;
                     }
                     if (expires.HasValue && expires.Value < DateTime.Now)
                     {
-                        result.Message = "❌ انتهت صلاحية كود الخصم";
+                        result.Message = "❌ This coupon code has expired";
                         return result;
                     }
                     if (subtotal < minOrder)
                     {
-                        result.Message = $"❌ هذا الكوبون يتطلب حداً أدنى للطلب {minOrder:N2} {StoreConfig.Currency}";
+                        result.Message = $"❌ This coupon requires a minimum order of {minOrder:N2} {StoreConfig.Currency}";
                         return result;
                     }
                     if (usageLimit.HasValue && usedCount >= usageLimit.Value)
                     {
-                        result.Message = "❌ تم استنفاد هذا الكوبون";
+                        result.Message = "❌ This coupon has been fully redeemed";
                         return result;
                     }
 
@@ -91,7 +91,7 @@ namespace NooN
                     result.CouponId = Convert.ToInt32(dr["coupon_id"]);
                     result.Code = code;
                     result.DiscountAmount = discount;
-                    result.Message = $"✅ تم تطبيق الكوبون {code}";
+                    result.Message = $"✅ Coupon {code} applied";
                     return result;
                 }
             }

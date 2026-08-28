@@ -30,7 +30,7 @@ namespace NooN
 
         }
 
-        // تحميل التصنيفات في القائمة المنسدلة
+        // Load the categories into the dropdown list
         private void LoadCategories()
         {
             try
@@ -61,20 +61,20 @@ namespace NooN
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            // 1) التحقق من المدخلات
+            // 1) Validate the inputs
             if (!ValidateInput())
                 return;
 
             try
             {
-                // 2) معالجة رفع الصور وإرجاعها كنص مفصول بفواصل
+                // 2) Handle the image uploads and return them as a comma-separated string
                 string imagesCsv = SaveUploadedImages();
 
-                // 3) تجميع الألوان والمقاسات المختارة
+                // 3) Collect the selected colors and sizes
                 string colors = GetSelectedColors();
                 string sizes = GetSelectedValues(cblSizes);
 
-                // 4) الإدخال في قاعدة البيانات
+                // 4) Insert into the database
                 int newId = InsertProduct(imagesCsv, colors, sizes);
 
                 ShowMessage($"The product was successfully saved (Product Number: {newId})", true);
@@ -82,7 +82,7 @@ namespace NooN
             }
             catch (SqlException sqlEx)
             {
-                // التعامل مع تكرار الـ SKU أو الـ Slug (UNIQUE constraints)
+                // Handle duplicate SKU or Slug (UNIQUE constraints)
                 if (sqlEx.Number == 2627 || sqlEx.Number == 2601)
                     ShowMessage("The product code (SKU) or alternative link (Slug) is already in use.", false);
                 else
@@ -98,7 +98,7 @@ namespace NooN
             }
         }
 
-        // التحقق من الحقول الإلزامية
+        // Validate the required fields
         private bool ValidateInput()
         {
             if (string.IsNullOrWhiteSpace(txtName.Text))
@@ -140,7 +140,7 @@ namespace NooN
                     return false;
                 }
             }
-            // الخصم (اختياري): إن أُدخل يجب أن يكون بين 0 و 100
+            // Discount (optional): if entered, it must be between 0 and 100
             if (!string.IsNullOrWhiteSpace(txtDiscount.Text))
             {
                 if (!decimal.TryParse(txtDiscount.Text, out decimal discount) || discount < 0 || discount > 100)
@@ -161,13 +161,13 @@ namespace NooN
             return true;
         }
 
-        // حفظ الصور المرفوعة في مجلد وإرجاع مساراتها كـ CSV
+        // Save the uploaded images to a folder and return their paths as CSV
         private string SaveUploadedImages()
         {
             if (!fileImages.HasFiles)
                 return null;
 
-            // مجلد التخزين داخل المشروع: ~/Uploads/Products
+            // Storage folder inside the project: ~/Uploads/Products
             string folderVirtual = "~/Uploads/Products/";
             string folderPhysical = Server.MapPath(folderVirtual);
 
@@ -186,19 +186,19 @@ namespace NooN
                 if (!allowed.Contains(ext))
                     throw new Exception($"File type not supported: {ext}");
 
-                // اسم فريد لتجنب التكرار
+                // Unique name to avoid collisions
                 string uniqueName = $"{Guid.NewGuid():N}{ext}";
                 string savePath = Path.Combine(folderPhysical, uniqueName);
                 file.SaveAs(savePath);
 
-                // خزّن المسار النسبي في قاعدة البيانات
+                // Store the relative path in the database
                 savedPaths.Add(folderVirtual.TrimStart('~') + uniqueName);
             }
 
             return string.Join(",", savedPaths);
         }
 
-        // الألوان = المختارة من القائمة + لون مخصص إن وجد
+        // Colors = the ones selected from the list + a custom color if provided
         private string GetSelectedColors()
         {
             List<string> colors = cblColors.Items.Cast<ListItem>()
@@ -221,7 +221,7 @@ namespace NooN
             return selected.Count > 0 ? string.Join(",", selected) : null;
         }
 
-        // الإدخال باستخدام ADO.NET مع باراميترات (آمن ضد الـ SQL Injection)
+        // Insert using ADO.NET with parameters (safe against SQL Injection)
         private int InsertProduct(string imagesCsv, string colors, string sizes)
         {
             int stockQty = 0;
@@ -269,7 +269,7 @@ namespace NooN
                             cmd.Parameters.AddWithValue("@available_colors", (object)colors ?? DBNull.Value);
                             cmd.Parameters.AddWithValue("@available_sizes", (object)sizes ?? DBNull.Value);
 
-                            // OUTPUT INSERTED.product_id يرجع رقم المنتج الجديد
+                            // OUTPUT INSERTED.product_id returns the new product id
                             newId = (int)cmd.ExecuteScalar();
                         }
 

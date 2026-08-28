@@ -38,7 +38,18 @@
       "PowerShell(powershell -NoProfile -ExecutionPolicy Bypass -File \"C:\\\\Users\\\\khatt\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--NooN\\\\d75052da-1b93-4b49-9bf3-211267a8479a\\\\scratchpad\\\\test-rdlc.ps1\")",
       "Bash(rm -f \"Site.Mobile.Master\" \"Site.Mobile.Master.cs\" \"Site.Mobile.Master.designer.cs\" \"ViewSwitcher.ascx\" \"ViewSwitcher.ascx.cs\" \"ViewSwitcher.ascx.designer.cs\")",
       "Bash(ls Site.Mobile.* ViewSwitcher.*)",
-      "PowerShell(& \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\amd64\\\\MSBuild.exe\" \"D:\\\\NooN\\\\NooN.sln\" /t:Build /p:Configuration=Debug /nologo /v:minimal /clp:ErrorsOnly 2>&1 | Select-Object -Last 40; \"EXITCODE=$LASTEXITCODE\")"
+      "PowerShell(& \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\2022\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\amd64\\\\MSBuild.exe\" \"D:\\\\NooN\\\\NooN.sln\" /t:Build /p:Configuration=Debug /nologo /v:minimal /clp:ErrorsOnly 2>&1 | Select-Object -Last 40; \"EXITCODE=$LASTEXITCODE\")",
+      "PowerShell($t = Get-ChildItem \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\18\\\\Insiders\\\\MSBuild\" -Recurse -Filter \"Microsoft.WebApplication.targets\" -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty DirectoryName; if\\($t\\){ Split-Path \\(Split-Path \\(Split-Path $t\\)\\) } else { \"not found under 18\" })",
+      "PowerShell(& \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\18\\\\Insiders\\\\MSBuild\\\\Current\\\\Bin\\\\MSBuild.exe\" \"D:\\\\NooN\\\\NooN.sln\" /t:Build /p:Configuration=Debug \"/p:VSToolsPath=C:\\\\Program Files\\\\Microsoft Visual Studio\\\\18\\\\Insiders\\\\MSBuild\\\\Microsoft\\\\VisualStudio\\\\v17.0\" /clp:ErrorsOnly /nologo /v:minimal /m 2>&1 | Select-Object -Last 40)",
+      "Bash(cat)",
+      "Bash(chmod +x /tmp/dl_gap.sh)",
+      "Bash(bash /tmp/dl_gap.sh)",
+      "PowerShell(sqlcmd *)",
+      "PowerShell($q = \"SET NOCOUNT ON; SELECT category_id, name_en, slug, is_active FROM product_categories ORDER BY category_id;\"; sqlcmd -S . -d noon_dp -E -C -Q $q -W -s \"|\")",
+      "PowerShell($q = \"SET NOCOUNT ON; SELECT category_id, name_en, is_active FROM product_categories ORDER BY category_id;\"; sqlcmd -S . -d noon_dp -E -C -Q $q -W -s \"|\")",
+      "PowerShell($files = Get-ChildItem \"D:\\\\NooN\\\\NooN\\\\Uploads\\\\Products\" -File | Where-Object { $_.Name -ne '.gitkeep' }; \"Total image files: $\\($files.Count\\)\"; \"Zero-byte files:\"; \\($files | Where-Object { $_.Length -eq 0 }\\).Name -join \", \"; \"Smallest 5 by size:\"; $files | Sort-Object Length | Select-Object -First 5 Name, Length | Format-Table -HideTableHeaders | Out-String)",
+      "Bash(curl -s -o test-ps5.png \"https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Black_and_white_Playstation_5_base_edition_with_controller.png/960px-Black_and_white_Playstation_5_base_edition_with_controller.png\")",
+      "Bash(curl -s -o test-quest3.jpg \"https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Meta_Quest_3_display_unit.jpg/960px-Meta_Quest_3_display_unit.jpg\")"
     ]
   }
 }

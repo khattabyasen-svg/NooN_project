@@ -60,7 +60,7 @@ function validateCart() {
                 grp.classList.add('invalid');
                 setTimeout(function () { grp.classList.remove('invalid'); }, 2000);
             }
-            detailShowToast('⚠️ يرجى اختيار اللون أولاً');
+            detailShowToast('⚠️ Please select a color first');
             ok = false;
         }
     }
@@ -73,7 +73,7 @@ function validateCart() {
                 grp2.classList.add('invalid');
                 setTimeout(function () { grp2.classList.remove('invalid'); }, 2000);
             }
-            detailShowToast('⚠️ يرجى اختيار الحجم أولاً');
+            detailShowToast('⚠️ Please select a size first');
             ok = false;
         }
     }

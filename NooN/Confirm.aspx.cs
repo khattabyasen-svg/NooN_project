@@ -6,12 +6,12 @@ namespace NooN
 {
     public partial class Confirm : System.Web.UI.Page
     {
-        // Arabic (Gregorian) month names — used so the delivery estimate does not
-        // fall back to the Hijri calendar the ar-SA culture would otherwise use.
-        private static readonly string[] ArabicMonths =
+        // English (Gregorian) month names — used so the delivery estimate is
+        // formatted consistently regardless of the server culture.
+        private static readonly string[] Months =
         {
-            "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
-            "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
         };
 
         protected void Page_Load(object sender, EventArgs e)
@@ -51,17 +51,17 @@ namespace NooN
 
             string location = string.IsNullOrEmpty(city)
                 ? district
-                : (string.IsNullOrEmpty(district) ? city : district + "، " + city);
+                : (string.IsNullOrEmpty(district) ? city : district + ", " + city);
             litDeliveryTo.Text = HttpUtility.HtmlEncode(location);
         }
 
         // Formats each date fully so the window is correct across month/year
-        // boundaries: same month -> "2 - 4 مارس 2026"; different month ->
-        // "30 يناير - 2 فبراير 2026"; different year adds each year.
+        // boundaries: same month -> "2 - 4 March 2026"; different month ->
+        // "30 January - 2 February 2026"; different year adds each year.
         private static string FormatDeliveryRange(DateTime from, DateTime to)
         {
-            string fromMonth = ArabicMonths[from.Month - 1];
-            string toMonth = ArabicMonths[to.Month - 1];
+            string fromMonth = Months[from.Month - 1];
+            string toMonth = Months[to.Month - 1];
 
             if (from.Year == to.Year && from.Month == to.Month)
                 return $"{from.Day} - {to.Day} {toMonth} {to.Year}";
@@ -72,25 +72,11 @@ namespace NooN
             return $"{from.Day} {fromMonth} {from.Year} - {to.Day} {toMonth} {to.Year}";
         }
 
-        // Maps the stored governorate value (e.g. "Amman") to its Arabic display name.
+        // Maps the stored governorate value (e.g. "Amman") to its display name.
+        // Values are already stored in English, so they are returned as-is.
         private static string CityDisplayName(string value)
         {
-            switch (value)
-            {
-                case "Amman": return "عمّان";
-                case "Irbid": return "إربد";
-                case "Zarqa": return "الزرقاء";
-                case "Balqa": return "البلقاء";
-                case "Madaba": return "مادبا";
-                case "Mafraq": return "المفرق";
-                case "Jerash": return "جرش";
-                case "Ajloun": return "عجلون";
-                case "Karak": return "الكرك";
-                case "Tafilah": return "الطفيلة";
-                case "Maan": return "معان";
-                case "Aqaba": return "العقبة";
-                default: return value ?? "";
-            }
+            return value ?? "";
         }
 
         // Links the "continue shopping" button to the home page.

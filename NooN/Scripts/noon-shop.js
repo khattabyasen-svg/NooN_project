@@ -41,7 +41,7 @@
     }
 
     function handleFailure(res) {
-        toast(res.message || 'حدث خطأ. حاول مرة أخرى.', true);
+        toast(res.message || 'An error occurred. Please try again.', true);
         if (res.requireLogin) {
             // Give the user a moment to read the toast, then go to login.
             setTimeout(function () { window.location.href = 'LoginUser.aspx'; }, 1500);
@@ -70,7 +70,7 @@
                 handleFailure(res);
             }
         }).catch(function () {
-            toast('تعذر الاتصال بالخادم. حاول مرة أخرى.', true);
+            toast('Could not connect to the server. Please try again.', true);
         }).finally(function () {
             btn.disabled = false;
         });
@@ -98,7 +98,7 @@
                 if (card) card.remove();
             }
         }).catch(function () {
-            toast('تعذر الاتصال بالخادم. حاول مرة أخرى.', true);
+            toast('Could not connect to the server. Please try again.', true);
         }).finally(function () {
             btn.disabled = false;
         });

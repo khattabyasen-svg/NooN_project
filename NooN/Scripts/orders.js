@@ -22,7 +22,7 @@ function closeDetail() {
 
 // ── STATUS CHANGE ────────────────────────────────────────────
 function changeStatus(status) {
-  ordersShowToast('✅ تم تغيير حالة الطلب إلى: ' + status);
+  ordersShowToast('✅ Order status changed to: ' + status);
 }
 
 // ── PAGINATION ──────────────────────────────────────────────

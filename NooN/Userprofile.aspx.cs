@@ -64,8 +64,8 @@ namespace NooN
                             if (dr["updated_at"] != DBNull.Value)
                             {
                                 DateTime updated = Convert.ToDateTime(dr["updated_at"]);
-                                lblLastUpdated.Text = "آخر تحديث: " + updated.ToString("dd MMMM yyyy",
-                                    new System.Globalization.CultureInfo("ar-SA"));
+                                lblLastUpdated.Text = "Last updated: " + updated.ToString("dd MMMM yyyy",
+                                    new System.Globalization.CultureInfo("en-US"));
                             }
                         }
                     }
@@ -78,8 +78,8 @@ namespace NooN
             int userId = GetUserId();
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                // lblNewOrders label displays "تم التوصيل" (Delivered) in the markup
-                // lblCompletedOrders label displays "ملغاة" (Cancelled) in the markup
+                // lblNewOrders label displays "Delivered" in the markup
+                // lblCompletedOrders label displays "Cancelled" in the markup
                 string query = @"
             SELECT
                 SUM(CASE WHEN status = 'delivered' THEN 1 ELSE 0 END) AS DeliveredCount,
@@ -153,19 +153,19 @@ namespace NooN
             if (string.IsNullOrEmpty(fn) || string.IsNullOrEmpty(ln) ||
                 string.IsNullOrEmpty(em) || string.IsNullOrEmpty(ph))
             {
-                ShowStatus("⚠️ جميع الحقول مطلوبة.", false);
+                ShowStatus("⚠️ All fields are required.", false);
                 return;
             }
 
             if (!NooN.Validators.IsValidEmail(em))
             {
-                ShowStatus("❌ صيغة البريد الإلكتروني غير صحيحة.", false);
+                ShowStatus("❌ Invalid email address format.", false);
                 return;
             }
 
             if (!NooN.Validators.IsValidJordanPhone(ph))
             {
-                ShowStatus("❌ رقم الهاتف يجب أن يبدأ بـ 07 ويتكوّن من 10 أرقام.", false);
+                ShowStatus("❌ Phone number must start with 07 and be 10 digits.", false);
                 return;
             }
 
@@ -194,7 +194,7 @@ namespace NooN
                 }
             }
 
-            ShowStatus("✅ تم حفظ التعديلات بنجاح.", true);
+            ShowStatus("✅ Changes saved successfully.", true);
 
             SetReadOnly(true);
             SetValidators(false);

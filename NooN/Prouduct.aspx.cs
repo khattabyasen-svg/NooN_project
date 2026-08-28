@@ -57,15 +57,15 @@ namespace NooN
         }
 
         // ═══════════════════════════════════════════
-        // تحميل الفئات
+        // Load categories
         // ═══════════════════════════════════════════
         private void LoadCategories()
         {
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                string sql = "SELECT category_id, name_ar " +
+                string sql = "SELECT category_id, name_en " +
                              "FROM product_categories " +
-                             "WHERE is_active = 1 ORDER BY name_ar";
+                             "WHERE is_active = 1 ORDER BY name_en";
 
                 using (SqlDataAdapter da = new SqlDataAdapter(sql, conn))
                 {
@@ -79,7 +79,7 @@ namespace NooN
         }
 
         // ═══════════════════════════════════════════
-        // جمع الفئات المحددة
+        // Collect the selected categories
         // ═══════════════════════════════════════════
         private List<int> GetSelectedCategories()
         {
@@ -96,7 +96,7 @@ namespace NooN
         }
 
         // ═══════════════════════════════════════════
-        // تحميل المنتجات
+        // Load the products
         // ═══════════════════════════════════════════
         private void LoadProducts(
             List<int> categoryIds = null,
@@ -152,7 +152,7 @@ namespace NooN
                     cmd.Parameters.AddWithValue("@minRating", minRating);
                 }
 
-                // جلب is_wished في نفس الاستعلام — بدون N+1
+                // Fetch is_wished in the same query — avoids N+1
                 int? userId = Session["user_id"] != null
                               ? (int?)Convert.ToInt32(Session["user_id"]) : null;
                 cmd.Parameters.AddWithValue("@currentUser", (object)userId ?? DBNull.Value);
@@ -168,7 +168,7 @@ namespace NooN
                         p.rating_avg,
                         p.rating_count,
                         p.images,
-                        ISNULL(c.name_ar, N'بدون فئة') AS category_name,
+                        ISNULL(c.name_en, N'Uncategorized') AS category_name,
                         CASE WHEN w.product_id IS NOT NULL THEN 1 ELSE 0 END AS is_wished,
                         CASE WHEN p.status = 'active' AND ISNULL(i.available_qty, 0) > 0
                              THEN 1 ELSE 0 END AS is_available
@@ -205,14 +205,14 @@ namespace NooN
 
             DataRowView row = (DataRowView)e.Item.DataItem;
 
-            // بادج الخصم
+            // Discount badge
             var litBadge = (Literal)e.Item.FindControl("litBadge");
             decimal disc = row["discount_pct"] != DBNull.Value
                            ? Convert.ToDecimal(row["discount_pct"]) : 0;
             if (disc > 0)
                 litBadge.Text = "<span class='p-badge'>-" + disc.ToString("0") + "%</span>";
 
-            // النجوم
+            // Stars
             var litStars = (Literal)e.Item.FindControl("litStars");
             double rating = row["rating_avg"] != DBNull.Value
                             ? Convert.ToDouble(row["rating_avg"]) : 0;
@@ -222,13 +222,13 @@ namespace NooN
                 stars += i <= full ? "★" : "☆";
             litStars.Text = "<span class='stars-gold'>" + stars + "</span>";
 
-            // السعر القديم
+            // Old price
             var litOldPrice = (Literal)e.Item.FindControl("litOldPrice");
             if (row["old_price"] != DBNull.Value)
             {
                 decimal old = Convert.ToDecimal(row["old_price"]);
                 litOldPrice.Text = "<span class='p-old-price'>"
-                                 + old.ToString("N0") + " د.أ</span>";
+                                 + old.ToString("N0") + " JD</span>";
             }
 
             // Favorite state (is_wished) is bound inline in the markup and
@@ -236,7 +236,7 @@ namespace NooN
         }
 
         // ═══════════════════════════════════════════
-        // تطبيق الفلتر
+        // Apply the filter
         // ═══════════════════════════════════════════
         protected void btnApplyFilter_Click(object sender, EventArgs e)
         {
@@ -246,7 +246,7 @@ namespace NooN
         }
 
         // ═══════════════════════════════════════════
-        // تغيير الترتيب
+        // Change the sort order
         // ═══════════════════════════════════════════
         protected void ddlSort_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -259,7 +259,7 @@ namespace NooN
         // fetch() against ShopService.ashx (see Scripts/noon-shop.js).
 
         // ═══════════════════════════════════════════
-        // إعادة تحميل مع الحفاظ على الفلتر
+        // Reload while preserving the filter
         // ═══════════════════════════════════════════
         private void ReloadProducts()
         {
@@ -282,7 +282,7 @@ namespace NooN
         }
 
         // ═══════════════════════════════════════════
-        // استخراج أول صورة من حقل images
+        // Extract the first image from the images field
         // ═══════════════════════════════════════════
         protected string GetFirstImage(object images)
         {
@@ -292,7 +292,7 @@ namespace NooN
         }
 
         // ═══════════════════════════════════════════
-        // دوال مساعدة
+        // Helper methods
         // ═══════════════════════════════════════════
         private string GetOrderBy()
         {
